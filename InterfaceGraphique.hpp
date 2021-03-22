@@ -1,0 +1,13 @@
+// DIRECTIVES
+#ifndef INTERFACEGRAPHIQUE_HPP
+#define INTERFACEGRAPHIQUE_HPP
+
+// LIBRAIRIES
+
+// CLASSE
+class InterfaceGraphique
+{
+
+}
+
+#endif

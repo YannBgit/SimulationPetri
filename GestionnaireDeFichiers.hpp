@@ -1,0 +1,13 @@
+// DIRECTIVES
+#ifndef GESTIONNAIREDEFICHIERS_HPP
+#define GESTIONNAIREDEFICHIERS_HPP
+
+// LIBRAIRIES
+
+// CLASSE
+class GestionnaireDeFichiers
+{
+
+}
+
+#endif
