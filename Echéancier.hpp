@@ -7,7 +7,19 @@
 // CLASSE
 class Echéancier
 {
+    private:
+    // VARIABLES
 
+    public:
+    // CONSTRUCTEURS
+    Echéancier()
+    {}
+
+    // DESTRUCTEUR
+    ~Echéancier()
+    {}
+
+    // METHODES
 }
 
 #endif

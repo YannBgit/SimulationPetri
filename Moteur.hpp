@@ -7,7 +7,29 @@
 // CLASSE
 class Moteur
 {
+    private:
+    // VARIABLES
+    int S; // nombre de sommets
+    int T; // nombre de transitions
+    int **F; // matrice des arcs
+    int *M; // nombre de jetons contenu dans chaque sommet
+    int **W; // nombre de jetons consommés et générés par chaque transition
+    int *K; // nombre de jetons maximum pour chaque sommet
+    int Te; // temps
 
+    public:
+    // CONSTRUCTEURS
+    Moteur(int S, int T, int **F, int *M, int **W, int *K, int Te)
+    {}
+
+    // DESTRUCTEUR
+    ~Moteur()
+    {}
+
+    // METHODES
+    // Tire une transition pseudo-aléatoirement parmi un nombre T de transitions
+    TirageTransitionAléatoire(int T)
+    {}
 }
 
 #endif

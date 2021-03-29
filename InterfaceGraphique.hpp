@@ -7,7 +7,19 @@
 // CLASSE
 class InterfaceGraphique
 {
+    private:
+    // VARIABLES
 
+    public:
+    // CONSTRUCTEURS
+    InterfaceGraphique()
+    {}
+
+    // DESTRUCTEUR
+    ~InterfaceGraphique()
+    {}
+
+    // METHODES
 }
 
 #endif

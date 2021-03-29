@@ -7,7 +7,19 @@
 // CLASSE
 class GestionnaireDeFichiers
 {
+    private:
+    // VARIABLES
 
+    public:
+    // CONSTRUCTEURS
+    GestionnaireDeFichiers()
+    {}
+
+    // DESTRUCTEUR
+    ~GestionnaireDeFichiers()
+    {}
+
+    // METHODES
 }
 
 #endif
