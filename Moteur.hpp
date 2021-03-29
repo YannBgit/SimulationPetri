@@ -11,11 +11,12 @@ class Moteur
     // VARIABLES
     int S; // nombre de sommets
     int T; // nombre de transitions
+    float *P; // probabilités de tir pour chaque transition, 0<P[n]<1
     int **F; // matrice des arcs
     int *M; // nombre de jetons contenu dans chaque sommet
     int **W; // nombre de jetons consommés et générés par chaque transition
     int *K; // nombre de jetons maximum pour chaque sommet
-    int Te; // temps
+    sint Te; // temps
 
     public:
     // CONSTRUCTEURS
