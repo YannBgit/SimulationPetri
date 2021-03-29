@@ -28,11 +28,12 @@ class Moteur
     {}
 
     // METHODES
-    // Tire une transition pseudo-aléatoirement parmi un nombre T de transitions
-    Tirage(int T, float P)
+    // Renvoie si une transition doit être tirée selon sa probabilité de tirage
+    bool Tirage(float P)
     {}
 
-    RésoutConflit(int T)
+    // Renvoie un numéro de transition pseudo-aléatoirement parmi un nombre T de transitions
+    int RésoutConflit(int T)
     {}
 }
 
