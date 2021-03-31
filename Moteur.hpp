@@ -12,11 +12,11 @@ class Moteur
     int S; // nombre de sommets
     int T; // nombre de transitions
     float *P; // probabilité de tir pour chaque transition, 0<P[n]<1
-    int **F; // matrice des arcs
+    int **F; // matrice des arcs : un arc est décrit par 2 valeurs, la première étant l'indice du sommet auquel il est relié, et la seconde l'indice de sa transition
     int *M; // nombre de jetons contenu dans chaque sommet
     int **W; // nombre de jetons consommés et générés par chaque transition
     int *K; // nombre de jetons maximum pour chaque sommet
-    sint Te; // temps
+    int Te; // temps
 
     public:
     // CONSTRUCTEURS
@@ -28,15 +28,22 @@ class Moteur
     {}
 
     // METHODES
-    // Renvoie un tableau de transitions tirables selon sa probabilité de tirage
-    int *Tirage(int T, float *P)
-    {
-        int T=this->T;
-        float *P->this->P;
-    }
+    /*
+    Fonction de type int pour renvoyer un entier représentant le numéro de la transition tirée choisie aléatoirement parmi plusieurs.
+    Argument de type tableau d'entiers int *T liste des indices des transitions candidates au tirage.
+    La fonction choisit aléatoire une transition à tirer et renvoi son indice.
+    */
+    int RésoutConflit(int *T)
+    {}
 
-    // Renvoie un numéro de transition pseudo-aléatoirement parmi un nombre T de transitions
-    int RésoutConflit(int T)
+    /*
+    Fonction de type int * pour renvoyer un tableau d'entiers représentant les indices des transitions tirables.
+    Arguments int T nombre de transitions du réseau de Petri, donc un entier, et float *P donc un tableau de nombres flottants représentant la probabilité de tir
+    associée à chaque transition.
+    Pour chaque transition, la fonction évalue si elle doit être tirée ou pas selon sa probabilité de tirage associée, et si besoin notre fonction de résolution de
+    conflits.
+    */
+    int *Tirage(int T, float *P)
     {}
 }
 
