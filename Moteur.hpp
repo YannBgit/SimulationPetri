@@ -45,6 +45,25 @@ class Moteur
     */
     int *Tirage(int T, float *P)
     {}
+    
+    /*Fonction de type int* pour renvoyer le tableau de Marquage représentant le déplacements des jetons tirés.
+  Argument de type int *Tirage représentant le tableau des transitions tirable que l'on va activer, 
+  int *M le tableau de Marquage que l'on va modifier (déplacement de jetons),
+  **F Le tableau d'arc pour savoir quelles sont les places liés aux transitions tiréés et remettre les pro,
+  **W Enregistrement du nombre de jetons consommé ou générer par chaque transitions tirées
+  Pour chaque Indice du tableau Tirage, la fonction active la transition correspondante et retire/ajoute le nombre de jetons correspondant entre les places de la transition.
+ */
+ 
+	Moteur Activer_Transitions(int *Tirage, int *M, int **F, int **W){}
+
+	/*Fonction de type Moteur* pour renvoyer les infos d'un RDP.
+	  Argument de type bool Ordre pour simuler un choix, si vrai, on recule, sinon on continue notre tour dans le RDP,
+	  Moteur RDP pour renvoyer notre Réseau de Pétri à l'étape précédente.
+	  La fonction observe si l'utilisateur a choisi ou non de reculer, si oui il demande à l'échéancier les anciennes informations du RDP et les renvois.
+	*/
+
+	Moteur Reculer(bool Ordre, Moteur RDP){}
+
 }
 
 #endif
