@@ -54,7 +54,8 @@ class Moteur
   Pour chaque Indice du tableau Tirage, la fonction active la transition correspondante et retire/ajoute le nombre de jetons correspondant entre les places de la transition.
  */
  
-	Moteur Activer_Transitions(int *Tirage, int *M, int **F, int **W){}
+	Moteur Activer_Transitions(int *Tirage, int *M, int **F, int **W)
+	{}
 
 	/*Fonction de type Moteur* pour renvoyer les infos d'un RDP.
 	  Argument de type bool Ordre pour simuler un choix, si vrai, on recule, sinon on continue notre tour dans le RDP,
@@ -62,7 +63,8 @@ class Moteur
 	  La fonction observe si l'utilisateur a choisi ou non de reculer, si oui il demande à l'échéancier les anciennes informations du RDP et les renvois.
 	*/
 
-	Moteur Reculer(bool Ordre, Moteur RDP){}
+	Moteur Reculer(bool Ordre, Moteur RDP)
+	{}
 
 }
 
