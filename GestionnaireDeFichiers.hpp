@@ -20,14 +20,17 @@ class GestionnaireDeFichiers
     {}
 
     // METHODES
-    //Fonction qui charge un fichier et qui le renvoie
+    // Fonction qui charge un fichier et qui le renvoie
     void Chargeur(int NewRDP)
+    {}
     
-    //Fonction qui stock les résultats obtenus à chaque temps Te
+    // Fonction qui stock les résultats obtenus à chaque temps Te
     void Result (int *Te)
+    {}
     
      // Fonction qui permet la création d'un nouveau réseau
     int NewRDP(int S, int T, float *P, int **F, int *M, int **W, int *K)
+    {}
 
 }
 
