@@ -3,7 +3,7 @@
 #define ECHEANCIER_HPP
 
 // LIBRAIRIES
-/* Permettre principalement la manipulation des flux de caractères.
+/* Permettre principalement la manipulation des flux de caractères. */
 #include <cstdio>
 /* Contrôlent la lecture et l'écriture des flux standard. */
 #include <iostream>
