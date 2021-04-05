@@ -40,7 +40,7 @@ class Moteur
     Fonction de type int * pour renvoyer un tableau d'entiers représentant les indices des transitions tirables.
     Arguments int T nombre de transitions du réseau de Petri, donc un entier, et float *P donc un tableau de nombres flottants représentant la probabilité de tir
     associée à chaque transition.
-    Pour chaque transition, la fonction évalue si elle doit être tirée ou pas selon sa probabilité de tirage associée, et si besoin notre fonction de résolution de
+    Pour chaque transition, la fonction évalue si elle doit être tirée ou pas selon si la transition est tirable et sa probabilité de tirage associée, et si besoin notre fonction de résolution de
     conflits.
     */
     int *Tirage(int T, float *P)
