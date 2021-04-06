@@ -3,13 +3,13 @@
 #define ECHEANCIER_HPP
 
 // LIBRAIRIES
-#include <cstdio>   /* Permettre principalement la manipulation des flux de caractères. */
-#include <iostream> /* Contrôler la lecture et l'écriture des flux standard. */
-#include <fstream>  /* Définit plusieurs classes qui prennent en charge les opérations iostreams sur des séquences stockées dans des fichiers externes. */
-#include <string>   /* Pour utiliser la classe string (les chaînes de caractères) avec une gestion de la mémoire et des méthodes de gestion intégrés. */
+#include <cstdio>   // Permettre principalement la manipulation des flux de caractères
+#include <iostream> // Contrôler la lecture et l'écriture des flux standard
+#include <fstream>  // Définit plusieurs classes qui prennent en charge les opérations iostreams sur des séquences stockées dans des fichiers externes
+#include <string>   // Pour utiliser la classe string (les chaînes de caractères) avec une gestion de la mémoire et des méthodes de gestion intégrés
 
-#include "Moteur.hpp"   /* Pour utiliser la classe Moteur */
-#include "Gestionnairefichiers.hpp" /* Pour utiliser la classe Gestionnairefichiers */
+#include "Moteur.hpp"   // Pour utiliser la classe Moteur
+#include "GestionnaireDeFichiers.hpp" // Pour utiliser la classe Gestionnairefichiers
 
 // CLASSE
 class Echéancier

@@ -3,6 +3,8 @@
 #define MOTEUR_HPP
 
 // LIBRAIRIES
+#include "Echéancier.hpp" // Pour utiliser la classe Echéancier
+#include "InterfaceGraphique.hpp" // Pour utiliser la classe InterfaceGraphique
 
 // CLASSE
 class Moteur

@@ -3,6 +3,7 @@
 #define GESTIONNAIREDEFICHIERS_HPP
 
 // LIBRAIRIES
+#include "Echéancier.hpp" // Pour utiliser la classe Echéancier
 
 // CLASSE
 class GestionnaireDeFichiers
