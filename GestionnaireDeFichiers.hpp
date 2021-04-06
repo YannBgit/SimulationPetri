@@ -29,7 +29,7 @@ class GestionnaireDeFichiers
     {}
     
      // Fonction qui permet la création d'un nouveau réseau
-    int NewRDP(int S, int T, float *P, int **F, int *M, int **W, int *K)
+    Moteur NewRDP(int S, int T, float *P, int **F, int *M, int **W, int *K)
     {}
 
 }
