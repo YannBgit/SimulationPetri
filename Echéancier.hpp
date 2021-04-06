@@ -12,6 +12,11 @@
 /* Pour utiliser la classe string (les chaînes de caractères) avec une gestion de la mémoire et des méthodes de gestion intégrés. */
 #include <string>
 
+/* Pour utiliser la classe Moteur */
+#include "Moteur.hpp"
+/* Pour utiliser la classe Gestionnairefichiers */
+#include "Gestionnairefichiers.hpp"
+
 // CLASSE
 class Echéancier
 {
