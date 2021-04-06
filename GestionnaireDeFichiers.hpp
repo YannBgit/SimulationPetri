@@ -21,7 +21,7 @@ class GestionnaireDeFichiers
 
     // METHODES
     // Fonction qui charge un fichier et qui le renvoie
-    void Chargeur(int NewRDP)
+    void Chargeur(FILE *NewRDP)
     {}
     
     // Fonction qui stock les résultats obtenus à chaque temps Te
