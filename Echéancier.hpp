@@ -3,24 +3,25 @@
 #define ECHEANCIER_HPP
 
 // LIBRAIRIES
-#include <cstdio>   // Permettre principalement la manipulation des flux de caractères
-#include <iostream> // Contrôler la lecture et l'écriture des flux standard
-#include <fstream>  // Définit plusieurs classes qui prennent en charge les opérations iostreams sur des séquences stockées dans des fichiers externes
-#include <string>   // Pour utiliser la classe string (les chaînes de caractères) avec une gestion de la mémoire et des méthodes de gestion intégrés
-
-#include "Moteur.hpp"   // Pour utiliser la classe Moteur
-#include "GestionnaireDeFichiers.hpp" // Pour utiliser la classe Gestionnairefichiers
+#include <stdio> // Permettre principalement la manipulation des flux de caractères
+#include "Moteur.hpp" // Pour utiliser la classe Moteur
+#include "GestionnaireDeFichiers.hpp" // Pour utiliser la classe GestionnaireDeFichiers
 
 // CLASSE
 class Echéancier
 {
     private:
     // VARIABLES
+    FILE *fichier;
+    int TempsCourant;
 
     public:
     // CONSTRUCTEURS
-    Echéancier()
-    {}
+    Echéancier(GestionnaireDeFichiers GDF)
+    {
+        this->fichier=GDF.GetFichier();
+        TempsCourant=0;
+    }
 
     // DESTRUCTEUR
     ~Echéancier()
@@ -29,36 +30,37 @@ class Echéancier
     // METHODES
     /*
     Fonction de type void pour ne rien renvoyer.
-    Argument de type des variables d'un réseau de Petri du Moteur.
-    La fonction enregistre les différents états du réseau à chaque tour.
+    Argument de type moteur où chercher le temps courant du réseau.
+    La fonction enregistre le temps courant du réseau.
     */
-    void StockeurReseau(int S, int T, float *P, int **F, int *M, int **W, int *K)
-    {}
+    void StockerTempsCourant(Moteur M)
+    {
+        this->TempsCourant=M.Te;
+    }
 
     /*
     Fonction de type void pour ne rien renvoyer.
-    Aucun argument nécessaire.
-    La fonction étiquette chaque état du réseau enregistré avec un temps arbitraire.
+    Argument de type Moteur pour trouver les informations à enregistrer.
+    La fonction enregistre les différents états du réseau à chaque tour.
     */
-    void StockeurTemps()
+    void AjouterEtatRéseau(Moteur M)
     {}
 
     /*
-    Fonction de type int pour renvoyer le temps s'il existe ou le dernier temps stocké s'il n'existe pas.
+    Fonction de type Moteur pour renvoyer un état du réseau selon le temps courant.
+    Aucun argument n'est nécessaire.
+    La fonction recherche le dernier état du réseau enregistré et le renvoie.
+    */
+    Moteur RenvoyerEtatRéseauCourant()
+    {}
+
+    /*
+    Fonction de type Moteur pour renvoyer un état du réseau selon le temps cherché s'il existe ou le dernier temps stocké s'il n'existe pas.
     Argument de type int Te, le temps auquel on veut récupérer le réseau de Petri.
     La fonction recherche un état du réseau enregistré avec un temps donné et le renvoie.
     */
-    int RechercheTemps(int Te)
+    Moteur RenvoyerEtatRéseau(int Te)
     {}
-
-    /*
-    Fonction de type Moteur pour renvoyer le réseau de Petri stocké.
-    Argument de type int Te, le temps auquel on veut récupérer le réseau de Petri.
-    La fonction renvoie au Moteur et/ou l'InterfaceGraphique un état du réseau enregistré à l'état demandé.
-    */
-    Moteur RenvoiEtatResau(int Te)
-    {}
-
 }
 
 #endif

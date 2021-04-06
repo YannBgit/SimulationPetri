@@ -3,6 +3,7 @@
 #define MOTEUR_HPP
 
 // LIBRAIRIES
+#include <stdio> // Permettre principalement la manipulation des flux de caractères
 #include "Echéancier.hpp" // Pour utiliser la classe Echéancier
 #include "InterfaceGraphique.hpp" // Pour utiliser la classe InterfaceGraphique
 
@@ -11,19 +12,28 @@ class Moteur
 {
     private:
     // VARIABLES
-    int S; // nombre de sommets
-    int T; // nombre de transitions
-    float *P; // probabilité de tir pour chaque transition, 0<P[n]<1
-    int **F; // matrice des arcs : un arc est décrit par 2 valeurs, la première étant l'indice du sommet auquel il est relié, et la seconde l'indice de sa transition
-    int *M; // nombre de jetons contenu dans chaque sommet
-    int **W; // nombre de jetons consommés et générés par chaque transition
-    int *K; // nombre de jetons maximum pour chaque sommet
-    int Te; // temps
+    int S; // Nombre de sommets
+    int T; // Nombre de transitions
+    float *P; // Probabilité de tir pour chaque transition, 0<P[n]<1
+    int **F; // Matrice des arcs : un arc est décrit par 2 valeurs, la première étant l'indice du sommet auquel il est relié, et la seconde l'indice de sa transition
+    int *M; // Nombre de jetons contenu dans chaque sommet
+    int **W; // Nombre de jetons consommés et générés par chaque transition
+    int *K; // Nombre de jetons maximum pour chaque sommet
+    int Te; // Temps
 
     public:
     // CONSTRUCTEURS
-    Moteur(int S, int T, float *P, int **F, int *M, int **W, int *K, int Te)
-    {}
+    Moteur(Moteur M)
+    {
+        this->S=M.S;
+        this->T=M.T;
+        this->P=M.P;
+        this->F=M.F;
+        this->M=M.M;
+        this->W=M.W;
+        this->K=M.K;
+        this->Te=M.Te;
+    }
 
     // DESTRUCTEUR
     ~Moteur()
@@ -42,8 +52,8 @@ class Moteur
     Fonction de type int * pour renvoyer un tableau d'entiers représentant les indices des transitions tirables.
     Arguments int T nombre de transitions du réseau de Petri, donc un entier, et float *P donc un tableau de nombres flottants représentant la probabilité de tir
     associée à chaque transition.
-    Pour chaque transition, la fonction évalue si elle doit être tirée ou pas selon si la transition est tirable et sa probabilité de tirage associée, et si besoin notre fonction de résolution de
-    conflits.
+    Pour chaque transition, la fonction évalue si elle doit être tirée ou pas selon si la transition est tirable et sa probabilité de tirage associée, et si besoin
+    notre fonction de résolution de conflits.
     */
     int *Tirage(int T, float *P)
     {}
@@ -54,7 +64,8 @@ class Moteur
 	int *M le tableau de Marquage que l'on va modifier (déplacement de jetons),
 	**F Le tableau d'arc pour savoir quelles sont les places liés aux transitions tiréés et remettre les pro,
 	**W Enregistrement du nombre de jetons consommé ou générer par chaque transitions tirées
-	Pour chaque Indice du tableau Tirage, la fonction active la transition correspondante et retire/ajoute le nombre de jetons correspondant entre les places de la transition.
+	Pour chaque Indice du tableau Tirage, la fonction active la transition correspondante et retire/ajoute le nombre de jetons correspondant entre les places de
+    la transition.
 	*/
 	int* Activer_Transitions(int *Tirage, int *M, int **F, int **W)
 	{}
