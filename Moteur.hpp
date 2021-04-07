@@ -3,9 +3,8 @@
 #define MOTEUR_HPP
 
 // LIBRAIRIES
-#include <stdio> // Permettre principalement la manipulation des flux de caractères
+#include <stdio.h> // Permettre principalement la manipulation des flux de caractères
 #include "Echéancier.hpp" // Pour utiliser la classe Echéancier
-#include "InterfaceGraphique.hpp" // Pour utiliser la classe InterfaceGraphique
 
 // CLASSE
 class Moteur

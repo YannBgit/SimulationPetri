@@ -3,7 +3,6 @@
 #define INTERFACEGRAPHIQUE_HPP
 
 // LIBRAIRIES
-#include <stdio> // Permettre principalement la manipulation des flux de caractères
 
 // CLASSE
 class InterfaceGraphique

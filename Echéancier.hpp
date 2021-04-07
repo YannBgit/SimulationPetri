@@ -3,9 +3,10 @@
 #define ECHEANCIER_HPP
 
 // LIBRAIRIES
-#include <stdio> // Permettre principalement la manipulation des flux de caractères
-#include "Moteur.hpp" // Pour utiliser la classe Moteur
 #include "GestionnaireDeFichiers.hpp" // Pour utiliser la classe GestionnaireDeFichiers
+#include "Moteur.hpp" // Pour utiliser la classe Moteur
+#include <stdio.h> // Permettre principalement la manipulation des flux de caractères
+#include <iostream.h> // Contrôler la lecture et l'écriture des flux standard
 
 // CLASSE
 class Echéancier
@@ -30,6 +31,14 @@ class Echéancier
     // METHODES
     /*
     Fonction de type void pour ne rien renvoyer.
+    Argument de type Moteur pour trouver les informations à enregistrer.
+    La fonction enregistre les différents états du réseau à chaque tour.
+    */
+    void AjouterEtatRéseau(Moteur M)
+    {}
+    
+    /*
+    Fonction de type void pour ne rien renvoyer.
     Argument de type moteur où chercher le temps courant du réseau.
     La fonction enregistre le temps courant du réseau.
     */
@@ -37,14 +46,6 @@ class Echéancier
     {
         this->TempsCourant=M.Te;
     }
-
-    /*
-    Fonction de type void pour ne rien renvoyer.
-    Argument de type Moteur pour trouver les informations à enregistrer.
-    La fonction enregistre les différents états du réseau à chaque tour.
-    */
-    void AjouterEtatRéseau(Moteur M)
-    {}
 
     /*
     Fonction de type Moteur pour renvoyer un état du réseau selon le temps courant.
