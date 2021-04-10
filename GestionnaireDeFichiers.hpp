@@ -46,7 +46,7 @@ class GestionnaireDeFichiers
     Argument de type Moteur pour avoir les informatiosn à écrire et FILE * pour spécifier le fichier dans lequel écrire.
     La fonction sert à écrire un état du réseau de Petri dans un fichier.
     */
-    void AjouterEtat(Moteur M, FILE *fichier)
+    void EcrireEtat(Moteur M, FILE *fichier)
     {}
 
     /*
