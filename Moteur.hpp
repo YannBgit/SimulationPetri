@@ -3,8 +3,8 @@
 #define MOTEUR_HPP
 
 // LIBRAIRIES
+#include "Echeancier.hpp" // Pour utiliser la classe Echeancier
 #include <stdio.h> // Permettre principalement la manipulation des flux de caractères
-#include "Echéancier.hpp" // Pour utiliser la classe Echéancier
 
 // CLASSE
 class Moteur
@@ -44,7 +44,7 @@ class Moteur
     Argument de type tableau d'entiers int *T liste des indices des transitions candidates au tirage.
     La fonction choisit aléatoire une transition à tirer et renvoi son indice.
     */
-    int RésoutConflit(int *T)
+    int ResoutConflit(int *T)
     {}
 
     /*

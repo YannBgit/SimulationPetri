@@ -3,9 +3,9 @@
 #define GESTIONNAIREDEFICHIERS_HPP
 
 // LIBRAIRIES
+#include "Echeancier.hpp" // Pour utiliser la classe Echeancier
 #include <stdio.h> // Permettre principalement la manipulation des flux de caractères
 #include <iostream.h> // Contrôler la lecture et l'écriture des flux standard
-#include "Echéancier.hpp" // Pour utiliser la classe Echéancier
 
 // CLASSE
 class GestionnaireDeFichiers
@@ -13,13 +13,12 @@ class GestionnaireDeFichiers
     private:
     // VARIABLES
     FILE *fichier;
+    FILE *temp;
 
     public:
     // CONSTRUCTEURS
     GestionnaireDeFichiers(FILE *fichier)
-    {
-        this->fichier=fichier;
-    }
+    {}
 
     // DESTRUCTEUR
     ~GestionnaireDeFichiers()
@@ -32,29 +31,23 @@ class GestionnaireDeFichiers
     La fonction charge un fichier et l'enregistre dans le GestionnaireDeFichiers.
     */
     void *Charger(FILE *fichier)
-    {
-        this->fichier=fichier;
-    }
-
-    /*
-    Fonction de type FILE* pour renvoyer un fichier.
-    Aucun argument n'est nécessaire à cette fonction.
-    La fonction retourne la variable privée fichier.
-    */
-    FILE *GetFichier()
-    {
-        return fichier;
-    }
+    {}
 
     /*
     Fonction de type void pour ne rien renvoyer.
     Argument de type Echéancier pour avoir la source des informations à enregistrer.
     La fonction permet d'enregistrer un échéancier.
     */
-    void enregistrer(Echéancier E)
-    {
+    void Enregistrer(Echeancier E)
+    {}
 
-    }
+    /*
+    Fonction de type void pour ne rien renvoyer.
+    Aucun argument n'est nécessaire à cette fonction.
+    La fonction crée un fichier temporaire vide pour l'échéancier.
+    */
+    void CreerFichierTemporaire()
+    {}
 }
 
 #endif
