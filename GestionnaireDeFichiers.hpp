@@ -35,18 +35,19 @@ class GestionnaireDeFichiers
 
     /*
     Fonction de type void pour ne rien renvoyer.
-    Argument de type Echéancier pour avoir la source des informations à enregistrer.
-    La fonction permet d'enregistrer un échéancier.
-    */
-    void Enregistrer(Echeancier E)
-    {}
-
-    /*
-    Fonction de type void pour ne rien renvoyer.
     Aucun argument n'est nécessaire à cette fonction.
     La fonction crée un fichier temporaire vide pour l'échéancier.
     */
     void CreerFichierTemporaire()
+    {}
+
+    /*
+    Fonction de type void pour ne rien renvoyer.
+    Arguments de type FILE * pour avoir la source et la destination des informations à enregistrer.
+    La fonction permet d'enregistrer un échéancier en faisant passer les informations du fichier temporaire dans lequel ses données sont conservées
+    vers le fichier principal d'enregistrement.
+    */
+    void EnregistrerEcheancier(FILE *temp, FILE *fichier)
     {}
 }
 
