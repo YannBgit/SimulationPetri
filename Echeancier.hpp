@@ -35,14 +35,6 @@ class Echeancier
     */
     void AjouterEtatReseau(Moteur M)
     {}
-    
-    /*
-    Fonction de type void pour ne rien renvoyer.
-    Argument de type moteur où chercher le temps courant du réseau.
-    La fonction enregistre le temps courant du réseau.
-    */
-    void StockerTempsCourant(Moteur M)
-    {}
 
     /*
     Fonction de type Moteur pour renvoyer un état du réseau selon le temps courant.
@@ -50,6 +42,14 @@ class Echeancier
     La fonction recherche le dernier état du réseau enregistré et le renvoie.
     */
     Moteur RenvoyerEtatReseauCourant()
+    {}
+
+    /*
+    Fonction de type void pour ne rien renvoyer.
+    Argument de type moteur où chercher le temps courant du réseau.
+    La fonction enregistre le temps courant du réseau.
+    */
+    void StockerTempsCourant(Moteur M)
     {}
 
     /*
