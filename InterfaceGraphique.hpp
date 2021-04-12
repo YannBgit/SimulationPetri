@@ -38,7 +38,9 @@ class InterfaceGraphique
     {}
 
     // METHODES
-    // Cette fonction aura pour but de créer un menu à l'aide des QRadioButton.
+    /*
+    Cette fonction aura pour but de créer un menu à l'aide des QRadioButton.
+    */
     void affichage_menu()
     {}
 
@@ -52,12 +54,14 @@ class InterfaceGraphique
     /*
     Cette fonction évaluera si un bouton a été cliqué.
     */
-    void bouton_clic(QPushButton Bouton);
+    void bouton_clic(QPushButton Bouton)
+    {}
 
     /*
     Cette fonction a pour but de créer un bouton retour afin que l'utilisateur puisse revenir au menus principal.
     */
-    void creation_retour();
+    void creation_retour()
+    {}
 }
 
 #endif

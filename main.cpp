@@ -9,11 +9,9 @@
 // MAIN
 int main()
 {
-    FILE *fichier;
-
     GestionnaireDeFichiers GDF();
     Echeancier E();
-    Moteur M(E.RenvoyerEtatReseauCourant());
+    Moteur M();
     InterfaceGraphique IG();
 
     return 0;
