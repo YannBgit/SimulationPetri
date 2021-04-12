@@ -77,6 +77,25 @@ class Moteur
 	*/
 	Moteur Reculer(bool Ordre, Moteur RDP)
 	{}
+	
+	/*
+	Fonction de type int* pour renvoyer un tableau  d'entier pour être le tableau de marquage.
+	Argument de type int pour le nombre de sommet du réseau, int** pour la matrice représentant le nombre de jetons consommés et générés.
+	La fonction parcourt tout les sommet et assigne à chaqu'un de ces sommets les jetons restants.
+	*/
+	int* Marquage(int S, int** W,int** )
+	{}
+	
+	/*
+	Cette fonction aide pour générer le tableau de marquage. 
+	Fonction de type int, pour retourner le nombre de jetons restants 
+	Elle prend en argument int** la matrice représentant le nombre de jetons consommés et générés, et un int, une transition.
+	Pour chaque transition, on connait le nombre de jetons générés et consommés et de là, on déduit le nombre de jetons restants.
+	*/
+	int nbr_jetons(int** W, int T)
+	{}
+	
+	
 }
 
 #endif
