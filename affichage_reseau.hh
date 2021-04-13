@@ -27,7 +27,7 @@ class AfficheurDeReseau {
         int*** calculerArcs(Element *elements, int **F, [params]);
 
         /*  Récupère le nouvel état du réseau et modifie le nombre de jeton pour chaque élément graphique où c'est nécessaire*/
-        void miseAJourReseau(Element *elements)
+        void miseAJourReseau(Element *elements, int *M)
     
     private :
 
