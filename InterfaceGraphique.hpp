@@ -62,6 +62,90 @@ class InterfaceGraphique
     */
     void creation_retour()
     {}
+
+    /*
+    Crée un Element pour chaque place et chaque transitions, avec son nombre de jeton, son type (place ou transition) et une position {x, y} définit par
+    rapport au premier qui est rencontré (position (0,0)) et par ses liaisons et renvoie la liste de ces éléments.
+    La liste contient les places puis les transitions dans l'ordre.
+    */
+    Element* buildElementsPosition(int S, int T, int **F, int *M, [params])
+    {}
+
+    /*
+    Dessine les places et les transitions.
+    */
+    void dessinerElements(Element *elements, int *M)
+    {}
+
+    /*
+    Dessine les arcs entre les places et les transitions.
+    */
+    void dessinerArcs(int ***arcs)
+    {}
+
+    /*
+    Définit pour chaque arc une liste de positions contenant au moins celles d'une place et d'une transition pour les relier, en évitant de passer sur
+    d'autres places et transitions.
+    */
+    int*** calculerArcs(Element *elements, int **F, [params])
+    {}
+
+    /*
+    Récupère le nouvel état du réseau et modifie le nombre de jetons pour chaque élément graphique où c'est nécessaire.
+    */
+    void miseAJourReseau(Element *elements, int *M)
+    {}
+    
+    /*
+    Utilisée par calculerArcs(). Renvoie des points de passages (x, y) permettant à l'arc en cours de calcul de ne pas intersecter avec une place ou une transition.
+    */
+    int** eviterIntersection(Element *elments, int x_depart, int y_depart, int x_arrivee, int y_arrive)
+    {}
+
+    /*
+    On stocke les positions d'affichage des places, transitions et arcs pour ne pas les recalculer à chaque changement du réseau tel que l'évolution de la
+    positions des jetons mais seulement en cas de modification de la structure du réseau.
+    */
+
+    /*
+    Stocke les places et les transitions (dans cette ordre).
+    */
+    Element *elements;
+    
+    /*
+    Stocke les transitions, chacune correspondant à une liste de couples d'entiers x, y.
+    */
+    int*** arcs;
+
+    /*
+    Variables encore non définies qui définiront l'aspect du réseau (espace entre deux élément, taille d'une place, couleur, etc...).
+    */
+    //[params]
+}
+
+class Element
+{
+    private :
+        typedef enum
+        {
+            Transition,
+            Place
+        }TypeElement;
+
+        int pos_x;
+        int pos_y;
+        int nb_jetons;
+
+        public :
+        //Constructeur
+        Element();
+        //Destructeur
+        ~Element();
+
+        /*Dessine l'élément selon sa positon et son type d'élement ainsi que les jetons qu'il contient*/
+        void dessiner();
+
+        void setNbJetons(int n);
 }
 
 #endif
