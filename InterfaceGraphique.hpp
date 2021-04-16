@@ -22,11 +22,13 @@ class InterfaceGraphique
 {
     private:
     // VARIABLES
-    QGroupBox *groupbox_menu;
-    QRadioButton *echeancierTe;
-    QRadioButton *rdp;
-    QRadioButton *quitter;
-    QVBoxLayout *layout;
+    QPushButton *reculer;
+	QPushButton *avancer;
+	QPushButton *enregister;
+    QPushButton *charger;
+    
+    QVBoxLayout *vlayout;
+    QHBoxLayout *hlayout;
 
     public:
     // CONSTRUCTEURS
@@ -37,25 +39,33 @@ class InterfaceGraphique
 
     // METHODES
     /*
-    Cette fonction aura pour but de créer un menu à l'aide des QRadioButton.
-    */
-    void affichage_menu();
-
-    /*
     Cette fonction servira à l'affichage de l'échéancier sous forme de texte.
     Nous avons comme argument un Moteur, qui nous est envoyé par l'Echéancier, comportant toutes les infos nécéssaires à l'affichage de ce dernier.
     */
-    void affichage_echeancier(Moteur M);
+    void affichage_echeancier(Moteur M)
+    {}
 
+	/*
+	Cette fonction servira à l'évaluation du bouton 'reculer'. Si le bouton est cliqué, la fonction affichera le Rdp et l'échéancier au temps Te-1.
+	Ceci sera possible grâce à la fonction "E.AfficherEtatTemps(M.Te-1);".
+	*/
+	void fct_reculer();
+	
+	/*
+	Cette fonction servira à l'évaluation du bouton 'avancer'. Si le bouton est cliqué, la fonction affichera le Rdp et l'échéancier au temps Te+1.
+	Ceci sera possible grâce à la fonction "E.AfficherEtatTemps(M.Te+1);".
+	*/
+    void fct_avancer();
+    
     /*
-    Cette fonction évaluera si un bouton a été cliqué.
+    Cette fonction servira à l'évaluation du bouton 'enregister'. Si le bouton est cliqué, la fonction sauvera les paramètres du réseau dans le gestionnaire de fichiers.
     */
-    void bouton_clic(QPushButton Bouton);
-
+    void fct_enregister();
+    
     /*
-    Cette fonction a pour but de créer un bouton retour afin que l'utilisateur puisse revenir au menus principal.
+    Cette fonction servira à l'évaluation du bouton 'charger'. Si le bouton est cliqué, la fonction chargera les paramètres du réseau dans le gestionnaire de fichiers.
     */
-    void creation_retour();
+    void fct_charger();
 
     /*
     Crée un Element pour chaque place et chaque transitions, avec son nombre de jeton, son type (place ou transition) et une position {x, y} définit par
