@@ -3,7 +3,7 @@
 #define GESTIONNAIREDEFICHIERS_HPP
 
 // LIBRAIRIES
-#include "Echeancier.hpp" // Pour utiliser la classe Echeancier
+#include "Moteur.hpp" // Pour utiliser la classe Moteur
 #include <stdio.h> // Permettre principalement la manipulation des flux de caractères
 #include <iostream.h> // Contrôler la lecture et l'écriture des flux standard
 
@@ -17,12 +17,10 @@ class GestionnaireDeFichiers
 
     public:
     // CONSTRUCTEURS
-    GestionnaireDeFichiers(FILE *fichier)
-    {}
+    GestionnaireDeFichiers(FILE *fichier);
 
     // DESTRUCTEUR
-    ~GestionnaireDeFichiers()
-    {}
+    ~GestionnaireDeFichiers();
 
     // METHODES
     /*
@@ -30,24 +28,21 @@ class GestionnaireDeFichiers
     Argument de type FILE* pour permettre de charger un fichier.
     La fonction charge un fichier et l'enregistre dans le GestionnaireDeFichiers.
     */
-    void *Charger(FILE *fichier)
-    {}
+    void *Charger(FILE *fichier);
 
     /*
     Fonction de type void pour ne rien renvoyer.
     Aucun argument n'est nécessaire à cette fonction.
     La fonction crée un fichier temporaire vide pour l'échéancier.
     */
-    void CreerFichierTemporaire()
-    {}
+    void CreerFichierTemporaire();
 
     /*
     Fonction de type void pour ne rien renvoyer.
     Argument de type Moteur pour avoir les informatiosn à écrire et FILE * pour spécifier le fichier dans lequel écrire.
     La fonction sert à écrire un état du réseau de Petri dans un fichier.
     */
-    void EcrireEtat(Moteur M, FILE *fichier)
-    {}
+    void EcrireEtat(Moteur M, FILE *fichier);
 
     /*
     Fonction de type void pour ne rien renvoyer.
@@ -55,8 +50,7 @@ class GestionnaireDeFichiers
     La fonction permet d'enregistrer un échéancier en faisant passer les informations du fichier temporaire dans lequel ses données sont conservées
     vers le fichier principal d'enregistrement.
     */
-    void EnregistrerEcheancier(FILE *temp, FILE *fichier)
-    {}
+    void EnregistrerEcheancier(FILE *temp, FILE *fichier);
 }
 
 #endif
