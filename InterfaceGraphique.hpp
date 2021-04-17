@@ -22,13 +22,13 @@ class InterfaceGraphique
 {
     private:
     // VARIABLES
-    QPushButton *reculer;
-	QPushButton *avancer;
-	QPushButton *enregister;
-    QPushButton *charger;
+    QPushButton *reculer; //associé à la méthode "fct_reculer();"
+	QPushButton *avancer; //associé à la méthode "fct_avancer();"
+	QPushButton *enregistrer; //associé à la méthode "fct_enregistrer();"
+    QPushButton *charger; //associé à la méthode "fct_charger();"
     
-    QVBoxLayout *vlayout;
-    QHBoxLayout *hlayout;
+    QVBoxLayout *vlayout; //Layout vertical
+    QHBoxLayout *hlayout; //Layout horizontal
 
     public:
     // CONSTRUCTEURS
@@ -46,24 +46,26 @@ class InterfaceGraphique
     {}
 
 	/*
-	Cette fonction servira à l'évaluation du bouton 'reculer'. Si le bouton est cliqué, la fonction affichera le Rdp et l'échéancier au temps Te-1.
-	Ceci sera possible grâce à la fonction "E.AfficherEtatTemps(M.Te-1);".
+	Cette fonction servira pour passer de l'affichage d'un temps Te à un temps Te-1. Si le bouton "reculer" est cliqué, la fonction affichera le Rdp et l'échéancier au temps Te-1.
+	Ceci sera notamment possible grâce à la fonction "E.AfficherEtatTemps(M.Te-1);".
 	*/
 	void fct_reculer();
 	
 	/*
-	Cette fonction servira à l'évaluation du bouton 'avancer'. Si le bouton est cliqué, la fonction affichera le Rdp et l'échéancier au temps Te+1.
-	Ceci sera possible grâce à la fonction "E.AfficherEtatTemps(M.Te+1);".
+	Cette fonction servira pour passer de l'affichage d'un temps Te à un temps Te-1. Si le bouton "avancer" est cliqué, la fonction affichera le Rdp et l'échéancier au temps Te+1.
+	Ceci sera notamment possible grâce à la fonction "E.AfficherEtatTemps(M.Te+1);".
 	*/
     void fct_avancer();
     
     /*
-    Cette fonction servira à l'évaluation du bouton 'enregister'. Si le bouton est cliqué, la fonction sauvera les paramètres du réseau dans le gestionnaire de fichiers.
+    Cette fonction servira à l'utilisateur d'enregistrer l'état du Rdp à l'aide du gestionnaire de fichiers, si le bouton "enregister" est cliqué.
+    Ceci sera notamment possible grâce à la fonction "E.AfficherEtatTemps(M.Te-1);"
     */
-    void fct_enregister();
+    void fct_enregistrer();
     
     /*
-    Cette fonction servira à l'évaluation du bouton 'charger'. Si le bouton est cliqué, la fonction chargera les paramètres du réseau dans le gestionnaire de fichiers.
+    Cette fonction permettera à l'utilisateur de charger des paramètre du réseau de Pétri à l'aide du gestionnaire de fichiers, si le bouton est cliqué.
+    Ceci sera notamment possible grâce à la fonction "EnregisterEcheancier(FILE *temp, FILE *fichier);
     */
     void fct_charger();
 
