@@ -44,19 +44,19 @@ class InterfaceGraphique
 
 	/*
 	Cette fonction servira pour passer de l'affichage d'un temps Te à un temps Te-1. Si le bouton "reculer" est cliqué, la fonction affichera le Rdp et l'échéancier au temps Te-1.
-	Ceci sera notamment possible grâce à la fonction "E.AfficherEtatTemps(M.Te-1);".
+	Ceci sera notamment possible grâce à la fonction "E.RenvoyerEtatReseauSelonTemps(M.Te-1);".
 	*/
 	void fct_reculer();
 	
 	/*
 	Cette fonction servira pour passer de l'affichage d'un temps Te à un temps Te-1. Si le bouton "avancer" est cliqué, la fonction affichera le Rdp et l'échéancier au temps Te+1.
-	Ceci sera notamment possible grâce à la fonction "E.AfficherEtatTemps(M.Te+1);".
+	Ceci sera notamment possible grâce à la fonction "E.RenvoyerEtatReseauSelonTemps(M.Te+1);".
 	*/
     void fct_avancer();
     
     /*
     Cette fonction servira à l'utilisateur d'enregistrer l'état du Rdp à l'aide du gestionnaire de fichiers, si le bouton "enregister" est cliqué.
-    Ceci sera notamment possible grâce à la fonction "E.AfficherEtatTemps(M.Te-1);"
+    Ceci sera notamment possible grâce à la fonction "Charger(FILE *fichier);"
     */
     void fct_enregistrer();
     
