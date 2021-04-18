@@ -53,7 +53,7 @@ class Moteur
 	Pour chaque Indice du tableau Tirage, la fonction active la transition correspondante et retire/ajoute le nombre de jetons correspondant entre les places de
     la transition.
 	*/
-	int* Activer_Transitions(int *Tirage, int *M, int **F, int **W);
+	int *Activer_Transitions(int *Tirage, int *M, int **F, int **W);
 
 	/*
 	Fonction de type Moteur pour renvoyer les infos d'un RDP.
@@ -68,7 +68,7 @@ class Moteur
 	Argument de type int pour le nombre de sommet du réseau et int** pour la matrice représentant le nombre de jetons consommés et générés.
 	La fonction parcourt tout les sommet et assigne à chaqu'un de ces sommets les jetons restants.
 	*/
-	int* Marquage(int S, int **W);
+	int *Marquage(int S, int **W);
 	
 	/*
 	Cette fonction aide pour générer le tableau de marquage. 
