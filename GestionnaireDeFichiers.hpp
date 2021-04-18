@@ -28,7 +28,7 @@ class GestionnaireDeFichiers
     Argument de type FILE* pour permettre de charger un fichier.
     La fonction charge un fichier et l'enregistre dans le GestionnaireDeFichiers.
     */
-    void *Charger(FILE *fichier);
+    void Charger(FILE *fichier);
 
     /*
     Fonction de type void pour ne rien renvoyer.
