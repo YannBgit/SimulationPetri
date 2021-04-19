@@ -20,6 +20,7 @@ class Moteur
     int *K; // Nombre de jetons maximum pour chaque sommet
     int Te; // Temps
 
+
     public:
     // CONSTRUCTEURS
     Moteur(Moteur M);
@@ -77,6 +78,18 @@ class Moteur
 	Pour chaque transition, on connait le nombre de jetons générés et consommés et de là, on déduit le nombre de jetons restants.
 	*/
 	int Nbr_Jetons(int **W, int T);
+
+    /*
+    Accesseurs pour les variables du moteur, nommés explicitements.
+    */
+    int getNbSommets();
+    int getNbTransitions());
+    float* getProbabiliteTirParTransition();
+    int** getMatricesArcs();
+    int* getNbJetonsParSommet();
+    int** getEvolutionNbJetonPourChaqueTransitons();
+    int* getNbMaxJetonsParSommet();
+    int getTemps();
 }
 
 #endif
