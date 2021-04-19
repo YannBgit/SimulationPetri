@@ -4,14 +4,14 @@
 
 // LIBRAIRIES
 #include <QApplication> // QApplication est l'include de base de tout programme Qt
-#include <QObject> // QObject est la classe de base de tous les objets sous Qt. La méthode connect() nous sera particulièrement utile pour les signaux et les slots
+#include <QObject> // QObject est la classe de base de tous les objets sous Qt. La méthode connect() nous sera particulièrement utile pour les signaux et les slots.
 #include <QWidget> // QWidgets est un module qui nous permettera d'afficher nos fenêtres
 #include <QPushButton> // QPushButton nous permet de créer des objets QPushButton étant tout simplement des boutons
 #include <QLabel> // QLabel est utilisé pour afficher du texte ou une image. Cette classe nous sera utile pour l'affichage de l'échéancier.
-#include <QLayout> // QLayout nous permet de postionner nos widgets, comme par exemple, nos boutons.
-#include <QGroupBox> //QGroupBox fournit une "box" correspondant à un groupe avec un titre.
-#include <QGraphicsView>    //permet d'afficher une scène avec beaucoup d'options.
-#include <QGraphicsScene>   //permet de dessinner le réseau de Pétri sur une scène.
+#include <QLayout> // QLayout nous permet de postionner nos widgets, comme par exemple, nos boutons
+#include <QGroupBox> // QGroupBox fournit une "box" correspondant à un groupe avec un titre
+#include <QGraphicsView> // Permet d'afficher une scène avec beaucoup d'options
+#include <QGraphicsScene> // Permet de dessinner le réseau de Pétri sur une scène
 #include "Moteur.hpp" // Pour utiliser la classe Moteur
 #include "Echancier.hpp" // Pour utiliser la classe Echancier
 #include "GestionnaireDeFichiers.hpp" // Pour utiliser la classe GestionnaireDeFichiers
@@ -21,15 +21,15 @@ class InterfaceGraphique
 {
     private:
         // VARIABLES
-        QPushButton *reculer;   //associé à la méthode "fct_reculer();"
-        QPushButton *avancer;   //associé à la méthode "fct_avancer();"
-        QPushButton *enregistrer; //associé à la méthode "fct_enregistrer();"
-        QPushButton *charger;   //associé à la méthode "fct_charger();"
-        QPushButton *etatInitiale;  //associé à la méthode "fct_etatInitiale())"
+        QPushButton *reculer; // Associé à la méthode "fct_reculer();"
+        QPushButton *avancer; // Associé à la méthode "fct_avancer();"
+        QPushButton *enregistrer; // Associé à la méthode "fct_enregistrer();"
+        QPushButton *charger; // Associé à la méthode "fct_charger();"
+        QPushButton *etatInitiale; // Associé à la méthode "fct_etatInitiale())"
         
-        QVBoxLayout *vlayout; //Layout vertical
-        QHBoxLayout *hlayout; //Layout horizontal
-        QGridLayout *glayout; //Layout sous forme de tableau
+        QVBoxLayout *vlayout; // Layout vertical
+        QHBoxLayout *hlayout; // Layout horizontal
+        QGridLayout *glayout; // Layout sous forme de tableau
 
         Moteur M;   //contient le moteur donr les variables sont utilisées pour l'affichage.
 
@@ -87,7 +87,7 @@ class InterfaceGraphique
 
         // METHODES
 
-        //Affichage echeancier
+        // Affichage echeancier
         /*
         Cette fonction servira à l'affichage de l'échéancier sous forme de texte.
         Nous avons comme argument un Moteur, qui nous est envoyé par l'Echéancier, comportant toutes les infos nécéssaires à l'affichage de ce dernier.
@@ -99,10 +99,8 @@ class InterfaceGraphique
         Donne sa valeur à la variable M, fournie par l'échéancier
         */
         void setMoteur(Moteur new_moteur);
-        
 
-
-        //Affichage reseau
+        // Affichage reseau
         /*
         Crée un Element pour chaque place et chaque transitions, avec son nombre de jeton, son type (place ou transition) et une position {x, y} définit par
         rapport au premier qui est rencontré (position (0,0)) et par ses liaisons et renvoie la liste de ces éléments.
@@ -140,7 +138,6 @@ class InterfaceGraphique
         On stocke les positions d'affichage des places, transitions et arcs pour ne pas les recalculer à chaque changement du réseau tel que l'évolution de la
         positions des jetons mais seulement en cas de modification de la structure du réseau.
         */
-
         /*
         Stocke les places et les transitions (dans cette ordre).
         */
@@ -156,29 +153,38 @@ class InterfaceGraphique
 /*
 Stocke et dessine une place ou une transition avec ses données d'affichage
 */
+// CLASSE
 class Element
 {
     private :
-        
-        int pos_x;  //position x relative au 1er élément
-        int pos_y;  //position y relative au 1er élément
-        int nb_jetons;  //Nb de jetons acutellment contennu dans l'élément si c'est une place
-        bool type;  //définit s'il s'agit d'une place (1) ou d'une transition (0)
+    int pos_x; // Position x relative au 1er élément
+    int pos_y; // Position y relative au 1er élément
+    int nb_jetons; // Nb de jetons acutellment contennu dans l'élément si c'est une place
+    bool type; // Définit s'il s'agit d'une place (1) ou d'une transition (0)
 
     public :
-        // Constructeurs 
-        Element(int x, int y, bool type);
-        //constructeur (si c'est une place)
-        Element(int x, int y, bool type, int nb_jetons);
-        // Destructeur
-        ~Element();
+    // CONSTRUCTEURS
+    /*
+    Constructeur de base
+    */
+    Element(int x, int y, bool type);
+
+    /*
+    Constructeur (si c'est une place)
+    */
+    Element(int x, int y, bool type, int nb_jetons);
+
+    // DESTRUCTEUR
+    ~Element();
+
 
         /*
-        Dessine l'élément selon sa positon et son type d'élement ainsi que les jetons qu'il contient et les paramètres.
+        Dessine l'élément selon sa position et son type d'élément ainsi que les jetons qu'il contient et les paramètres.
         */
         void dessiner(Params params);
+
         /*
-        Utilisé par  miseAJourReseau() pour chnage les nombre de jeton si l'élément est une place
+        Utilisé par miseAJourReseau() pour changer le nombre de jetons si l'élément est une place.
         */
         void setNbJetons(int n); 
 
@@ -186,12 +192,13 @@ class Element
         Accesseurs pour les variables
         */
         int getPosX();
+
         int getPosY();
+
         int getNbJetons();
 
-        //Renvoie la valeur de type
+        // Renvoie la valeur de type
         bool isPlace();  
-
 };
 
 #endif

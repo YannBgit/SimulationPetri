@@ -80,15 +80,22 @@ class Moteur
 	int Nbr_Jetons(int **W, int T);
 
     /*
-    Accesseurs pour les variables du moteur, nommés explicitements.
+    Accesseurs pour les variables du moteur, nommés explicitement.
     */
     int getNbSommets();
-    int getNbTransitions());
-    float* getProbabiliteTirParTransition();
-    int** getMatricesArcs();
-    int* getNbJetonsParSommet();
-    int** getEvolutionNbJetonPourChaqueTransitons();
-    int* getNbMaxJetonsParSommet();
+
+    int getNbTransitions();
+
+    float *getProbabiliteTirParTransition();
+
+    int **getMatricesArcs();
+
+    int *getNbJetonsParSommet();
+
+    int **getEvolutionNbJetonPourChaqueTransition();
+
+    int *getNbMaxJetonsParSommet();
+
     int getTemps();
 }
 
