@@ -20,138 +20,135 @@
 class InterfaceGraphique
 {
     private:
-        // VARIABLES
-        QPushButton *reculer; // Associé à la méthode "fct_reculer();"
-        QPushButton *avancer; // Associé à la méthode "fct_avancer();"
-        QPushButton *enregistrer; // Associé à la méthode "fct_enregistrer();"
-        QPushButton *charger; // Associé à la méthode "fct_charger();"
-        QPushButton *etatInitiale; // Associé à la méthode "fct_etatInitiale())"
-        
-        QVBoxLayout *vlayout; // Layout vertical
-        QHBoxLayout *hlayout; // Layout horizontal
-        QGridLayout *glayout; // Layout sous forme de tableau
+    // VARIABLES
+    QPushButton *reculer; // Associé à la méthode "fct_reculer();"
+    QPushButton *avancer; // Associé à la méthode "fct_avancer();"
+    QPushButton *enregistrer; // Associé à la méthode "fct_enregistrer();"
+    QPushButton *charger; // Associé à la méthode "fct_charger();"
+    QPushButton *etatInitial; // Associé à la méthode "fct_etatInitial())"
+    
+    QVBoxLayout *vlayout; // Layout vertical
+    QHBoxLayout *hlayout; // Layout horizontal
+    QGridLayout *glayout; // Layout sous forme de tableau
 
-        Moteur M;   //contient le moteur donr les variables sont utilisées pour l'affichage.
-
-        /*
-        Variables qui définisent l'aspect du réseau (espace entre deux élément, taille d'une place, couleur, etc...).
-        */
-        struct Params {
-            float tailleElment; //taille d'un element (multiplicateur)
-            float elementsDistance; //ditance minimale séparant deux élémnets graphiques
-            float largeurTrait;
-            QColor couleurTrait;
-            QColor couleurRemplissage;
-        };
-        Params parametres;
-
-    //Les fonctions situées ici indique à QT qu'elles peuvent être utilisés pour recevoir les signaux envoyé par les boutons
-    private slots :
-        /*
-        Cette fonction servira pour passer de l'affichage d'un temps quelconque au temps 0 (etat initiale). Si le bouton "etatInitiale" est cliqué, la fonction affichera le Rdp et l'échéancier au temps 0.
-        Ceci sera notamment possible grâce à la fonction "E.RenvoyerEtatReseauSelonTemps(0);".
-        */
-        void fct_etatInitial();
-
-        /*
-        Cette fonction servira pour passer de l'affichage d'un temps Te à un temps Te-1. Si le bouton "avancer" est cliqué, la fonction affichera le Rdp et l'échéancier au temps Te+1.
-        Ceci sera notamment possible grâce à la fonction "E.RenvoyerEtatReseauSelonTemps(M.Te+1);".
-        */
-        void fct_avancer();
-
-        /*
-        Cette fonction servira pour passer de l'affichage d'un temps Te à un temps Te-1. Si le bouton "reculer" est cliqué, la fonction affichera le Rdp et l'échéancier au temps Te-1.
-        Ceci sera notamment possible grâce à la fonction "E.RenvoyerEtatReseauSelonTemps(M.Te-1);".
-        */
-        void fct_reculer();
-
-        /*
-        Cette fonction permettera à l'utilisateur de charger des paramètre du réseau de Pétri à l'aide du gestionnaire de fichiers, si le bouton est cliqué.
-        Ceci sera notamment possible grâce à la fonction "EnregisterEcheancier(FILE *temp, FILE *fichier);
-        */
-        void fct_charger();
-
-        /*
-        Cette fonction servira à l'utilisateur d'enregistrer l'état du Rdp à l'aide du gestionnaire de fichiers, si le bouton "enregister" est cliqué.
-        Ceci sera notamment possible grâce à la fonction "Charger(FILE *fichier);"
-        */
-        void fct_enregistrer();
-
+    /*
+    Variables qui définisent l'aspect du réseau (espace entre deux élément, taille d'une place, couleur, etc...).
+    */
+    struct Params
+    {
+        float tailleElement; //taille d'un element (multiplicateur)
+        float elementsDistance; //ditance minimale séparant deux élémnets graphiques
+        float largeurTrait;
+        QColor couleurTrait;
+        QColor couleurRemplissage;
+    };
+    Params parametres;
 
     public:
-        // CONSTRUCTEURS
-        InterfaceGraphique();
+    // CONSTRUCTEURS
+    InterfaceGraphique();
 
-        // DESTRUCTEUR
-        ~InterfaceGraphique();
+    // DESTRUCTEUR
+    ~InterfaceGraphique();
 
-        // METHODES
+    // METHODES
 
-        // Affichage echeancier
-        /*
-        Cette fonction servira à l'affichage de l'échéancier sous forme de texte.
-        Nous avons comme argument un Moteur, qui nous est envoyé par l'Echéancier, comportant toutes les infos nécéssaires à l'affichage de ce dernier.
-        */
-        void affichage_echeancier(Moteur M)
-        {}
+    // Les fonctions situées ici indique à QT qu'elles peuvent être utilisés pour recevoir les signaux envoyé par les boutons
+    private slots :
+    /*
+    Cette fonction servira pour passer de l'affichage d'un temps quelconque au temps 0 (etat initial). Si le bouton "etatInitial" est cliqué, la fonction affichera le Rdp et l'échéancier au temps 0.
+    Ceci sera notamment possible grâce à la fonction "E.RenvoyerEtatReseauSelonTemps(0);".
+    */
+    void fct_etatInitial();
 
-        /*
-        Donne sa valeur à la variable M, fournie par l'échéancier
-        */
-        void setMoteur(Moteur new_moteur);
+    /*
+    Cette fonction servira pour passer de l'affichage d'un temps Te à un temps Te-1. Si le bouton "avancer" est cliqué, la fonction affichera le Rdp et l'échéancier au temps Te+1.
+    Ceci sera notamment possible grâce à la fonction "E.RenvoyerEtatReseauSelonTemps(M.Te+1);".
+    */
+    void fct_avancer();
 
-        // Affichage reseau
-        /*
-        Crée un Element pour chaque place et chaque transitions, avec son nombre de jeton, son type (place ou transition) et une position {x, y} définit par
-        rapport au premier qui est rencontré (position (0,0)) et par ses liaisons et renvoie la liste de ces éléments.
-        La liste contient les places puis les transitions dans l'ordre. Appellée lors du chargement d'un réseau 
-        */
-        Element* buildElementsPosition(Moteur M);
+    /*
+    Cette fonction servira pour passer de l'affichage d'un temps Te à un temps Te-1. Si le bouton "reculer" est cliqué, la fonction affichera le Rdp et l'échéancier au temps Te-1.
+    Ceci sera notamment possible grâce à la fonction "E.RenvoyerEtatReseauSelonTemps(M.Te-1);".
+    */
+    void fct_reculer();
 
-        /*
-        Dessine les places et les transitions contenus dans elements.
-        */
-        void dessinerElements(Element *elements);
+    /*
+    Cette fonction permettera à l'utilisateur de charger des paramètre du réseau de Pétri à l'aide du gestionnaire de fichiers, si le bouton est cliqué.
+    Ceci sera notamment possible grâce à la fonction "EnregisterEcheancier(FILE *temp, FILE *fichier);
+    */
+    void fct_charger();
 
-        /*
-        Définit pour chaque arc une liste de positions contenant au moins celles d'une place et d'une transition pour les relier, en évitant de passer sur
-        d'autres places et transitions.
-        */
-        int*** calculerArcs(Element *elements, Moteur M, [params]);
+    /*
+    Cette fonction servira à l'utilisateur d'enregistrer l'état du Rdp à l'aide du gestionnaire de fichiers, si le bouton "enregister" est cliqué.
+    Ceci sera notamment possible grâce à la fonction "Charger(FILE *fichier);"
+    */
+    void fct_enregistrer();
 
-        /*
-        Dessine les arcs entre les places et les transitions.
-        */
-        void dessinerArcs(int ***arcs);
+    // Affichage echeancier
+    /*
+    Cette fonction servira à l'affichage de l'échéancier sous forme de texte.
+    Nous avons comme argument un Moteur, qui nous est envoyé par l'Echéancier, comportant toutes les infos nécéssaires à l'affichage de ce dernier.
+    */
+    void affichage_echeancier(Moteur M);
 
-        /*
-        Récupère le nouvel état du réseau et modifie le nombre de jetons pour chaque élément graphique où c'est nécessaire. Appellée lors d'un déplacement dans le réseau
-        */
-        void miseAJourReseau(Element *elements, Moteur M);
+    /*
+    Donne sa valeur à la variable M, fournie par l'échéancier.
+    */
+    void setMoteur(Moteur new_moteur);
+
+    // Affichage reseau
+    /*
+    Crée un Element pour chaque place et chaque transitions, avec son nombre de jeton, son type (place ou transition) et une position {x, y} définit par
+    rapport au premier qui est rencontré (position (0,0)) et par ses liaisons et renvoie la liste de ces éléments.
+    La liste contient les places puis les transitions dans l'ordre. Appellée lors du chargement d'un réseau 
+    */
+    Element* buildElementsPosition(Moteur M);
+
+    /*
+    Dessine les places et les transitions contenus dans elements.
+    */
+    void dessinerElements(Element *elements);
+
+    /*
+    Définit pour chaque arc une liste de positions contenant au moins celles d'une place et d'une transition pour les relier, en évitant de passer sur
+    d'autres places et transitions.
+    */
+    int ***calculerArcs(Element *elements, Moteur M, [params]);
+
+    /*
+    Dessine les arcs entre les places et les transitions.
+    */
+    void dessinerArcs(int ***arcs);
+
+    /*
+    Récupère le nouvel état du réseau et modifie le nombre de jetons pour chaque élément graphique où c'est nécessaire. Appellée lors d'un déplacement dans le réseau
+    */
+    void miseAJourReseau(Element *elements, Moteur M);
         
-        /*
-        Utilisée par calculerArcs(). Renvoie des points de passages (x, y) permettant à l'arc en cours de calcul de ne pas intersecter avec une place ou une transition.
-        */
-        int** eviterIntersection(Element *elments, int x_depart, int y_depart, int x_arrivee, int y_arrive, Params params;
+    /*
+    Utilisée par calculerArcs(). Renvoie des points de passages (x, y) permettant à l'arc en cours de calcul de ne pas intersecter avec une place ou une transition.
+    */
+    int **eviterIntersection(Element *elments, int x_depart, int y_depart, int x_arrivee, int y_arrivee, Params params);
 
-        /*
-        On stocke les positions d'affichage des places, transitions et arcs pour ne pas les recalculer à chaque changement du réseau tel que l'évolution de la
-        positions des jetons mais seulement en cas de modification de la structure du réseau.
-        */
-        /*
-        Stocke les places et les transitions (dans cette ordre).
-        */
-        Element *elements;
+    /*
+    On stocke les positions d'affichage des places, transitions et arcs pour ne pas les recalculer à chaque changement du réseau tel que l'évolution de la
+    positions des jetons mais seulement en cas de modification de la structure du réseau.
+    */
+    /*
+    Stocke les places et les transitions (dans cette ordre).
+    */
+    Element *elements;
         
-        /*
-        Stocke les transitions, chacune correspondant à une liste de couples d'entiers x, y.
-        */
-        int*** arcs;
+    /*
+    Stock les transitions, chacune correspondant à une liste de couples d'entiers x, y.
+    */
+    int ***arcs;
 
 };
 
 /*
-Stocke et dessine une place ou une transition avec ses données d'affichage
+Stock et dessine une place ou une transition avec ses données d'affichage
 */
 // CLASSE
 class Element
@@ -159,7 +156,7 @@ class Element
     private :
     int pos_x; // Position x relative au 1er élément
     int pos_y; // Position y relative au 1er élément
-    int nb_jetons; // Nb de jetons acutellment contennu dans l'élément si c'est une place
+    int nb_jetons; // Nb de jetons acutellement contennu dans l'élément si c'est une place
     bool type; // Définit s'il s'agit d'une place (1) ou d'une transition (0)
 
     public :
@@ -177,28 +174,31 @@ class Element
     // DESTRUCTEUR
     ~Element();
 
+    // METHODES
 
-        /*
-        Dessine l'élément selon sa position et son type d'élément ainsi que les jetons qu'il contient et les paramètres.
-        */
-        void dessiner(Params params);
+    /*
+    Dessine l'élément selon sa position et son type d'élément ainsi que les jetons qu'il contient et les paramètres.
+    */
+    void dessiner(Params params);
 
-        /*
-        Utilisé par miseAJourReseau() pour changer le nombre de jetons si l'élément est une place.
-        */
-        void setNbJetons(int n); 
+    /*
+    Utilisé par miseAJourReseau() pour changer le nombre de jetons si l'élément est une place.
+    */
+    void setNbJetons(int n); 
 
-        /*
-        Accesseurs pour les variables
-        */
-        int getPosX();
+    /*
+    Renvoie la valeur de type.
+    */
+    bool isPlace(); 
 
-        int getPosY();
+    /*
+    Accesseurs pour les variables.
+    */
+    int getPosX();
 
-        int getNbJetons();
+    int getPosY();
 
-        // Renvoie la valeur de type
-        bool isPlace();  
+    int getNbJetons(); 
 };
 
 #endif

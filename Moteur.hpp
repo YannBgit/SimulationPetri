@@ -23,6 +23,9 @@ class Moteur
 
     public:
     // CONSTRUCTEURS
+    /*
+    Constructeur de base.
+    */
     Moteur(Moteur M);
 
     // DESTRUCTEUR

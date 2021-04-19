@@ -12,8 +12,6 @@ class Echeancier
 {
     private:
     // VARIABLES
-    GestionnaireDeFichiers GDF();
-    Moteur M();
     int TempsCourant;
 
     public:
