@@ -77,13 +77,13 @@ class InterfaceGraphique
 
     /*
     Cette fonction permettera à l'utilisateur de charger des paramètre du réseau de Pétri à l'aide du gestionnaire de fichiers si le bouton est cliqué.
-    Ceci sera notamment possible grâce à la fonction "EnregisterEcheancier(FILE *temp, FILE *fichier)"
+    Ceci sera notamment possible grâce à la fonction "EnregisterEcheancier(FILE *temp, FILE *fichier)".
     */
     void fct_charger();
 
     /*
     Cette fonction servira à l'utilisateur pour enregistrer l'état du Rdp à l'aide du gestionnaire de fichiers, si le bouton "enregister" est cliqué.
-    Ceci sera notamment possible grâce à la fonction "Charger(FILE *fichier)"
+    Ceci sera notamment possible grâce à la fonction "Charger(FILE *fichier)".
     */
     void fct_enregistrer();
 
