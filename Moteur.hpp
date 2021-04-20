@@ -70,7 +70,7 @@ class Moteur
 	/*
 	Fonction de type int* pour renvoyer un tableau  d'entier pour être le tableau de marquage.
 	Argument de type int pour le nombre de sommet du réseau et int** pour la matrice représentant le nombre de jetons consommés et générés.
-	La fonction parcourt tout les sommet et assigne à chaqu'un de ces sommets les jetons restants.
+	La fonction parcourt tout les sommet et assigne à chacun de ces sommets les jetons restants.
 	*/
 	int *Marquage(int S, int **W);
 	
