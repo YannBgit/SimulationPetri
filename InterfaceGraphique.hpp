@@ -9,7 +9,6 @@
 #include <QPushButton> // QPushButton nous permet de créer des objets QPushButton étant tout simplement des boutons
 #include <QLabel> // QLabel est utilisé pour afficher du texte ou une image. Cette classe nous sera utile pour l'affichage de l'échéancier.
 #include <QLayout> // QLayout nous permet de postionner nos widgets, comme par exemple, nos boutons
-#include <QGroupBox> // QGroupBox fournit une "box" correspondant à un groupe avec un titre
 #include <QGraphicsView> // Permet d'afficher une scène avec beaucoup d'options
 #include <QGraphicsScene> // Permet de dessinner le réseau de Pétri sur une scène
 #include "Moteur.hpp" // Pour utiliser la classe Moteur
