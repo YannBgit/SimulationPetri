@@ -147,7 +147,6 @@ class InterfaceGraphique
     Stock les transitions, chacune correspondant à une liste de couples d'entiers x, y.
     */
     int ***arcs;
-
 };
 
 /*
