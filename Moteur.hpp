@@ -4,7 +4,8 @@
 
 // LIBRAIRIES
 #include "Echeancier.hpp" // Pour utiliser la classe Echeancier
-#include <stdio.h> // Permettre principalement la manipulation des flux de caractères
+#include <stdio.h> // Permet principalement la manipulation des flux de caractères
+#include <stdlib.h> // Permet principalement la génération de nombres aléatoires
 
 // CLASSE
 class Moteur
@@ -14,7 +15,7 @@ class Moteur
     int Te; // Temps
     int S; // Nombre de sommets
     int T; // Nombre de transitions
-    float *P; // Probabilité de tir pour chaque transition, 0<P[n]<1
+    float *P; // Probabilité de tir pour chaque transition, 0 < P[n] < 1
     int **F; // Matrice des arcs : un arc est décrit par 2 valeurs, la première étant l'indice du sommet auquel il est relié, et la seconde l'indice de sa transition
     int *M; // Nombre de jetons contenu dans chaque sommet
     int **W; // Nombre de jetons consommés et générés par chaque transition
@@ -50,7 +51,14 @@ class Moteur
     */
     int ResoutConflit(int *T)
     {
+        int NbT = 0;
 
+        while(T[NbT] != nullptr)
+        {
+            NbT++;
+        }
+
+        return T[rand() % NbT];
     }
 
     /*
@@ -62,7 +70,21 @@ class Moteur
     */
     int *Tirage(int T, float *P)
     {
+        int *TableauDeTirage = malloc(sizeof(float)*T);
 
+        for(int i = 0; i < T; i++)
+        {
+            if(100*P[i] > (rand() % 100))
+            {
+                TableauDeTirage[i] = 1;
+            }
+            else
+            {
+                TableauDeTirage[i] = 0;
+            }
+        }
+
+        return TableauDeTirage;
     }
     
     /*
