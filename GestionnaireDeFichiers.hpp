@@ -14,6 +14,7 @@ class GestionnaireDeFichiers
     // VARIABLES
     FILE *fichier;
     FILE *temp;
+    Moteur M;
 
     public:
     // CONSTRUCTEURS
@@ -51,6 +52,9 @@ class GestionnaireDeFichiers
     vers le fichier principal d'enregistrement.
     */
     void EnregistrerEcheancier(FILE *temp, FILE *fichier);
+    string const nomFichier("C:/.../???.txt");
+    ofstream monFlux(nomFichier.c_str()); //Déclaration d'un flux permettant d'écrire dans un fichier.
+    ofstream monFlux("C:/.../???.txt");  //On essaye d'ouvrir le fichier
 }
 
 #endif
