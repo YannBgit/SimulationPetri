@@ -91,25 +91,7 @@ class Moteur
 	*/
 	void Activer_Transitions(int *Tirage, int *M, int **F, int **W)
     {
-        // On calcule le nombre de places et le nombre de transitions à tirer
-        int n_place = sizeof(M)/sizeof(M[0]);
-        int T = sizeof(Tirage)/sizeof(Tirage[0]);
 
-        //Pour chaque transition à tirer (*Tirage)
-        for (int i = 0; i < T; i++) {
-            int tirer = Tirage[i];
-
-            // On modifie le marquage (*M) de chaque place comme indiqué par les arcs (**F)
-            // et on enregistre les changements de jetons (**W)
-            for (int j = 0; j < n_place; j++) {
-                if (F[j][tirer]) {
-                    M[j] += F[j][tirer];
-                    W[j][tirer] += F[j][tirer];
-                }
-            }
-        }
-        
-        return;
     }
 
 	/*
