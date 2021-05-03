@@ -38,7 +38,9 @@ class GestionnaireDeFichiers
     */
     void CreerFichierTemporaire(); 
     {
+        Echeancier.AjouterEtatReseau;
         FILE *fichier ;
+        
         
         fichier = fopen(GestionnaireDeFichiers, "r");
         
@@ -46,6 +48,8 @@ class GestionnaireDeFichiers
             cout << "Impossible d'ouvrir le fichier en écriture !" << endl;
         else{
             fclose (fichier);
+        }
+            
        
         
 
@@ -74,6 +78,7 @@ class GestionnaireDeFichiers
             fprintf (f, "%d \n", M.W);
             fprintf (f, "%d \n", M.K);
             fclose (fichier);
+        }
         }
             
             
