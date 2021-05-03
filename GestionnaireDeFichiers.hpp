@@ -38,7 +38,14 @@ class GestionnaireDeFichiers
     */
     void CreerFichierTemporaire(); 
     {
-        FILE *fichier;
+        FILE *fichier ;
+        
+        fichier = fopen(GestionnaireDeFichiers, "r");
+        
+        if (fichier == NULL)	// Erreur dans l'ouverture
+            cout << "Impossible d'ouvrir le fichier en écriture !" << endl;
+        else{
+            fclose (fichier);
        
         
 
@@ -50,7 +57,24 @@ class GestionnaireDeFichiers
     void EcrireEtat(Moteur M, FILE *fichier);
         {
             FILE *fichier;
+            Moteur M;
+            char*c;
+            
             fichier = fopen(GestionnaireDeFichiers, "r+");	// Ouvre le fichier en lecture et écriture
+            
+            if (fichier == NULL)	// Erreur dans l'ouverture
+            cout << "Impossible d'ouvrir le fichier en écriture !" << endl;
+        else{	// Ouverture réussie
+            fprintf (f, "%s", c[0]);
+            fprintf (f, "%d \n", M.Te);
+            fprintf (f, "%d \n", M.S);
+            fprintf (f, "%d \n", M.T);
+            fprintf (f, "%d \n", M.P);
+            fprintf (f, "%d \n", M.M);
+            fprintf (f, "%d \n", M.W);
+            fprintf (f, "%d \n", M.K);
+            fclose (fichier);
+        }
             
             
         
