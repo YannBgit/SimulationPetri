@@ -88,17 +88,35 @@ class Moteur
     }
     
     /*
-    Fonction de type int* pour renvoyer le tableau de Marquage représentant le déplacements des jetons tirés.
-	Argument de type int *Tirage représentant le tableau des transitions tirable que l'on va activer, 
+    Fonction de type void pour modifier le tableau de Marquage int *M pour représenter le déplacement des jetons tirés.
+	Argument de type int *Tirage représentant le tableau des transitions tirables que l'on va activer, 
 	int *M le tableau de Marquage que l'on va modifier (déplacement de jetons),
 	**F Le tableau d'arc pour savoir quelles sont les places liés aux transitions tiréés et remettre les pro,
 	**W Enregistrement du nombre de jetons consommé ou générer par chaque transitions tirées
 	Pour chaque Indice du tableau Tirage, la fonction active la transition correspondante et retire/ajoute le nombre de jetons correspondant entre les places de
     la transition.
 	*/
-	int *Activer_Transitions(int *Tirage, int *M, int **F, int **W)
+	void Activer_Transitions(int *Tirage, int *M, int **F, int **W)
     {
+        //On calcule le nombre de places et le nombre de transitions à tirer
+        int n_place = sizeof(M)/sizeof(M[0]);
+        int T = sizeof(Tirage)/sizeof(Tirage[0]);
 
+        //Pour chaque transition à tirer (*Tirage)
+        for (int i = 0; i < T; i++) {
+            int tirer = Tirage[i];
+
+            //On modifie le marquage (*M) de chaque place comme indiqué par les arcs (**F)
+            //et on enregistre les changements de jetons (**W)
+            for (int j = 0; j < n_place; j++) {
+                if (F[j][tirer]) {
+                    M[j] += F[j][tirer];
+                    W[j][tirer] += F[j][tirer];
+                }
+            }
+        }
+        
+        return;
     }
 
 	/*
