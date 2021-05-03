@@ -14,7 +14,7 @@ class GestionnaireDeFichiers
     // VARIABLES
     FILE *fichier;
     FILE *temp;
-    Moteur M;
+    
 
     public:
     // CONSTRUCTEURS
@@ -48,6 +48,11 @@ class GestionnaireDeFichiers
     La fonction sert à écrire un état du réseau de Petri dans un fichier.
     */
     void EcrireEtat(Moteur M, FILE *fichier);
+        {
+            FILE *fichier;
+            
+            
+        
 
     /*
     Fonction de type void pour ne rien renvoyer.
