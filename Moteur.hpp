@@ -46,19 +46,12 @@ class Moteur
     // METHODES
     /*
     Fonction de type int pour renvoyer un entier représentant le numéro de la transition tirée choisie aléatoirement parmi plusieurs.
-    Argument de type tableau d'entiers int *T liste des indices des transitions candidates au tirage.
+    Arguments de type tableau d'entiers int *T liste des indices des transitions candidates au tirage et de type entier int n le nombre le transitions en conflit.
     La fonction choisit aléatoire une transition à tirer et renvoi son indice.
     */
-    int ResoutConflit(int *T)
+    int ResoutConflit(int *T, int n)
     {
-        int NbT = 0;
-
-        while(T[NbT] != nullptr)
-        {
-            NbT++;
-        }
-
-        return T[rand() % NbT];
+        return T[rand() % n];
     }
 
     /*
