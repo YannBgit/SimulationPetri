@@ -91,7 +91,20 @@ class Moteur
 	*/
 	void Activer_Transitions(int *Tirage, int *M, int **F, int **W)
     {
+    	//On calcule le nombre de transitions dans le tableau *Tirage
+    	int tirer = sizeof(Tirage)/sizeof(Tirage[0]);
 
+    	//Pour chaque transition à tirer
+    	for (int i = 0; i < tirer; i++) {
+    		//Sur chaque sommet
+    		for (int j = 0; j < S; j++) {
+    			//On regarde l'impact de la transition et on enlève/ajoute des jetons
+    			M[j] += W[j][Tirage[i]];
+    		} 
+    	}
+
+    	//Le marquage est directement modifié sur *M 
+    	return;
     }
 
 	/*
