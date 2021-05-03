@@ -38,7 +38,7 @@ class GestionnaireDeFichiers
     */
     void CreerFichierTemporaire(); 
     {
-        Echeancier.AjouterEtatReseau;
+        
         FILE *fichier ;
         
         
@@ -49,6 +49,9 @@ class GestionnaireDeFichiers
         else{
             fclose (fichier);
         }
+        
+        Echeancier.AjouterEtatReseau(M);
+    }
             
        
         
