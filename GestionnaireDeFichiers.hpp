@@ -50,6 +50,7 @@ class GestionnaireDeFichiers
     void EcrireEtat(Moteur M, FILE *fichier);
         {
             FILE *fichier;
+            fichier = fopen(GestionnaireDeFichiers, "r+");	// Ouvre le fichier en lecture et écriture
             
             
         
