@@ -29,14 +29,14 @@ class Moteur
     */
     Moteur(Moteur M)
     {
-        this->Te=M.Te;
-        this->S=M.S;
-        this->T=M.T;
-        this->P=M.P;
-        this->F=M.F;
-        this->M=M.M;
-        this->W=M.W;
-        this->K=M.K;
+        this->Te = M.Te;
+        this->S = M.S;
+        this->T = M.T;
+        this->P = M.P;
+        this->F = M.F;
+        this->M = M.M;
+        this->W = M.W;
+        this->K = M.K;
     }
 
     // DESTRUCTEUR
@@ -67,13 +67,23 @@ class Moteur
 
         for(int i = 0; i < T; i++)
         {
-            if(100*P[i] > (rand() % 100))
+            // On vérifie que la transition considérée dispose d'assez de jetons dans son sommet source et on évalue aléatoirement si elle doit être tirée
+            if((M[] >= F[][]) && (100*P[i] > (rand() % 100)))
             {
                 TableauDeTirage[i] = 1;
             }
             else
             {
                 TableauDeTirage[i] = 0;
+            }
+        }
+
+        // On vérifie que chaque transition ne soient pas en concurrence pour les mêmes jetons, si tel est le cas, on en tire une au hasard
+        for(int i = 0; i < T; i++)
+        {
+            if(F[])
+            {
+                ResoutConflit(, );
             }
         }
 

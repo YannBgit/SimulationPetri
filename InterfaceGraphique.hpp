@@ -45,7 +45,10 @@ class InterfaceGraphique
 
     public:
     // CONSTRUCTEURS
-    InterfaceGraphique();
+    InterfaceGraphique()
+    {
+
+    }
 
     // DESTRUCTEUR
     ~InterfaceGraphique();
@@ -59,45 +62,66 @@ class InterfaceGraphique
     affichera le Rdp et l'échéancier au temps 0.
     Ceci sera notamment possible grâce à la fonction "E.RenvoyerEtatReseauSelonTemps(0)".
     */
-    void fct_etatInitial();
+    void fct_etatInitial()
+    {
+
+    }
 
     /*
     Cette fonction servira pour passer de l'affichage d'un temps Te à un temps Te+1. Si le bouton "avancer" est cliqué, la fonction affichera le Rdp et
     l'échéancier au temps Te+1.
     Ceci sera notamment possible grâce à la fonction "E.RenvoyerEtatReseauSelonTemps(M.Te+1)".
     */
-    void fct_avancer();
+    void fct_avancer()
+    {
+
+    }
 
     /*
     Cette fonction servira pour passer de l'affichage d'un temps Te à un temps Te-1. Si le bouton "reculer" est cliqué, la fonction affichera le Rdp et
     l'échéancier au temps Te-1.
     Ceci sera notamment possible grâce à la fonction "E.RenvoyerEtatReseauSelonTemps(M.Te-1)".
     */
-    void fct_reculer();
+    void fct_reculer()
+    {
+
+    }
 
     /*
     Cette fonction permettera à l'utilisateur de charger des paramètre du réseau de Pétri à l'aide du gestionnaire de fichiers si le bouton est cliqué.
     Ceci sera notamment possible grâce à la fonction "EnregisterEcheancier(FILE *temp, FILE *fichier)".
     */
-    void fct_charger();
+    void fct_charger()
+    {
+
+    }
 
     /*
     Cette fonction servira à l'utilisateur pour enregistrer l'état du Rdp à l'aide du gestionnaire de fichiers, si le bouton "enregister" est cliqué.
     Ceci sera notamment possible grâce à la fonction "Charger(FILE *fichier)".
     */
-    void fct_enregistrer();
+    void fct_enregistrer()
+    {
+
+    }
 
     // Affichage echeancier
     /*
     Cette fonction servira à l'affichage de l'échéancier sous forme de texte.
     Nous avons comme argument un Moteur, qui nous est envoyé par l'Echéancier, comportant toutes les infos nécessaires à l'affichage de ce dernier.
     */
-    void affichage_echeancier(Moteur M);
+    void affichage_echeancier(Moteur M)
+    {
+
+    }
 
     /*
     Donne sa valeur à la variable M, fournie par l'échéancier.
     */
-    void setMoteur(Moteur new_moteur);
+    void setMoteur(Moteur new_moteur)
+    {
+
+    }
 
     // Affichage reseau
     /*
@@ -105,34 +129,52 @@ class InterfaceGraphique
     rapport au premier qui est rencontré (position (0,0)) et par ses liaisons et renvoie la liste de ces éléments.
     La liste contient les places puis les transitions dans l'ordre. Appellée lors du chargement d'un réseau.
     */
-    Element* buildElementsPosition(Moteur M);
+    Element* buildElementsPosition(Moteur M)
+    {
+
+    }
 
     /*
     Dessine les places et les transitions contenues dans elements.
     */
-    void dessinerElements(Element *elements);
+    void dessinerElements(Element *elements)
+    {
+
+    }
 
     /*
     Définit pour chaque arc une liste de positions contenant au moins celles d'une place et d'une transition pour les relier, en évitant de passer sur
     d'autres places et transitions.
     */
-    int ***calculerArcs(Element *elements, Moteur M, [params]);
+    int ***calculerArcs(Element *elements, Moteur M, [params])
+    {
+
+    }
 
     /*
     Dessine les arcs entre les places et les transitions.
     */
-    void dessinerArcs(int ***arcs);
+    void dessinerArcs(int ***arcs)
+    {
+
+    }
 
     /*
     Récupère le nouvel état du réseau et modifie le nombre de jetons pour chaque élément graphique où c'est nécessaire. Appellée lors d'un déplacement dans le
     réseau.
     */
-    void miseAJourReseau(Element *elements, Moteur M);
+    void miseAJourReseau(Element *elements, Moteur M)
+    {
+
+    }
         
     /*
     Utilisée par calculerArcs(). Renvoie des points de passage (x, y) permettant à l'arc en cours de calcul de ne pas intersecter avec une place ou une transition.
     */
-    int **eviterIntersection(Element *elments, int x_depart, int y_depart, int x_arrivee, int y_arrivee, Params params);
+    int **eviterIntersection(Element *elments, int x_depart, int y_depart, int x_arrivee, int y_arrivee, Params params)
+    {
+
+    }
 
     /*
     On stock les positions d'affichage des places, transitions et arcs pour ne pas les recalculer à chaque changement d'état du réseau avec l'évolution de la
@@ -166,12 +208,18 @@ class Element
     /*
     Constructeur de base
     */
-    Element(int x, int y, bool type);
+    Element(int x, int y, bool type)
+    {
+
+    }
 
     /*
     Constructeur (si c'est une place)
     */
-    Element(int x, int y, bool type, int nb_jetons);
+    Element(int x, int y, bool type, int nb_jetons)
+    {
+
+    }
 
     // DESTRUCTEUR
     ~Element();
@@ -181,17 +229,26 @@ class Element
     /*
     Dessine l'élément selon sa position et son type d'élément ainsi que les jetons qu'il contient et les paramètres.
     */
-    void dessiner(Params params);
+    void dessiner(Params params)
+    {
+
+    }
 
     /*
     Utilisé par miseAJourReseau() pour changer le nombre de jetons si l'élément est une place.
     */
-    void setNbJetons(int n); 
+    void setNbJetons(int n)
+    {
+
+    }
 
     /*
     Renvoie la valeur de type.
     */
-    bool isPlace(); 
+    bool isPlace()
+    {
+
+    }
 
     /*
     Accesseurs pour les variables.
@@ -200,7 +257,7 @@ class Element
 
     int getPosY();
 
-    int getNbJetons(); 
+    int getNbJetons();
 };
 
 #endif

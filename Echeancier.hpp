@@ -16,7 +16,10 @@ class Echeancier
 
     public:
     // CONSTRUCTEURS
-    Echeancier(GestionnaireDeFichiers GDF);
+    Echeancier(GestionnaireDeFichiers GDF)
+    {
+        
+    }
 
     // DESTRUCTEUR
     ~Echeancier();
@@ -27,7 +30,8 @@ class Echeancier
     Argument de type Moteur pour trouver les informations à enregistrer.
     La fonction enregistre un état du réseau de Petri.
     */
-    void AjouterEtatReseau(Moteur M){
+    void AjouterEtatReseau(Moteur M)
+    {
 	    FILE *fichier = GestionnaireDeFichiers->temp;
 
 	    StockerTempsCourant(M);
@@ -39,14 +43,18 @@ class Echeancier
     Aucun argument n'est nécessaire.
     La fonction recherche le dernier état du réseau enregistré et le renvoie.
     */
-    Moteur RenvoyerEtatReseauCourant();
+    Moteur RenvoyerEtatReseauCourant()
+    {
+
+    }
 
     /*
     Fonction de type void pour ne rien renvoyer.
     Argument de type moteur où chercher le temps courant du réseau.
     La fonction enregistre le temps courant du réseau.
     */
-    void StockerTempsCourant(Moteur M){
+    void StockerTempsCourant(Moteur M)
+    {
 	    this.TempsCourant = M.Te;
 	    FILE *fichier;
 	    char *c = "Te = ";
@@ -54,9 +62,10 @@ class Echeancier
 	    fichier = fopen(GestionnaireDeFichiers->temp, "r+");	// Ouvre le fichier en lecture et écriture
 
 	    /* Vérification d'ouverture */
-        if (f == NULL)	// Erreur dans l'ouverture
+        if(f == NULL)	// Erreur dans l'ouverture
             cout << "Impossible d'ouvrir le fichier en écriture !" << endl;
-        else{	// Ouverture réussie
+        else
+        {	// Ouverture réussie
             fprintf (f, "%s", c[0]);
             fprintf (f, "%d \n", this.TempsCourant);
             fclose (fichier);
@@ -68,7 +77,10 @@ class Echeancier
     Argument de type int Te, le temps auquel on veut récupérer le réseau de Petri.
     La fonction recherche un état du réseau enregistré avec un temps donné et le renvoie.
     */
-    Moteur RenvoyerEtatReseauSelonTemps(int Te);
+    Moteur RenvoyerEtatReseauSelonTemps(int Te)
+    {
+
+    }
 }
 
 #endif
