@@ -120,9 +120,14 @@ class Moteur
     			for (int j = 0; j < this->S; j++) {
     				//l'impact de la transition et on enlève/ajoute des jetons
     				M[j] += W[j][Tirage[i]];
+
+    				//Vérification que le nombre de jetons ne dépasse pas le maximum
+    				if (M[j] > K[j]) M[j] = K[j];
     			} 
     		}
     	}
+
+    	//Ajout de la résolution de conflit
 
     	//Le marquage est directement modifié sur *M 
     	return;
@@ -130,13 +135,13 @@ class Moteur
 
 	/*
 	Fonction de type Moteur pour renvoyer les infos d'un RDP.
-	Argument de type bool Ordre pour simuler un choix, si vrai, on recule, sinon on continue notre tour dans le RDP,
 	Moteur RDP pour renvoyer notre Réseau de Pétri à l'étape précédente.
 	La fonction observe si l'utilisateur a choisi ou non de reculer, si oui il demande à l'échéancier les anciennes informations du RDP et les renvois.
 	*/
-	Moteur Reculer(bool Ordre, Moteur RDP)
+	Moteur Reculer(Moteur RDP)
     {
-
+	this->Te = this.Te - 1;
+	return RenvoyerEtatReseauSelonTemps(Te);
     }
 	
 	/*
