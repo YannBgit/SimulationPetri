@@ -128,9 +128,10 @@ class Moteur
 	Moteur RDP pour renvoyer notre Réseau de Pétri à l'étape précédente.
 	La fonction observe si l'utilisateur a choisi ou non de reculer, si oui il demande à l'échéancier les anciennes informations du RDP et les renvois.
 	*/
-	Moteur Reculer(bool Ordre, Moteur RDP)
+	Moteur Reculer(Moteur RDP)
     {
-
+	this->Te = this.Te - 1;
+	return RenvoyerEtatReseauSelonTemps(Te);
     }
 	
 	/*
