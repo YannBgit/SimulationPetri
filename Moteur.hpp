@@ -124,7 +124,6 @@ class Moteur
 
 	/*
 	Fonction de type Moteur pour renvoyer les infos d'un RDP.
-	Argument de type bool Ordre pour simuler un choix, si vrai, on recule, sinon on continue notre tour dans le RDP,
 	Moteur RDP pour renvoyer notre Réseau de Pétri à l'étape précédente.
 	La fonction observe si l'utilisateur a choisi ou non de reculer, si oui il demande à l'échéancier les anciennes informations du RDP et les renvois.
 	*/
