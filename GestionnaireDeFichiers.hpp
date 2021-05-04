@@ -82,13 +82,13 @@ class GestionnaireDeFichiers
         {	// Ouverture réussie
             fprintf (f, "%s", c[0]);
             fprintf (f, "%d \n", M.Te);
-            fprintf (f, "%d \n", M.S);
-            fprintf (f, "%d \n", M.T);
-            fprintf (f, "%d \n", M.P);
-            fprintf (f, "%d \n", M.F);
-            fprintf (f, "%d \n", M.M);
-            fprintf (f, "%d \n", M.W);
-            fprintf (f, "%d \n", M.K);
+            fprintf (f, "%d \n", this->S);
+            fprintf (f, "%d \n", this->T);
+            fprintf (f, "%d \n", this->P);
+            fprintf (f, "%d \n", this->F);
+            fprintf (f, "%d \n", this->M);
+            fprintf (f, "%d \n", this->W);
+            fprintf (f, "%d \n", this->K);
             fclose (fichier);
         }
     }
