@@ -78,7 +78,7 @@ class Moteur
             }
         }
 
-        // On vérifie que chaque transition ne soient pas en concurrence pour les mêmes jetons, si tel est le cas, on en tire une au hasard
+        // On vérifie pour chaque transition qu'elle ne soit pas en concurrence avec une autre pour les mêmes jetons. Si oui, on en tire une au hasard.
         for(int i = 0; i < T; i++)
         {
             if(F[])
