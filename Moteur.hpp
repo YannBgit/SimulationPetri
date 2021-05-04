@@ -67,23 +67,34 @@ class Moteur
 
         for(int i = 0; i < T; i++)
         {
-            // On vérifie que la transition considérée dispose d'assez de jetons dans son sommet source et on évalue aléatoirement si elle doit être tirée
-            if((M[] >= F[][]) && (100*P[i] > (rand() % 100)))
+            for(int j = 0; j < S; j++)
             {
-                TableauDeTirage[i] = 1;
-            }
-            else
-            {
-                TableauDeTirage[i] = 0;
+                // On vérifie que la transition considérée dispose d'assez de jetons dans son sommet source et on évalue aléatoirement si elle doit être tirée
+                if((M[i] >= F[i][j]) && (100*P[i] > (rand() % 100)))
+                {
+                    TableauDeTirage[i] = 1;
+                }
+                else
+                {
+                    TableauDeTirage[i] = 0;
+                }
             }
         }
 
         // On vérifie pour chaque transition qu'elle ne soit pas en concurrence avec une autre pour les mêmes jetons. Si oui, on en tire une au hasard.
         for(int i = 0; i < T; i++)
         {
-            if(F[])
+            for(int j = 0; j < S; j++)
             {
-                ResoutConflit(, );
+                if(F[i][j])
+                {
+                    int tmp[2];
+
+                    tmp[0] = i;
+                    tmp[1] = j;
+                    
+                    ResoutConflit(tmp, 2);
+                }
             }
         }
 
