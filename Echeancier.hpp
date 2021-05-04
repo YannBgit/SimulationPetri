@@ -62,7 +62,7 @@ class Echeancier
 	    fichier = fopen(GestionnaireDeFichiers->temp, "r+");	// Ouvre le fichier en lecture et écriture
 
 	    /* Vérification d'ouverture */
-        if(f == NULL)	// Erreur dans l'ouverture
+        if(fichier == NULL)	// Erreur dans l'ouverture
             cout << "Impossible d'ouvrir le fichier en écriture !" << endl;
         else
         {	// Ouverture réussie
