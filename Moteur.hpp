@@ -109,9 +109,14 @@ class Moteur
     			for (int j = 0; j < this->S; j++) {
     				//l'impact de la transition et on enlève/ajoute des jetons
     				M[j] += W[j][Tirage[i]];
+
+    				//Vérification que le nombre de jetons ne dépasse pas le maximum
+    				if (M[j] > K[j]) M[j] = K[j];
     			} 
     		}
     	}
+
+    	//Ajout de la résolution de conflit
 
     	//Le marquage est directement modifié sur *M 
     	return;
