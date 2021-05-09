@@ -46,7 +46,7 @@ class Echeancier
     */
     Moteur RenvoyerEtatReseauCourant()
     {
-	Moteur M =  RenvoyerEtatReseauSelonTemps(TempsCourant)
+	    Moteur M =  RenvoyerEtatReseauSelonTemps(TempsCourant);
     }
 
     /*
@@ -74,7 +74,8 @@ class Echeancier
 	}
 
     /*
-    Fonction de type Moteur pour renvoyer un état du réseau selon le temps cherché s'il existe ou le dernier temps stocké s'il n'existe pas.
+    Fonction de type Moteur pour renvoyer un état du réseau selon le temps cherché s'il existe ou le dernier temps stocké s'il n'existe
+    pas.
     Argument de type int Te, le temps auquel on veut récupérer le réseau de Petri.
     La fonction recherche un état du réseau enregistré avec un temps donné et le renvoie.
     */
