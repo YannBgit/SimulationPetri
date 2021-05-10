@@ -73,8 +73,8 @@ class Moteur
         {
             for(int j = 0; j < (sizeof(this->F) / sizeof(this->F[0])); j++)
             {
-                if((this->F[j][0] == 0) && (i == this->F[j][2]) && (this->M[this->F[j][1]] >= this->W[i][0]))
-                && (100*this->P[i] > (rand() % 100)))
+                if((this->F[j][0] == 0) && (i == this->F[j][2]) && (this->M[this->F[j][1]] >= this->W[i][0])) &&
+                (100*this->P[i] > (rand() % 100)))
                 {
                     TableauTirage[i] = 1;
                 }
@@ -107,11 +107,13 @@ class Moteur
                     }
                 }
 
+                // Mise à zéro des transitions en conflit
                 for(int k = 0; k < nbTransitionsConflit; k++)
                 {
                     TableauTirage[IDtransitionsConflit[k]] = 0;
                 }
 
+                // Désignation de la transition à tirer
                 TableauTirage[ResoutConflit(IDtransitionsConflit, nbTransitionsConflit)];
             }
 
