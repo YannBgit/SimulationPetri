@@ -20,7 +20,7 @@ class GestionnaireDeFichiers
     // CONSTRUCTEURS
     GestionnaireDeFichiers(FILE *fichier)
     {
-        
+        FILE *fichier = GDF->fichier;
     }
 
     // DESTRUCTEUR
@@ -34,6 +34,26 @@ class GestionnaireDeFichiers
     */
     void Charger(FILE *fichier)
     {
+        FILE *fichier = NULL;
+        char c;
+        fichier= fopen ("rdp.txt","r");
+       if (fichier != NULL)
+    {
+		// on affiche le contenu du fichier 
+		    while((c=fgetc(fichier))!=EOF){
+				printf("%c",c);
+			}
+		
+        
+        fclose(fichier);
+    }
+    else
+    {
+        // On affiche un message d'erreur si on veut
+        printf("Impossible d'ouvrir le fichier test.txt");
+    }
+    
+}
         
     }
 
