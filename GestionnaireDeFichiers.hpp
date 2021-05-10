@@ -68,7 +68,7 @@ class GestionnaireDeFichiers
         FILE *fichier ;
         
         
-        fichier = fopen(GestionnaireDeFichiers, "r");
+        fichier = fopen("fichier.txt", "r");
         
         if (fichier == NULL)	// Erreur dans l'ouverture
             cout << "Impossible d'ouvrir le fichier en écriture !" << endl;
@@ -92,23 +92,22 @@ class GestionnaireDeFichiers
     {
         FILE *fichier;
         Moteur M;
-        char*c;
+        
             
         fichier = fopen(GestionnaireDeFichiers, "r+");	// Ouvre le fichier en lecture et écriture
             
         if (fichier == NULL)	// Erreur dans l'ouverture
             cout << "Impossible d'ouvrir le fichier en écriture !" << endl;
         else
-        {	// Ouverture réussie
-            fprintf (f, "%s", c[0]);
-            fprintf (f, "%d \n", M.Te);
-            fprintf (f, "%d \n", this->S);
-            fprintf (f, "%d \n", this->T);
-            fprintf (f, "%d \n", this->P);
-            fprintf (f, "%d \n", this->F);
-            fprintf (f, "%d \n", this->M);
-            fprintf (f, "%d \n", this->W);
-            fprintf (f, "%d \n", this->K);
+        {	// Ouverture réussie et on ecrit dans le fichier
+            fprintf (fichier, "Te=%d \n", M.Te);
+            fprintf (fichier, "S=%d \n", this->S);
+            fprintf (fichier, "T=%d \n", this->T);
+            fprintf (fichier, "P=%d \n", this->P);
+            fprintf (fichier, "F=%d \n", this->F);
+            fprintf (fichier, "M=%d \n", this->M);
+            fprintf (fichier, "W=%d \n", this->W);
+            fprintf (fichier, "K=%d \n", this->K);
             fclose (fichier);
         }
     }
