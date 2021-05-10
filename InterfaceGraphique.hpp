@@ -18,8 +18,20 @@
 #include "GestionnaireDeFichiers.hpp" // Pour utiliser la classe GestionnaireDeFichiers
 
 // CLASSE
-class InterfaceGraphique
+class InterfaceGraphique : public QWidget //On hérite de QWidget
 {
+	Q_OBJECT
+	
+	public:
+	InterfaceGraphique();
+	
+	public slots:
+    void fct_etatInitial();
+    void fct_enregistrer();
+    void fct_charger();
+    void fct_avancer();
+    void fct_reculer();
+	
     private:
     // VARIABLES
     QPushButton *reculer; // Associé à la méthode "fct_reculer()"
@@ -31,6 +43,11 @@ class InterfaceGraphique
     QVBoxLayout *vlayout; // Layout vertical
     QHBoxLayout *hlayout; // Layout horizontal
     QGridLayout *glayout; // Layout sous forme de tableau
+    QVBoxLayout *layoutprincipal;
+    
+    QLabel *echeancier;
+    
+    void affichage_echeancier(); // Fonction pour afficher l'échéancier sous forme texte
 
     /*
     Variables qui définisent l'aspect du réseau (espace entre deux élément, taille d'une place, couleur, etc...).
