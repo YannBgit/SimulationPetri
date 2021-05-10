@@ -147,8 +147,6 @@ class Moteur
     		}
     	}
 
-    	//Ajout de la résolution de conflit
-
     	//Le marquage est directement modifié sur *M 
     	return;
     }
