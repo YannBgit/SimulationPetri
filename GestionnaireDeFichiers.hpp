@@ -50,7 +50,7 @@ class GestionnaireDeFichiers
     else
     {
         // On affiche un message d'erreur si on veut
-        printf("Impossible d'ouvrir le fichier test.txt");
+        printf("Impossible d'ouvrir le fichier rdp.txt");
     }
     
 }
