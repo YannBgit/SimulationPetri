@@ -106,6 +106,13 @@ class Moteur
                         IDtransitionsConflit[0] = this->F[j][1];
                     }
                 }
+
+                for(int k = 0; k < nbTransitionsConflit; k++)
+                {
+                    TableauTirage[IDtransitionsConflit[k]] = 0;
+                }
+
+                TableauTirage[ResoutConflit(IDtransitionsConflit, nbTransitionsConflit)];
             }
 
             free(IDtransitionsConflit);
