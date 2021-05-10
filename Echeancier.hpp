@@ -2,6 +2,8 @@
 #ifndef ECHEANCIER_HPP
 #define ECHEANCIER_HPP
 
+#define TAILLE_MAX = 100
+
 // LIBRAIRIES
 #include "GestionnaireDeFichiers.hpp" // Pour utiliser la classe GestionnaireDeFichiers
 #include "Moteur.hpp" // Pour utiliser la classe Moteur
@@ -19,7 +21,7 @@ class Echeancier
     Echeancier(GestionnaireDeFichiers GDF)
     {
         FILE *fichier = GDF->fichier;
-	FILE *temp = GDF->temp;
+	    FILE *temp = GDF->temp;
     }
 
     // DESTRUCTEUR
@@ -79,50 +81,46 @@ class Echeancier
     Argument de type int Te, le temps auquel on veut récupérer le réseau de Petri.
     La fonction recherche un état du réseau enregistré avec un temps donné et le renvoie.
     */
-    define TAILLE_MAX = 100
-
     Moteur RenvoyerEtatReseauSelonTemps(int Te)
     {
+        char tableau[TAILLE_MAX];
+        char ligne[TAILLE_MAX];
 
-	char tableau[TAILLE_MAX];
-	char ligne[TAILLE_MAX];
+        char *chaine = "Te = ";
+        char *te = (char)Te;
+        char search[8];
 
-	char *chaine = "Te = ";
-	char *te = (char)Te;
-	char search[8];
+        /* Concaténation de la chaine sous la forme de "Te = [Te en paramètre]" */
+        int i, j;
 
-	/* Concaténation de la chaine sous la forme de "Te = [Te en paramètre]" */
-	int i, j;
+        // Pour itérer la première chaîne du début à la fin
+        for (i = 0; chaine[i] != '\0'; i++)
+        {
+            search[i] = chaine[i];
+        }
 
-	// Pour itérer la première chaîne du début à la fin
-	for (i = 0; chaine[i] != '\0'; i++)
-	{
-		search[i] = chaine[i];
-	}
+        // Concaténer te dans search   
+        for (j = 0; te[j]!='\0'; j++, i++)
+        {
+            search[i] = te[j];
+        }
+        search[i] = '\0';
+        int max = i;	// Nombre de caractère dans la chaine search
+        /* Fin de la concaténation */
 
-	// Concaténer te dans search   
-	for (j = 0; te[j]!='\0'; j++, i++)
-	{
-		search[i] = te[j];
-	}
-	search[i] = '\0';
-	int max = i;	// Nombre de caractère dans la chaine search
-	/* Fin de la concaténation */
-
-	/* Recherche dans le fichier */
-	while(fgets(ligne, TAILLE_MAX, fichier) != NULL)
-	{
-		for(i = 0, i != max, i++)
-		{
-			if(search[i] != ligne[i])
-			{
-				ligne += 1;
-				i = 0;
-			}
-		}
-	}
-
-   }
+        /* Recherche dans le fichier */
+        while(fgets(ligne, TAILLE_MAX, fichier) != NULL)
+        {
+            for(i = 0, i != max, i++)
+            {
+                if(search[i] != ligne[i])
+                {
+                    ligne += 1;
+                    i = 0;
+                }
+            }
+        }
+    }
 }
 
 #endif

@@ -14,7 +14,6 @@ class GestionnaireDeFichiers
     // VARIABLES
     FILE *fichier;
     FILE *temp;
-    
 
     public:
     // CONSTRUCTEURS
@@ -35,26 +34,22 @@ class GestionnaireDeFichiers
     void Charger(FILE *fichier)
     {
 	    //Pour chaque temps Te
-    	for (int i = 0; i < this->T; i++) {
-        
-        FILE *fichier ;
-        
-        
-        fichier = fopen("rdpv.txt", "r");
-        
-        if (fichier == NULL)	// Erreur dans l'ouverture
-            cout << "Impossible d'ouvrir le fichier en écriture !" << endl;
-        else
+    	for (int i = 0; i < this->T; i++)
         {
-            fclose (fichier);
+            FILE *fichier ;
+            
+            fichier = fopen("rdpv.txt", "r");
+            
+            if (fichier == NULL)	// Erreur dans l'ouverture
+                cout << "Impossible d'ouvrir le fichier en écriture !" << endl;
+            else
+            {
+                fclose (fichier);
+            }
+            
+            Echeancier.AjouterEtatReseau(M);
         }
-        
-        Echeancier.AjouterEtatReseau(M);
     }
-}
-        
-    
-
 
     /*
     Fonction de type void pour ne rien renvoyer.
@@ -67,31 +62,28 @@ class GestionnaireDeFichiers
         FILE *fichier;
         
         //Pour chaque temps Te
-    	for (int i = 0; i < this->Te; i++) {
-            
-        fichier = fopen("rdpv.txt", "r+");	// Ouvre le fichier vide en lecture et écriture
-            
-        if (fichier == NULL)	// Erreur dans l'ouverture
-            cout << "Impossible d'ouvrir le fichier en écriture !" << endl;
-        else
-        {	// Ouverture réussie et on ecrit dans le fichier
-			
-				
-            fprintf (fichier, "Te=%d \n", M.Te);
-            fprintf (fichier, "S=%d \n", this->S);
-            fprintf (fichier, "T=%d \n", this->T);
-            fprintf (fichier, "P=%d \n", this->P);
-            fprintf (fichier, "F=%d \n", this->F);
-            fprintf (fichier, "M=%d \n", this->M);
-            fprintf (fichier, "W=%d \n", this->W);
-            fprintf (fichier, "K=%d \n", this->K);
-            fclose (fichier);
+    	for (int i = 0; i < this->Te; i++)
+        {
+            fichier = fopen("rdpv.txt", "r+");	// Ouvre le fichier vide en lecture et écriture
+                
+            if (fichier == NULL)	// Erreur dans l'ouverture
+                cout << "Impossible d'ouvrir le fichier en écriture !" << endl;
+            else
+            {	// Ouverture réussie et on ecrit dans le fichier
+                
+                    
+                fprintf (fichier, "Te=%d \n", M.Te);
+                fprintf (fichier, "S=%d \n", this->S);
+                fprintf (fichier, "T=%d \n", this->T);
+                fprintf (fichier, "P=%d \n", this->P);
+                fprintf (fichier, "F=%d \n", this->F);
+                fprintf (fichier, "M=%d \n", this->M);
+                fprintf (fichier, "W=%d \n", this->W);
+                fprintf (fichier, "K=%d \n", this->K);
+                fclose (fichier);
+            }
         }
-    }
-}
-            
-            
-        
+    } 
 
     /*
     Fonction de type void pour ne rien renvoyer.
@@ -103,32 +95,32 @@ class GestionnaireDeFichiers
     {
         FILE *temp;
 	    
-	temp = fopen("rdvp.txt","r");
-	
-	FILE *fichier;
-	
-	fichier = fopen("rdp.txt", "r++");
-	    
-	if (temp); //si le fichier existe bien
+        temp = fopen("rdvp.txt","r");
+        
+        FILE *fichier;
+        
+        fichier = fopen("rdp.txt", "r++");
+            
+        if (temp); //si le fichier existe bien
 		{
-      /*string ligne;*/
+        /*string ligne;*/
  
-      while(getline(temp, ligne)) // On le lis ligne par ligne
-      {
-            if(fichier) // Si le lieu de destination existe ( j'entend par la le dossier )
+            while(getline(temp, ligne)) // On le lis ligne par ligne
             {
-                fichier << ligne << endl; // On ecrit dans le fichier de destination
-            }                          // Et au passage on le créer si il n'existe pas
-            else
-            {
-                cout << "ERREUR: Impossible d'ouvrir le fichier." << endl;
+                if(fichier) // Si le lieu de destination existe ( j'entend par la le dossier )
+                {
+                    fichier << ligne << endl; // On ecrit dans le fichier de destination
+                }                          // Et au passage on le créer si il n'existe pas
+                else
+                {
+                    cout << "ERREUR: Impossible d'ouvrir le fichier." << endl;
+                }
             }
-      }
-   }
-   else
-   {
-      cout << "ERREUR: Impossible d'ouvrir le fichier en lecture." << endl;
-   }
+        }
+        else
+        {
+            cout << "ERREUR: Impossible d'ouvrir le fichier en lecture." << endl;
+        }
     }
 }
 

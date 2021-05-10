@@ -159,8 +159,8 @@ class Moteur
 	*/
 	Moteur Reculer(Moteur RDP)
     {
-	this->Te = this.Te - 1;
-	return RenvoyerEtatReseauSelonTemps(Te);
+        this->Te = this.Te - 1;
+        return RenvoyerEtatReseauSelonTemps(Te);
     }
 	
 	/*
@@ -201,32 +201,32 @@ class Moteur
 
     int getNbTransitions()
     {
-        return this->T=M.T;
+        return this->T;
     }
 
     float *getProbabiliteTirParTransition()
     {
-        return this->P=M.P;
+        return this->P;
     }
 
     int **getMatricesArcs()
     {
-        return this->F=M.F;
+        return this->F;
     }
 
     int *getNbJetonsParSommet()
     {
-        return this->M=M.M;
+        return this->M;
     }
 
     int **getEvolutionNbJetonPourChaqueTransition()
     {
-        return this->W=M.W;
+        return this->W;
     }
 
     int *getNbMaxJetonsParSommet()
     {
-        return this->K=M.K;
+        return this->K;
     }
 }
 
