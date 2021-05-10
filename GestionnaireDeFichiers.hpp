@@ -34,41 +34,13 @@ class GestionnaireDeFichiers
     */
     void Charger(FILE *fichier)
     {
-        FILE *fichier = NULL;
-        char c;
-        fichier= fopen ("rdp.txt","r");
-       if (fichier != NULL)
-    {
-		// on affiche le contenu du fichier 
-		    while((c=fgetc(fichier))!=EOF){
-				printf("%c",c);
-			}
-		
-        
-        fclose(fichier);
-    }
-    else
-    {
-        // On affiche un message d'erreur si on veut
-        printf("Impossible d'ouvrir le fichier rdp.txt");
-    }
-    
-}
-        
-    }
-
-    /*
-    Fonction de type void pour ne rien renvoyer.
-    Aucun argument n'est nécessaire à cette fonction.
-    La fonction crée un fichier temporaire vide pour l'échéancier.
-    */
-    void CreerFichierTemporaire(); 
-    {
+	    //Pour chaque temps Te
+    	for (int i = 0; i < this->T; i++) {
         
         FILE *fichier ;
         
         
-        fichier = fopen("fichier.txt", "r");
+        fichier = fopen("rdpv.txt", "r");
         
         if (fichier == NULL)	// Erreur dans l'ouverture
             cout << "Impossible d'ouvrir le fichier en écriture !" << endl;
@@ -79,27 +51,32 @@ class GestionnaireDeFichiers
         
         Echeancier.AjouterEtatReseau(M);
     }
-            
-       
+}
         
+    
+
 
     /*
     Fonction de type void pour ne rien renvoyer.
-    Argument de type Moteur pour avoir les informations à écrire et FILE * pour spécifier le fichier dans lequel écrire.
-    La fonction sert à écrire un état du réseau de Petri dans un fichier.
+    Aucun argument n'est nécessaire à cette fonction.
+    La fonction crée un fichier temporaire vide pour l'échéancier.
     */
-    void EcrireEtat(Moteur M, FILE *fichier)
+    void CreerFichierTemporaire(); 
     {
-        FILE *fichier;
-        Moteur M;
         
+        FILE *fichier;
+        
+        //Pour chaque temps Te
+    	for (int i = 0; i < this->Te; i++) {
             
-        fichier = fopen(GestionnaireDeFichiers, "r+");	// Ouvre le fichier en lecture et écriture
+        fichier = fopen("rdpv.txt", "r+");	// Ouvre le fichier vide en lecture et écriture
             
         if (fichier == NULL)	// Erreur dans l'ouverture
             cout << "Impossible d'ouvrir le fichier en écriture !" << endl;
         else
         {	// Ouverture réussie et on ecrit dans le fichier
+			
+				
             fprintf (fichier, "Te=%d \n", M.Te);
             fprintf (fichier, "S=%d \n", this->S);
             fprintf (fichier, "T=%d \n", this->T);
@@ -111,6 +88,7 @@ class GestionnaireDeFichiers
             fclose (fichier);
         }
     }
+}
             
             
         
@@ -123,10 +101,34 @@ class GestionnaireDeFichiers
     */
     void EnregistrerEcheancier(FILE *temp, FILE *fichier);
     {
-        string const nomFichier("C:/.../???.txt");
-        ofstream monFlux(nomFichier.c_str()); //Déclaration d'un flux permettant d'écrire dans un fichier.
-        ofstream monFlux("C:/.../???.txt");  //On essaye d'ouvrir le fichier
-        if(nomFichier)  // si l'ouverture a réussi
+        FILE *temp;
+	    
+	temp = fopen("rdvp.txt","r");
+	
+	FILE *fichier;
+	
+	fichier = fopen("rdp.txt", "r++");
+	    
+	if (temp); //si le fichier existe bien
+		{
+      /*string ligne;*/
+ 
+      while(getline(temp, ligne)) // On le lis ligne par ligne
+      {
+            if(fichier) // Si le lieu de destination existe ( j'entend par la le dossier )
+            {
+                fichier << ligne << endl; // On ecrit dans le fichier de destination
+            }                          // Et au passage on le créer si il n'existe pas
+            else
+            {
+                cout << "ERREUR: Impossible d'ouvrir le fichier." << endl;
+            }
+      }
+   }
+   else
+   {
+      cout << "ERREUR: Impossible d'ouvrir le fichier en lecture." << endl;
+   }
     }
 }
 
