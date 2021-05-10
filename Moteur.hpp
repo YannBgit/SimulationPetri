@@ -16,9 +16,9 @@ class Moteur
     int S; // Nombre de sommets
     int T; // Nombre de transitions
     float *P; // Probabilité de tir pour chaque transition, 0 < P[n] < 1
-    int **F; // Matrice des arcs : un arc est décrit par 3 valeurs, la première étant un nombre indiquant le sens de l'arc
-    // (0 = sommet -> transition et 1 = transition -> sommet), la deuxième l'indice du sommet l'arc il est relié, et la troisième
-    // l'indice de sa transition.
+    int **F; // Matrice des arcs : un arc est décrit par 3 valeurs : la première est un nombre indiquant le sens de l'arc
+    // (0 = sommet -> transition et 1 = transition -> sommet), la deuxième l'indice du sommet auquel l'arc il est relié, et la
+    // troisième l'indice de sa transition.
     int *M; // Nombre de jetons contenu dans chaque sommet
     int **W; // Nombre de jetons consommés et générés par chaque transition
     int *K; // Nombre de jetons maximum pour chaque sommet
@@ -29,9 +29,16 @@ class Moteur
     /*
     Constructeur de base.
     */
-    Moteur(Moteur M)
+    Moteur(int Te, int S, int T, float *P, int **F, int *M, int **W, int *K)
     {
-        this = M;
+        this->Te = Te;
+        this->S = S;
+        this->T = T;
+        this->P = P;
+        this->F = F;
+        this->M = M;
+        this->W = W;
+        this->K = K;
     }
 
     // DESTRUCTEUR
@@ -64,9 +71,9 @@ class Moteur
         // elle doit être tirée.
         for(int i = 0; i < this->T; i++)
         {
-            for(int j = 0; j < (sizeof(this->F)/sizeof(this->F[0])); j++)
+            for(int j = 0; j < (sizeof(this->F) / sizeof(this->F[0])); j++)
             {
-                if((this->F[j][0] == 0) && (i == this->F[j][2]) && (this->M[this->F[j][1]] >= this->W[i][0])
+                if((this->F[j][0] == 0) && (i == this->F[j][2]) && (this->M[this->F[j][1]] >= this->W[i][0]))
                 && (100*this->P[i] > (rand() % 100)))
                 {
                     TableauTirage[i] = 1;
@@ -80,15 +87,28 @@ class Moteur
 
         // On vérifie pour chaque transition à tirer qu'elle ne soit pas en concurrence avec une autre pour les mêmes jetons. Si oui,
         // on en tire une au hasard.
-        for(int i = 0; i < this->T; i++)
+        for(int i = 0; i < (sizeof(this->F) / sizeof(this->F[0])); i++)
         {
-            for(int j = 0; j < this->T; j++)
+
+            if((this->F[i][0] == 0))
             {
-                if()
+                int nbTransitionsConflit = 1;
+                int *IDtransitionsConflit = malloc(nbTransitionsConflit);
+                IDtransitionsConflit[0] = this->F[i][1];
+
+                for(int j = 0; j < (sizeof(this->F) / sizeof(this->F[0])); j++)
                 {
-                    
+                    if((this->F[j][0] == 0) && (this->F[i][1] == this->F[j][1]) && ((this->W[this->F[i][2]] + this->W[this->F[j][2]])
+                    > this->M[F[i][1]]))
+                    {
+                        nbTransitionsConflit++;
+                        IDtransitionsConflit = realloc(sizeof(int) * nbTransitionsConflit);
+                        IDtransitionsConflit[0] = this->F[j][1];
+                    }
                 }
             }
+
+            free(IDtransitionsConflit);
         }
 
         return TableauTirage;
