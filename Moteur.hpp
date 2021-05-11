@@ -170,23 +170,61 @@ class Moteur
     générés.
 	La fonction parcourt tout les sommet et assigne à chacun de ces sommets les jetons restants.
 	*/
-	int *Marquage(int S, int **W)
+		int *Marquage(Moteur RDP, int **W)
     {
-        return NULL;
-    }
-	
-	/*
-	Cette fonction aide pour générer le tableau de marquage. 
-	Fonction de type int, pour retourner le nombre de jetons restants.
-	Elle prend en argument un int**, la matrice représentant le nombre de jetons consommés et générés, et un int représentant le
-    numéro d'une transition.
-	Pour chaque transition, on connait le nombre de jetons générés et consommés et de là, on déduit le nombre de jetons restants.
-	*/
-	int Nbr_Jetons(int **W, int T)
-    {
-        return 0;
+      int marq[RDP.S];
+      int transition_possible[T]; //ce tablea à en valeur des transitions
+			int nbr_transi;
+      int i,j;
+
+      for(i=0; i<RDP.S;i++) marqu[i]=0;
+
+      for(i=0; i<RDP.S; i++)
+      {
+				transition_possible = transition_possible(RDP.S,RDP.T, RDP.F);
+				 nbr_transi = nbr_transition(transition_possible, RDP.T);
+        for(j=0; j<=transition_possible;j++)
+        {
+          marq[i] += Nbr_Jetons(RDP.W , transition_possible[j], RDP.M));
+        }
+      }
+
+      return marq;
     }
 
+	/*
+	Cette fonction aide pour générer le tableau de marquage.
+	Fonction de type int, pour retourner le nombre de jetons restants.
+	Elle prend en argument un int**, la matrice représentant le nombre de jetons consommés et générés, et un int représentant le numéro d'une transition.
+	Pour chaque transition, on connait le nombre de jetons générés et consommés et de là, on déduit le nombre de jetons restants.
+	*/
+	int Nbr_Jetons(int **W, int T, int S, int *M)
+    {
+      int nbr;
+      nbr = W[S][T] + M[S];
+      return nbr;
+    }
+
+		int *transition_possible(int S, int T, int **F)
+		{
+      int transition[T];
+      for(int i=0;i<T;i++)
+      {
+        if(F[S][i]) transition[i]=1;
+        else transition=0;
+      }
+      return transition;
+    }
+
+		/* Compte les transitions possibles*/
+		int	nbr_transition(int *transition, int T)
+    {
+      int nbr_transi=0;
+      int i = 0;
+      for(int i=0;i<T;i++)
+        if(transition[i]) nbr_transi++;
+      return nbr_transi;
+    }
     /*
     Accesseurs pour les variables du moteur, nommés explicitement.
     */
