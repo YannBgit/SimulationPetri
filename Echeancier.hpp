@@ -16,13 +16,15 @@ class Echeancier
     private:
     // VARIABLES
     int TempsCourant;
+    FILE *fichier;
+	FILE *temp;
 
     public:
     // CONSTRUCTEURS
     Echeancier(GestionnaireDeFichiers GDF)
     {
-        FILE *fichier = GDF.getFichier();
-	    FILE *temp = GDF.getTemp();
+        this->fichier = GDF.getFichier();
+	    this->temp = GDF.getTemp();
     }
 
     // DESTRUCTEUR
@@ -34,12 +36,10 @@ class Echeancier
     Argument de type Moteur pour trouver les informations à enregistrer.
     La fonction enregistre un état du réseau de Petri.
     */
-    void AjouterEtatReseau(Moteur M, GestionnaireDeFichiers GDF)
+    void AjouterEtatReseau(Moteur M)
     {
-	    FILE *fichier = GDF.getTemp();
-
 	    StockerTempsCourant(M);
-	    GDF.EcrireEtat(M, fichier);
+	    GDF.EcrireEtat(M, this->fichier);
 	}
 
     /*

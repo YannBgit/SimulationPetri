@@ -158,7 +158,7 @@ class Moteur
 	La fonction observe si l'utilisateur a choisi ou non de reculer, si oui il demande à l'échéancier les anciennes informations du
     RDP et les renvoi.
 	*/
-	void Reculer(Moteur RDP)
+	void Reculer()
     {
         RenvoyerEtatReseauSelonTemps(this->Te);
     }
@@ -169,26 +169,27 @@ class Moteur
     générés.
 	La fonction parcourt tout les sommet et assigne à chacun de ces sommets les jetons restants.
 	*/
-		int *Marquage(Moteur RDP, int **W)
+	int *Marquage(Moteur RDP, int **W)
     {
-      int marq[RDP.S];
-      int transition_possible[T]; //ce tablea à en valeur des transitions
-			int nbr_transi;
-      int i,j;
+        int marq[RDP.S];
+        int transition_possible[T]; //ce tablea à en valeur des transitions
+		int nbr_transi;
+        int i,j;
 
-      for(i=0; i<RDP.S;i++) marqu[i]=0;
+        for(i=0; i<RDP.S;i++) marqu[i]=0;
 
-      for(i=0; i<RDP.S; i++)
-      {
-				transition_possible = transition_possible(RDP.S,RDP.T, RDP.F);
-				 nbr_transi = nbr_transition(transition_possible, RDP.T);
-        for(j=0; j<=transition_possible;j++)
+        for(i=0; i<RDP.S; i++)
         {
-          marq[i] += Nbr_Jetons(RDP.W , transition_possible[j], RDP.M));
-        }
-      }
+            transition_possible = transition_possible(RDP.S,RDP.T, RDP.F);
+            nbr_transi = nbr_transition(transition_possible, RDP.T);
 
-      return marq;
+            for(j=0; j<=transition_possible;j++)
+            {
+                marq[i] += Nbr_Jetons(RDP.W , transition_possible[j], RDP.M));
+            }
+        }
+
+        return marq;
     }
 
 	/*
@@ -199,31 +200,36 @@ class Moteur
 	*/
 	int Nbr_Jetons(int **W, int T, int S, int *M)
     {
-      int nbr;
-      nbr = W[S][T] + M[S];
-      return nbr;
+        int nbr;
+        nbr = W[S][T] + M[S];
+        
+        return nbr;
     }
 
-		int *transition_possible(int S, int T, int **F)
-		{
-      int transition[T];
-      for(int i=0;i<T;i++)
-      {
-        if(F[S][i]) transition[i]=1;
-        else transition=0;
-      }
-      return transition;
+	int *transition_possible(int S, int T, int **F)
+	{
+        int transition[T];
+        for(int i=0;i<T;i++)
+        {
+            if(F[S][i]) transition[i]=1;
+            else transition=0;
+        }
+            return transition;
+        }
+
+            /* Compte les transitions possibles*/
+            int	nbr_transition(int *transition, int T)
+        {
+            
+        int nbr_transi=0;
+        int i = 0;
+        
+        for(int i=0;i<T;i++)
+            if(transition[i]) nbr_transi++;
+
+        return nbr_transi;
     }
 
-		/* Compte les transitions possibles*/
-		int	nbr_transition(int *transition, int T)
-    {
-      int nbr_transi=0;
-      int i = 0;
-      for(int i=0;i<T;i++)
-        if(transition[i]) nbr_transi++;
-      return nbr_transi;
-    }
     /*
     Accesseurs pour les variables du moteur, nommés explicitement.
     */
