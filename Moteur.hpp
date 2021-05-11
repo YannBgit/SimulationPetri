@@ -65,7 +65,7 @@ class Moteur
     */
     int *Tirage()
     {
-        int *TableauTirage = malloc(sizeof(float) * this->T);
+        int *TableauTirage = (int*)malloc(sizeof(float) * this->T);
 
         // On vérifie que la transition considérée dispose d'assez de jetons dans ses sommets sources et on évalue aléatoirement si
         // elle doit être tirée.
@@ -73,7 +73,7 @@ class Moteur
         {
             for(int j = 0; j < (sizeof(this->F) / sizeof(this->F[0])); j++)
             {
-                if((this->F[j][0] == 0) && (i == this->F[j][2]) && (this->M[this->F[j][1]] >= this->W[i][0])) &&
+                if((this->F[j][0] == 0) && (i == this->F[j][2]) && (this->M[this->F[j][1]] >= this->W[i][0]) &&
                 (100*this->P[i] > (rand() % 100)))
                 {
                     TableauTirage[i] = 1;
@@ -93,7 +93,7 @@ class Moteur
             if((this->F[i][0] == 0))
             {
                 int nbTransitionsConflit = 1;
-                int *IDtransitionsConflit = malloc(nbTransitionsConflit);
+                int *IDtransitionsConflit = (int*)malloc(nbTransitionsConflit * sizeof(int));
                 IDtransitionsConflit[0] = this->F[i][1];
 
                 for(int j = 0; j < (sizeof(this->F) / sizeof(this->F[0])); j++)
@@ -102,7 +102,7 @@ class Moteur
                     > this->M[F[i][1]]))
                     {
                         nbTransitionsConflit++;
-                        IDtransitionsConflit = realloc(sizeof(int) * nbTransitionsConflit);
+                        realloc(IDtransitionsConflit, sizeof(int) * nbTransitionsConflit);
                         IDtransitionsConflit[0] = this->F[j][1];
                     }
                 }
@@ -115,9 +115,8 @@ class Moteur
 
                 // Désignation de la transition à tirer
                 TableauTirage[ResoutConflit(IDtransitionsConflit, nbTransitionsConflit)];
+                free(IDtransitionsConflit);
             }
-
-            free(IDtransitionsConflit);
         }
 
         return TableauTirage;
@@ -161,7 +160,7 @@ class Moteur
 	*/
 	Moteur Reculer(Moteur RDP)
     {
-        this->Te = this.Te - 1;
+        this->Te = this->Te - 1;
         return RenvoyerEtatReseauSelonTemps(Te);
     }
 	
@@ -173,7 +172,7 @@ class Moteur
 	*/
 	int *Marquage(int S, int **W)
     {
-
+        return NULL;
     }
 	
 	/*
@@ -185,7 +184,7 @@ class Moteur
 	*/
 	int Nbr_Jetons(int **W, int T)
     {
-        
+        return 0;
     }
 
     /*
@@ -230,6 +229,6 @@ class Moteur
     {
         return this->K;
     }
-}
+};
 
 #endif

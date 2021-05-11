@@ -2,12 +2,13 @@
 #ifndef ECHEANCIER_HPP
 #define ECHEANCIER_HPP
 
-#define TAILLE_MAX = 100
+#define TAILLE_MAX 100
 
 // LIBRAIRIES
 #include "GestionnaireDeFichiers.hpp" // Pour utiliser la classe GestionnaireDeFichiers
 #include "Moteur.hpp" // Pour utiliser la classe Moteur
 #include <stdio.h> // Permettre principalement la manipulation des flux de caractères
+#include <iostream>
 
 // CLASSE
 class Echeancier
@@ -20,8 +21,8 @@ class Echeancier
     // CONSTRUCTEURS
     Echeancier(GestionnaireDeFichiers GDF)
     {
-        FILE *fichier = GDF->fichier;
-	    FILE *temp = GDF->temp;
+        FILE *fichier = GDF.getFichier();
+	    FILE *temp = GDF.getTemp();
     }
 
     // DESTRUCTEUR
@@ -33,12 +34,12 @@ class Echeancier
     Argument de type Moteur pour trouver les informations à enregistrer.
     La fonction enregistre un état du réseau de Petri.
     */
-    void AjouterEtatReseau(Moteur M)
+    void AjouterEtatReseau(Moteur M, GestionnaireDeFichiers GDF)
     {
-	    FILE *fichier = GestionnaireDeFichiers->temp;
+	    FILE *fichier = GDF.getTemp();
 
 	    StockerTempsCourant(M);
-	    GestionnaireDeFichiers.EcrireEtat(M, fichier);
+	    GDF.EcrireEtat(M, fichier);
 	}
 
     /*
@@ -49,6 +50,7 @@ class Echeancier
     Moteur RenvoyerEtatReseauCourant()
     {
 	    Moteur M =  RenvoyerEtatReseauSelonTemps(TempsCourant);
+	    return M;
     }
 
     /*
@@ -56,21 +58,21 @@ class Echeancier
     Argument de type moteur où chercher le temps courant du réseau.
     La fonction enregistre le temps courant du réseau.
     */
-    void StockerTempsCourant(Moteur M)
+    void StockerTempsCourant(Moteur M, GestionnaireDeFichiers GDF)
     {
-	    this.TempsCourant = M.Te;
+	    this->TempsCourant = M.getTemps();
 	    FILE *fichier;
 	    char *c = "Te = ";
 
-	    fichier = fopen(GestionnaireDeFichiers->temp, "r+");	// Ouvre le fichier en lecture et écriture
+	    fichier = fopen(GDF.getTemp(), "r+");	// Ouvre le fichier en lecture et écriture
 
 	    /* Vérification d'ouverture */
         if(fichier == NULL)	// Erreur dans l'ouverture
-            cout << "Impossible d'ouvrir le fichier en écriture !" << endl;
+            std::cout << "Impossible d'ouvrir le fichier en écriture !" << std::endl;
         else
         {	// Ouverture réussie
             fprintf (fichier, "%s", c[0]);
-            fprintf (fichier, "%d \n", this.TempsCourant);
+            fprintf (fichier, "%d \n", this->TempsCourant);
             fclose (fichier);
         }
 	}
@@ -111,7 +113,7 @@ class Echeancier
         /* Recherche dans le fichier */
         while(fgets(ligne, TAILLE_MAX, fichier) != NULL)
         {
-            for(i = 0, i != max, i++)
+            for(i = 0; i != max; i++)
             {
                 if(search[i] != ligne[i])
                 {
@@ -121,6 +123,6 @@ class Echeancier
             }
         }
     }
-}
+};
 
 #endif
