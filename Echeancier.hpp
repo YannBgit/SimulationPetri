@@ -40,6 +40,8 @@ class Echeancier
     {
 	    StockerTempsCourant(M);
 	    GDF.EcrireEtat(M, this->fichier);
+
+        return;
 	}
 
     /*
@@ -50,6 +52,7 @@ class Echeancier
     Moteur RenvoyerEtatReseauCourant()
     {
 	    Moteur M =  RenvoyerEtatReseauSelonTemps(TempsCourant);
+
 	    return M;
     }
 
@@ -75,6 +78,8 @@ class Echeancier
             fprintf (fichier, "%d \n", this->TempsCourant);
             fclose (fichier);
         }
+
+        return;
 	}
 
     /*
@@ -106,6 +111,7 @@ class Echeancier
         {
             search[i] = te[j];
         }
+
         search[i] = '\0';
         int max = i;	// Nombre de caractère dans la chaine search
         /* Fin de la concaténation */
@@ -122,6 +128,8 @@ class Echeancier
                 }
             }
         }
+
+        // return ;
     }
 };
 

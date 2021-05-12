@@ -48,6 +48,8 @@ class GestionnaireDeFichiers
             
             Echeancier.AjouterEtatReseau(M);
         }
+
+        return;
     }
 
     /*
@@ -82,6 +84,8 @@ class GestionnaireDeFichiers
                 fclose (fichier);
             }
         }
+
+        return;
     } 
 
     /*
@@ -93,17 +97,14 @@ class GestionnaireDeFichiers
     void EnregistrerEcheancier(FILE *temp, FILE *fichier)
     {
         FILE *temp;
-	    
         temp = fopen("rdvp.txt","r");
         
         FILE *fichier;
-        
         fichier = fopen("rdp.txt", "r++");
             
         if (temp != NULL) //si le fichier existe bien
 		{
         /*string ligne;*/
- 
             while(getline(temp, ligne)) // On le lis ligne par ligne
             {
                 if(fichier) // Si le lieu de destination existe ( j'entend par la le dossier )
@@ -116,17 +117,22 @@ class GestionnaireDeFichiers
                 }
             }
         }
+
         else
         {
             std::cout << "ERREUR: Impossible d'ouvrir le fichier en lecture." << std::endl;
         }
+
+        return;
     }
 
-    FILE *getFichier() {
+    FILE *getFichier()
+    {
     	return this->fichier;
     }
 
-    FILE *getTemp() {
+    FILE *getTemp()
+    {
     	return this->temp;
     }
 
