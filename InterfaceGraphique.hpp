@@ -14,7 +14,7 @@
 #include <QGraphicsView> // Permet d'afficher une scène avec beaucoup d'options
 #include <QGraphicsScene> // Permet de dessinner le réseau de Pétri sur une scène
 #include "Moteur.hpp" // Pour utiliser la classe Moteur
-#include "Echancier.hpp" // Pour utiliser la classe Echancier
+#include "Echeancier.hpp" // Pour utiliser la classe Echancier
 #include "GestionnaireDeFichiers.hpp" // Pour utiliser la classe GestionnaireDeFichiers
 
 // CLASSE
