@@ -61,22 +61,10 @@ class Echeancier
     Argument de type moteur où chercher le temps courant du réseau.
     La fonction enregistre le temps courant du réseau.
     */
-    void StockerTempsCourant(Moteur M, GestionnaireDeFichiers GDF)
+    void StockerTempsCourant(Moteur M)
     {
 	    this->TempsCourant = M.getTemps();
-	    char *c = "Te = ";
-	    this->fichier = fopen(GDF.getTemp(), "r+");	// Ouvre le fichier en lecture et écriture
-
-	    /* Vérification d'ouverture */
-        if(this->fichier == NULL)	// Erreur dans l'ouverture
-            std::cout << "Impossible d'ouvrir le fichier en écriture !" << std::endl;
-        else
-        {	// Ouverture réussie
-            fprintf (this->fichier, "%s", c[0]);
-            fprintf (this->fichier, "%d \n", this->TempsCourant);
-            fclose (this->fichier);
-        }
-
+        
         return;
 	}
 

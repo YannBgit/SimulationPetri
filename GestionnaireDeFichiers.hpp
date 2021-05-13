@@ -85,6 +85,17 @@ class GestionnaireDeFichiers
 
     /*
     Fonction de type void pour ne rien renvoyer.
+    Argument de type Moteur pour avoir les informations à écrire et FILE * pour spécifier le fichier dans lequel écrire.
+    La fonction sert à écrire un état du réseau de Petri dans un fichier.
+    */
+    void EcrireEtat(Moteur M, FILE *fichier)
+    {
+
+        return;
+    }
+
+    /*
+    Fonction de type void pour ne rien renvoyer.
     Arguments de type FILE * pour avoir la source et la destination des informations à enregistrer.
     La fonction permet d'enregistrer un échéancier en faisant passer les informations du fichier temporaire dans lequel ses données
     sont conservées vers le fichier principal d'enregistrement.
