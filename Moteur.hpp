@@ -41,6 +41,18 @@ class Moteur
         this->K = K;
     }
 
+    Moteur()
+    {
+        this->Te = 0;
+        this->S = 0;
+        this->T = 0;
+        this->P = NULL;
+        this->F = NULL;
+        this->M = NULL;
+        this->W = NULL;
+        this->K = NULL;
+    }
+
     // DESTRUCTEUR
     ~Moteur()
     {}
@@ -148,6 +160,8 @@ class Moteur
     		}
     	}
 
+        this->Te++;
+
     	//Le marquage est directement modifié sur *M 
     	return;
     }
@@ -160,7 +174,7 @@ class Moteur
 	*/
 	void Reculer()
     {
-        RenvoyerEtatReseauSelonTemps(this->Te);
+        RenvoyerEtatReseauSelonTemps(this->Te--);
     }
 	
 	/*

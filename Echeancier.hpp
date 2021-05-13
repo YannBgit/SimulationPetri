@@ -39,7 +39,7 @@ class Echeancier
     void AjouterEtatReseau(Moteur M)
     {
 	    StockerTempsCourant(M);
-	    GDF.EcrireEtat(M, this->fichier);
+	    GDF.EcrireEtat(M, this->temp);
 
         return;
 	}
@@ -51,7 +51,7 @@ class Echeancier
     */
     Moteur RenvoyerEtatReseauCourant()
     {
-	    Moteur M =  RenvoyerEtatReseauSelonTemps(TempsCourant);
+	    Moteur M = RenvoyerEtatReseauSelonTemps(TempsCourant);
 
 	    return M;
     }
@@ -64,19 +64,17 @@ class Echeancier
     void StockerTempsCourant(Moteur M, GestionnaireDeFichiers GDF)
     {
 	    this->TempsCourant = M.getTemps();
-	    FILE *fichier;
 	    char *c = "Te = ";
-
-	    fichier = fopen(GDF.getTemp(), "r+");	// Ouvre le fichier en lecture et écriture
+	    this->fichier = fopen(GDF.getTemp(), "r+");	// Ouvre le fichier en lecture et écriture
 
 	    /* Vérification d'ouverture */
-        if(fichier == NULL)	// Erreur dans l'ouverture
+        if(this->fichier == NULL)	// Erreur dans l'ouverture
             std::cout << "Impossible d'ouvrir le fichier en écriture !" << std::endl;
         else
         {	// Ouverture réussie
-            fprintf (fichier, "%s", c[0]);
-            fprintf (fichier, "%d \n", this->TempsCourant);
-            fclose (fichier);
+            fprintf (this->fichier, "%s", c[0]);
+            fprintf (this->fichier, "%d \n", this->TempsCourant);
+            fclose (this->fichier);
         }
 
         return;

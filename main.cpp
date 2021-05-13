@@ -9,11 +9,14 @@
 // MAIN
 int main()
 {
+    // Initialisation du gestionnaire de fichiers et de l'échéancier
     FILE *RdP;
-
     GestionnaireDeFichiers GDF(RdP);
     Echeancier E(GDF);
-    Moteur M(E.RenvoyerEtatReseauCourant());
+
+    // Initialisation du moteur et de l'interface graphique
+    Moteur EtatInitial = E.E.RenvoyerEtatReseauCourant();
+    Moteur M(EtatInitial.S, EtatInitial.T, EtatInitial.P, EtatInitial.F, EtatInitial.M, EtatInitial.W, EtatInitial.K);
     InterfaceGraphique IG();
 
     return 0;

@@ -35,15 +35,13 @@ class GestionnaireDeFichiers
 	    //Pour chaque temps Te
     	for (int i = 0; i < M.getNbTransitions(); i++)
         {
-            FILE *fichier ;
+            this->fichier = fopen("rdpv.txt", "r");
             
-            fichier = fopen("rdpv.txt", "r");
-            
-            if (fichier == NULL)	// Erreur dans l'ouverture
+            if (this->fichier == NULL)	// Erreur dans l'ouverture
                 std::cout << "Impossible d'ouvrir le fichier en écriture !" << std::endl;
             else
             {
-                fclose (fichier);
+                fclose (this->fichier);
             }
             
             Echeancier.AjouterEtatReseau(M);
@@ -59,29 +57,26 @@ class GestionnaireDeFichiers
     */
     void CreerFichierTemporaire(Moteur M)
     {
-        
-        FILE *fichier;
-        
         //Pour chaque temps Te
     	for (int i = 0; i < M.getTemps(); i++)
         {
-            fichier = fopen("rdpv.txt", "r+");	// Ouvre le fichier vide en lecture et écriture
+            this->fichier = fopen("rdpv.txt", "r+");	// Ouvre le fichier vide en lecture et écriture
                 
-            if (fichier == NULL)	// Erreur dans l'ouverture
+            if (this->fichier == NULL)	// Erreur dans l'ouverture
                 std::cout << "Impossible d'ouvrir le fichier en écriture !" << std::endl;
             else
             {	// Ouverture réussie et on ecrit dans le fichier
                 
                     
-                fprintf (fichier, "Te=%d \n", M.getTemps());
-                fprintf (fichier, "S=%d \n", M.getNbSommets());
-                fprintf (fichier, "T=%d \n", M.getNbTransitions());
-                fprintf (fichier, "P=%d \n", M.getProbabiliteTirParTransition());
-                fprintf (fichier, "F=%d \n", M.getMatricesArcs());
-                fprintf (fichier, "M=%d \n", M.getNbJetonsParSommet());
-                fprintf (fichier, "W=%d \n", M.getEvolutionNbJetonPourChaqueTransition());
-                fprintf (fichier, "K=%d \n", M.getNbMaxJetonsParSommet());
-                fclose (fichier);
+                fprintf (this->fichier, "Te=%d \n", M.getTemps());
+                fprintf (this->fichier, "S=%d \n", M.getNbSommets());
+                fprintf (this->fichier, "T=%d \n", M.getNbTransitions());
+                fprintf (this->fichier, "P=%d \n", M.getProbabiliteTirParTransition());
+                fprintf (this->fichier, "F=%d \n", M.getMatricesArcs());
+                fprintf (this->fichier, "M=%d \n", M.getNbJetonsParSommet());
+                fprintf (this->fichier, "W=%d \n", M.getEvolutionNbJetonPourChaqueTransition());
+                fprintf (this->fichier, "K=%d \n", M.getNbMaxJetonsParSommet());
+                fclose (this->fichier);
             }
         }
 
@@ -96,20 +91,17 @@ class GestionnaireDeFichiers
     */
     void EnregistrerEcheancier(FILE *temp, FILE *fichier)
     {
-        FILE *temp;
-        temp = fopen("rdvp.txt","r");
-        
-        FILE *fichier;
-        fichier = fopen("rdp.txt", "r++");
+        this->temp = fopen("rdvp.txt","r");
+        this->fichier = fopen("rdp.txt", "r++");
             
-        if (temp != NULL) //si le fichier existe bien
+        if (this->temp != NULL) //si le fichier existe bien
 		{
         /*string ligne;*/
-            while(getline(temp, ligne)) // On le lis ligne par ligne
+            while(getline(this->temp, ligne)) // On le lis ligne par ligne
             {
-                if(fichier) // Si le lieu de destination existe ( j'entend par la le dossier )
+                if(this->fichier) // Si le lieu de destination existe ( j'entend par la le dossier )
                 {
-                    fichier << ligne << std::endl; // On ecrit dans le fichier de destination
+                    this->fichier << ligne << std::endl; // On ecrit dans le fichier de destination
                 }                          // Et au passage on le créer si il n'existe pas
                 else
                 {
@@ -135,7 +127,6 @@ class GestionnaireDeFichiers
     {
     	return this->temp;
     }
-
 };
 
 #endif
