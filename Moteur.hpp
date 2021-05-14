@@ -110,8 +110,8 @@ class Moteur
 
                 for(int j = 0; j < (sizeof(this->F) / sizeof(this->F[0])); j++)
                 {
-                    if((this->F[j][0] == 0) && (this->F[i][1] == this->F[j][1]) && ((this->W[this->F[i][2]] + this->W[this->F[j][2]])
-                    > this->M[F[i][1]]))
+                    if((this->F[j][0] == 0) && (this->F[i][1] == this->F[j][1]) && ((this->W[this->F[i][2]][0] +
+                    this->W[this->F[j][2]][0]) > this->M[F[i][1]]))
                     {
                         nbTransitionsConflit++;
                         realloc(IDtransitionsConflit, sizeof(int) * nbTransitionsConflit);
