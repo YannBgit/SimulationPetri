@@ -70,14 +70,14 @@ class Moteur
     }
 
     /*
-    Fonction de type int * pour renvoyer un tableau d'entiers représentant les indices des transitions tirables.
+    Fonction de type int * pour renvoyer un tableau d'entiers représentant si la transition doit être tirée (1) ou non (0).
     Aucun argument n'est nécessaire car la fonction utilise les variables natives au moteur.
     Pour chaque transition, la fonction évalue si elle doit être tirée ou pas selon si la transition est tirable et sa probabilité de
     tirage associée, et si besoin notre fonction de résolution de conflits.
     */
     int *Tirage()
     {
-        int *TableauTirage = (int*)malloc(sizeof(float) * this->T);
+        int *TableauTirage = malloc(sizeof(int) * this->T);
 
         // On vérifie que la transition considérée dispose d'assez de jetons dans ses sommets sources et on évalue aléatoirement si
         // elle doit être tirée.
