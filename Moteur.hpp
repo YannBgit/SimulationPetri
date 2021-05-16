@@ -101,32 +101,35 @@ class Moteur
         // on en tire une au hasard.
         for(int i = 0; i < (sizeof(this->F) / sizeof(this->F[0])); i++)
         {
-
             if((this->F[i][0] == 0))
             {
                 int nbTransitionsConflit = 1;
-                int *IDtransitionsConflit = (int*)malloc(nbTransitionsConflit * sizeof(int));
-                IDtransitionsConflit[0] = this->F[i][1];
+                int *IDtransitionsConflit = malloc(nbTransitionsConflit * sizeof(int));
+                IDtransitionsConflit[0] = this->F[i][2];
 
                 for(int j = 0; j < (sizeof(this->F) / sizeof(this->F[0])); j++)
                 {
                     if((this->F[j][0] == 0) && (this->F[i][1] == this->F[j][1]) && ((this->W[this->F[i][2]][0] +
-                    this->W[this->F[j][2]][0]) > this->M[F[i][1]]))
+                    this->W[this->F[j][2]][0]) > this->M[this->F[i][1]]))
                     {
                         nbTransitionsConflit++;
                         realloc(IDtransitionsConflit, sizeof(int) * nbTransitionsConflit);
-                        IDtransitionsConflit[0] = this->F[j][1];
+                        IDtransitionsConflit[nbTransitionsConflit-1] = this->F[j][2];
                     }
                 }
 
                 // Mise à zéro des transitions en conflit
-                for(int k = 0; k < nbTransitionsConflit; k++)
+                if(nbTransitionsConflit > 1)
                 {
-                    TableauTirage[IDtransitionsConflit[k]] = 0;
+                    for(int k = 0; k < nbTransitionsConflit; k++)
+                    {
+                        TableauTirage[IDtransitionsConflit[k]] = 0;
+                    }
+
+                    // Désignation de la transition à tirer
+                    TableauTirage[ResoutConflit(IDtransitionsConflit, nbTransitionsConflit)] = 1;
                 }
 
-                // Désignation de la transition à tirer
-                TableauTirage[ResoutConflit(IDtransitionsConflit, nbTransitionsConflit)];
                 free(IDtransitionsConflit);
             }
         }
