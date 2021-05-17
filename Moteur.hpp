@@ -70,14 +70,14 @@ class Moteur
     }
 
     /*
-    Fonction de type int * pour renvoyer un tableau d'entiers représentant si la transition doit être tirée (1) ou non (0).
+    Fonction de type int * pour renvoyer un tableau d'entiers représentant les indices des transitions tirables.
     Aucun argument n'est nécessaire car la fonction utilise les variables natives au moteur.
     Pour chaque transition, la fonction évalue si elle doit être tirée ou pas selon si la transition est tirable et sa probabilité de
     tirage associée, et si besoin notre fonction de résolution de conflits.
     */
     int *Tirage()
     {
-        int *TableauTirage = malloc(sizeof(int) * this->T);
+        int *TableauTirage = (int*)malloc(sizeof(float) * this->T);
 
         // On vérifie que la transition considérée dispose d'assez de jetons dans ses sommets sources et on évalue aléatoirement si
         // elle doit être tirée.
@@ -86,11 +86,11 @@ class Moteur
             for(int j = 0; j < (sizeof(this->F) / sizeof(this->F[0])); j++)
             {
                 if((this->F[j][0] == 0) && (i == this->F[j][2]) && (this->M[this->F[j][1]] >= this->W[i][0]) &&
-                ((100 * this->P[i]) > (rand() % 100)))
+                (100*this->P[i] > (rand() % 100)))
                 {
                     TableauTirage[i] = 1;
                 }
-                else if(TableauTirage[i] != 1)
+                else
                 {
                     TableauTirage[i] = 0;
                 }
@@ -101,35 +101,32 @@ class Moteur
         // on en tire une au hasard.
         for(int i = 0; i < (sizeof(this->F) / sizeof(this->F[0])); i++)
         {
+
             if((this->F[i][0] == 0))
             {
                 int nbTransitionsConflit = 1;
-                int *IDtransitionsConflit = malloc(nbTransitionsConflit * sizeof(int));
-                IDtransitionsConflit[0] = this->F[i][2];
+                int *IDtransitionsConflit = (int*)malloc(nbTransitionsConflit * sizeof(int));
+                IDtransitionsConflit[0] = this->F[i][1];
 
                 for(int j = 0; j < (sizeof(this->F) / sizeof(this->F[0])); j++)
                 {
-                    if((this->F[j][0] == 0) && (this->F[i][1] == this->F[j][1]) && ((this->W[this->F[i][2]][0] +
-                    this->W[this->F[j][2]][0]) > this->M[this->F[i][1]]))
+                    if((this->F[j][0] == 0) && (this->F[i][1] == this->F[j][1]) && ((this->W[this->F[i][2]] + this->W[this->F[j][2]])
+                    > this->M[F[i][1]]))
                     {
                         nbTransitionsConflit++;
-                        IDtransitionsConflit = realloc(IDtransitionsConflit, sizeof(int) * nbTransitionsConflit);
-                        IDtransitionsConflit[nbTransitionsConflit - 1] = this->F[j][2];
+                        realloc(IDtransitionsConflit, sizeof(int) * nbTransitionsConflit);
+                        IDtransitionsConflit[0] = this->F[j][1];
                     }
                 }
 
                 // Mise à zéro des transitions en conflit
-                if(nbTransitionsConflit > 1)
+                for(int k = 0; k < nbTransitionsConflit; k++)
                 {
-                    for(int k = 0; k < nbTransitionsConflit; k++)
-                    {
-                        TableauTirage[IDtransitionsConflit[k]] = 0;
-                    }
-
-                    // Désignation de la transition à tirer
-                    TableauTirage[ResoutConflit(IDtransitionsConflit, nbTransitionsConflit)] = 1;
+                    TableauTirage[IDtransitionsConflit[k]] = 0;
                 }
 
+                // Désignation de la transition à tirer
+                TableauTirage[ResoutConflit(IDtransitionsConflit, nbTransitionsConflit)];
                 free(IDtransitionsConflit);
             }
         }

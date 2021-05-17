@@ -13,24 +13,18 @@
 #include <QLayout> // QLayout nous permet de postionner des widgets, comme par exemple, nos boutons
 #include <QGraphicsView> // Permet d'afficher une scène avec beaucoup d'options
 #include <QGraphicsScene> // Permet de dessinner le réseau de Pétri sur une scène
-#include "Moteur.hpp" // Pour utiliser la classe Moteur
-#include "Echeancier.hpp" // Pour utiliser la classe Echancier
-#include "GestionnaireDeFichiers.hpp" // Pour utiliser la classe GestionnaireDeFichiers
+//#include "Moteur.hpp" // Pour utiliser la classe Moteur
+//#include "Echeancier.hpp" // Pour utiliser la classe Echancier
+//#include "GestionnaireDeFichiers.hpp" // Pour utiliser la classe GestionnaireDeFichiers
+
+#include <stdio.h>
+
+class Element;
 
 // CLASSE
 class InterfaceGraphique : public QWidget //On hérite de QWidget
 {
 	Q_OBJECT
-	
-	public:
-	InterfaceGraphique();
-	
-	public slots:
-    void fct_etatInitial();
-    void fct_enregistrer();
-    void fct_charger();
-    void fct_avancer();
-    void fct_reculer();
 	
     private:
     // VARIABLES
@@ -49,82 +43,79 @@ class InterfaceGraphique : public QWidget //On hérite de QWidget
     
     void affichage_echeancier(); // Fonction pour afficher l'échéancier sous forme texte
 
-    /*
-    Variables qui définisent l'aspect du réseau (espace entre deux élément, taille d'une place, couleur, etc...).
-    */
-    struct Params
-    {
-        float tailleElement; // Taille d'un element (multiplicateur)
-        float elementsDistance; // Distance minimale séparant deux éléments graphiques
-        float largeurTrait;
-        QColor couleurTrait;
-        QColor couleurRemplissage;
-    };
-    Params parametres;
 
-    public:
-    // CONSTRUCTEURS
-    InterfaceGraphique()
-    {
-
-    }
-
-    // DESTRUCTEUR
-    ~InterfaceGraphique();
-
-    // METHODES
-
-    // Les fonctions situées ici indiquent à QT qu'elles peuvent être utilisées pour recevoir les signaux envoyés par les boutons
+     // Les fonctions situées ici indiquent à QT qu'elles peuvent être utilisées pour recevoir les signaux envoyés par les boutons
     private slots :
     /*
     Cette fonction servira pour passer de l'affichage d'un temps quelconque au temps 0 (etat initial). Si le bouton "etatInitial" est
     cliqué, la fonction affichera le Rdp et l'échéancier au temps 0.
     Ceci sera notamment possible grâce à la fonction "E.RenvoyerEtatReseauSelonTemps(0)".
     */
-    void fct_etatInitial()
-    {
-
-    }
+    void fct_etatInitial();
 
     /*
     Cette fonction servira pour passer de l'affichage d'un temps Te à un temps Te+1. Si le bouton "avancer" est cliqué, la fonction
     affichera le Rdp et l'échéancier au temps Te+1.
     Ceci sera notamment possible grâce à la fonction "E.RenvoyerEtatReseauSelonTemps(M.Te+1)".
     */
-    void fct_avancer()
-    {
-
-    }
+    void fct_avancer();
 
     /*
     Cette fonction servira pour passer de l'affichage d'un temps Te à un temps Te-1. Si le bouton "reculer" est cliqué, la fonction
     affichera le Rdp et l'échéancier au temps Te-1.
     Ceci sera notamment possible grâce à la fonction "E.RenvoyerEtatReseauSelonTemps(M.Te-1)".
     */
-    void fct_reculer()
-    {
-
-    }
+    void fct_reculer();
 
     /*
     Cette fonction permettera à l'utilisateur de charger des paramètre du réseau de Pétri à l'aide du gestionnaire de fichiers si le
     bouton est cliqué.
     Ceci sera notamment possible grâce à la fonction "EnregisterEcheancier(FILE *temp, FILE *fichier)".
     */
-    void fct_charger()
-    {
-
-    }
+    void fct_charger();
 
     /*
     Cette fonction servira à l'utilisateur pour enregistrer l'état du Rdp à l'aide du gestionnaire de fichiers, si le bouton
     "enregister" est cliqué.
     Ceci sera notamment possible grâce à la fonction "Charger(FILE *fichier)".
     */
-    void fct_enregistrer()
-    {
+    void fct_enregistrer();
 
+    public:
+    // CONSTRUCTEURS
+    InterfaceGraphique();
+
+    // DESTRUCTEUR
+    ~InterfaceGraphique()
+    {
+        free(elements);
     }
+
+    /*
+    Variables qui définisent l'aspect du réseau (espace entre deux élément, taille d'une place, couleur, etc...).
+    */
+    struct Params
+    {
+        int tailleElement; // Taille d'un element (multiplicateur)
+        int elementsDistance; // Distance minimale séparant deux éléments graphiques
+        int largeurTrait;
+        QColor couleurTrait;
+        QColor couleurRemplissage;
+    };
+    Params parametres;
+
+     struct Moteur{
+        int S;
+        int T;
+        int F[7][3];
+        int M[4];
+        char nb_arcs;
+    };
+
+    Moteur M;
+
+    // METHODES
+ 
 
     // Affichage echeancier
     /*
@@ -142,7 +133,7 @@ class InterfaceGraphique : public QWidget //On hérite de QWidget
     */
     void setMoteur(Moteur new_moteur)
     {
-
+        M = new_moteur;
     }
 
     // Affichage reseau
@@ -151,35 +142,29 @@ class InterfaceGraphique : public QWidget //On hérite de QWidget
     {x, y} définit par rapport au premier qui est rencontré (position (0,0)) et par ses liaisons et renvoie la liste de ces éléments.
     La liste contient les places puis les transitions dans l'ordre. Appellée lors du chargement d'un réseau.
     */
-    Element* buildElementsPosition(Moteur M)
-    {
+    void buildElementsPosition();
 
-    }
+    /*
+    Utiliser par buildElementsPosition(). Permet de vérifier si une place ou transition est déjà dans a_traiter
+    */
+    bool isContainedBy(int* tuple, std::list<int*>);
 
     /*
     Dessine les places et les transitions contenues dans elements.
     */
-    void dessinerElements(Element *elements)
-    {
-
-    }
+    void dessinerElements(QGraphicsScene *scene);
+    
 
     /*
     Définit pour chaque arc une liste de positions contenant au moins celles d'une place et d'une transition pour les relier, en
     évitant de passer sur d'autres places et transitions.
     */
-    int ***calculerArcs(Element *elements, Moteur M, [params])
-    {
-
-    }
+    void calculerArcs();    //
 
     /*
     Dessine les arcs entre les places et les transitions.
     */
-    void dessinerArcs(int ***arcs)
-    {
-
-    }
+    void dessinerArcs(QGraphicsScene *scene);
 
     /*
     Récupère le nouvel état du réseau et modifie le nombre de jetons pour chaque élément graphique où c'est nécessaire. Appellée lors
@@ -194,10 +179,7 @@ class InterfaceGraphique : public QWidget //On hérite de QWidget
     Utilisée par calculerArcs(). Renvoie des points de passage (x, y) permettant à l'arc en cours de calcul de ne pas intersecter avec
     une place ou une transition.
     */
-    int **eviterIntersection(Element *elments, int x_depart, int y_depart, int x_arrivee, int y_arrivee, Params params)
-    {
-
-    }
+    int **eviterIntersection(int x_depart, int y_depart, int x_arrivee, int y_arrivee);
 
     /*
     On stock les positions d'affichage des places, transitions et arcs pour ne pas les recalculer à chaque changement d'état du réseau
@@ -206,7 +188,7 @@ class InterfaceGraphique : public QWidget //On hérite de QWidget
     /*
     Stock les places et les transitions (dans cette ordre).
     */
-    Element *elements;
+    Element **elements;
         
     /*
     Stock les transitions, chacune correspondant à une liste de couples d'entiers x, y.
@@ -233,7 +215,9 @@ class Element
     */
     Element(int x, int y, bool type)
     {
-
+        pos_x = x;
+        pos_y = y;
+        this->type = type;
     }
 
     /*
@@ -241,7 +225,10 @@ class Element
     */
     Element(int x, int y, bool type, int nb_jetons)
     {
-
+        pos_x = x;
+        pos_y = y;
+        this->type = type;
+        this->nb_jetons = nb_jetons;
     }
 
     // DESTRUCTEUR
@@ -252,9 +239,19 @@ class Element
     /*
     Dessine l'élément selon sa position et son type d'élément ainsi que les jetons qu'il contient et les paramètres.
     */
-    void dessiner(Params params)
+    void dessiner(QGraphicsScene *scene, InterfaceGraphique::Params params)
     {
-
+        if (type) {
+            scene->addEllipse(pos_x*params.tailleElement+pos_x*params.elementsDistance,
+                pos_y*params.tailleElement+pos_y*params.elementsDistance,
+                params.tailleElement, params.tailleElement, QPen(Qt::black,2)
+             );
+        } else {
+            scene->addRect(pos_x*params.tailleElement+pos_x*params.elementsDistance,
+                pos_y*params.tailleElement+pos_y*params.elementsDistance+(3.0/8.0)*params.tailleElement,
+                params.tailleElement, params.tailleElement/4.0, QPen(), QBrush(Qt::SolidPattern)
+             );
+        }
     }
 
     /*
@@ -262,7 +259,7 @@ class Element
     */
     void setNbJetons(int n)
     {
-
+        nb_jetons = n;
     }
 
     /*
@@ -270,17 +267,26 @@ class Element
     */
     bool isPlace()
     {
-
+        return type;
     }
 
     /*
     Accesseurs pour les variables.
     */
-    int getPosX();
+    int getPosX()
+    {
+        return pos_x;
+    }
 
-    int getPosY();
+    int getPosY()
+    {
+        return pos_y;
+    }
 
-    int getNbJetons();
+    int getNbJetons()
+    {
+        return nb_jetons;
+    }
 };
 
 #endif
