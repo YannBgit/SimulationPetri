@@ -90,7 +90,7 @@ class Moteur
                 {
                     TableauTirage[i] = 1;
                 }
-                else
+                else if(TableauTirage[i] != 1)
                 {
                     TableauTirage[i] = 0;
                 }
@@ -114,7 +114,7 @@ class Moteur
                     {
                         nbTransitionsConflit++;
                         IDtransitionsConflit = realloc(IDtransitionsConflit, sizeof(int) * nbTransitionsConflit);
-                        IDtransitionsConflit[nbTransitionsConflit-1] = this->F[j][2];
+                        IDtransitionsConflit[nbTransitionsConflit - 1] = this->F[j][2];
                     }
                 }
 
