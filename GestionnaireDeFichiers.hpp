@@ -90,8 +90,30 @@ class GestionnaireDeFichiers
     */
     void EcrireEtat(Moteur M, FILE *fichier)
     {
+	    //Pour chaque temps Te
+    	for (int i = 0; i < M.getTemps(); i++)
+        {
+			this->fichier = fopen("etatreseau.txt", "r++");
+        
+        if (fichier == NULL)	// Erreur dans l'ouverture
+            cout << "Impossible d'ouvrir le fichier en écriture !" << endl;
+        else
+        {
+			fprintf (this->fichier, "S=%d \n", M.getNbSommets());
+			fprintf (this->fichier, "T=%d \n", M.getNbTransitions());
+			fprintf (this->fichier, "P=%d \n", M.getProbabiliteTirParTransition());
+			fprintf (this->fichier, "F=%d \n", M.getMatricesArcs());
+			fprintf (this->fichier, "M=%d \n", M.getNbJetonsParSommet());
+			fprintf (this->fichier, "W=%d \n", M.getEvolutionNbJetonPourChaqueTransition());
+			fprintf (this->fichier, "K=%d \n", M.getNbMaxJetonsParSommet());
+			fclose (this->fichier);
+		}
+	}
+	FILE *getFichier()
+    {
+    	return this->fichier;
+    }
 
-        return;
     }
 
     /*
