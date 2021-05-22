@@ -32,21 +32,8 @@ class GestionnaireDeFichiers
     */
     void Charger(Moteur M)
     {
-	    //Pour chaque temps Te
-    	for (int i = 0; i < M.getNbTransitions(); i++)
-        {
-            this->fichier = fopen("rdpv.txt", "r");
-            
-            if (this->fichier == NULL)	// Erreur dans l'ouverture
-                std::cout << "Impossible d'ouvrir le fichier en écriture !" << std::endl;
-            else
-            {
-                fclose (this->fichier);
-            }
-            
-            Echeancier.AjouterEtatReseau(M);
-        }
-
+	    
+    	
         return;
     }
 
@@ -68,15 +55,14 @@ class GestionnaireDeFichiers
             {	// Ouverture réussie et on ecrit dans le fichier
                 
                     
-                fprintf (this->fichier, "Te=%d \n", M.getTemps());
-                fprintf (this->fichier, "S=%d \n", M.getNbSommets());
-                fprintf (this->fichier, "T=%d \n", M.getNbTransitions());
-                fprintf (this->fichier, "P=%d \n", M.getProbabiliteTirParTransition());
-                fprintf (this->fichier, "F=%d \n", M.getMatricesArcs());
-                fprintf (this->fichier, "M=%d \n", M.getNbJetonsParSommet());
-                fprintf (this->fichier, "W=%d \n", M.getEvolutionNbJetonPourChaqueTransition());
-                fprintf (this->fichier, "K=%d \n", M.getNbMaxJetonsParSommet());
-                fclose (this->fichier);
+                cout<< "S="<< M.getNbSommets()<<endl;
+		cout<< "T="<< M.getNbTransitions()<<endl;
+		cout<< "P="<< M.getProbabiliteTirParTransition()<<endl;
+		cout<< "F="<< M.getMatricesArcs()<<endl;
+		cout<< "M="<< M.getNbJetonsParSommet()<<endl;
+		cout<< "W="<< M.getEvolutionNbJetonPourChaqueTransition()<<endl;
+		cout<< "K="<< M.getNbMaxJetonsParSommet()<<endl;
+		    fclose (this->fichier);
             }
         }
 
@@ -99,13 +85,13 @@ class GestionnaireDeFichiers
             cout << "Impossible d'ouvrir le fichier en écriture !" << endl;
         else
         {
-			fprintf (this->fichier, "S=%d \n", M.getNbSommets());
-			fprintf (this->fichier, "T=%d \n", M.getNbTransitions());
-			fprintf (this->fichier, "P=%d \n", M.getProbabiliteTirParTransition());
-			fprintf (this->fichier, "F=%d \n", M.getMatricesArcs());
-			fprintf (this->fichier, "M=%d \n", M.getNbJetonsParSommet());
-			fprintf (this->fichier, "W=%d \n", M.getEvolutionNbJetonPourChaqueTransition());
-			fprintf (this->fichier, "K=%d \n", M.getNbMaxJetonsParSommet());
+			cout<< "S="<< M.getNbSommets()<<endl;
+			cout<< "T="<< M.getNbTransitions()<<endl;
+			cout<< "P="<< M.getProbabiliteTirParTransition()<<endl;
+			cout<< "F="<< M.getMatricesArcs()<<endl;
+			cout<< "M="<< M.getNbJetonsParSommet()<<endl;
+			cout<< "W="<< M.getEvolutionNbJetonPourChaqueTransition()<<endl;
+			cout<< "K="<< M.getNbMaxJetonsParSommet()<<endl;
 			fclose (this->fichier);
 		}
 	}
