@@ -46,6 +46,10 @@ class InterfaceGraphique : public QWidget //On hérite de QWidget
     QVBoxLayout *layoutprincipal;
     
     QLabel *echeancier;
+    QLabel *tabproba;
+    QLabel *tabarcs;
+    QLabel *tabjetcontenu;
+    QLabel *tabjetmax;
     
     void affichage_echeancier(); // Fonction pour afficher l'échéancier sous forme texte
 
