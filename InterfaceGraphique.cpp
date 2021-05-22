@@ -1,52 +1,10 @@
-#include "MaFenetre.hpp"
-/*
-#include "Moteur.hpp" // Pour utiliser la classe Moteur
-#include "Echancier.hpp" // Pour utiliser la classe Echancier
-#include "GestionnaireDeFichiers.hpp" // Pour utiliser la classe GestionnaireDeFichiers
-*/
+#include "MaFenetre.h"
 
 
-
-// CREATION DES SLOTS
-void InterfaceGraphique::fct_etatInitial(/*QPushButton etatInitial, Moteur M, Echeancier E*/)
-{
-    /*QObject::connect(enregistrer, SIGNAL(clicked()), qApp, SLOT(EnregisterEcheancier(FILE *temp, FILE *fichier)));
-    affichage_echeancier(M);*/
-    exit(1);
-}
-
-void InterfaceGraphique::fct_enregistrer(/*QPushButton enregistrer, Moteur M, FILE *temp, FILE *fichier*/)
-{
-    /*QObject::connect(enregistrer, SIGNAL(clicked()), qApp, SLOT(EnregisterEcheancier(FILE *temp, FILE *fichier)));
-    affichage_echeancier(M);*/
-    exit(0);
-}
-
-void InterfaceGraphique::fct_charger(/*QPushButton charger, Moteur M, FILE *fichier*/)
-{
-    /*QObject::connect(charger, SIGNAL(clicked()), qApp, SLOT(Charger(FILE*)));
-    affichage_echeancier(M);*/
-    exit(1);
-}
-
-void InterfaceGraphique::fct_avancer(/*QPushButton avancer, Moteur M, Echeancier E*/)
-{
-    /*QObject::connect(avancer, SIGNAL(clicked()), qApp, SLOT(E.RenvoyerEtatReseauSelonTemps(M.Te+1)));
-    affichage_echeancier(M);*/
-    exit(1);
-}
-
-void InterfaceGraphique::fct_reculer(/*QPushButton reculer, Moteur M, Echeancier E*/)
-{
-    /*QObject::connect(reculer, SIGNAL(clicked()), qApp, SLOT(E.RenvoyerEtatReseauSelonTemps(M.Te-1)));
-    affichage_echeancier(M);*/
-    exit(1);
-}
+Moteur M = new Moteur();
 
 
-
-
-InterfaceGraphique::InterfaceGraphique() : QWidget()
+MaFenetre::MaFenetre()
 {
     setFixedSize(1500, 800);
     setWindowTitle("Simulateur de Rdp");
@@ -97,18 +55,212 @@ InterfaceGraphique::InterfaceGraphique() : QWidget()
 
 
     // AFFICHAGE DE L'ECHEANCIER
-    QLabel *echeancier = new QLabel("Affichage de l'échéancier au temps Te = a :", this);
+    
+ 
+		// Affichage de Te, S, T
+	echeancierintro = new QLabel("", this);
+	echeancierintro->setText(QString("Te = %1 <br/>").arg(M.Te)+QString("S = %1 <br/>").arg(M.S)+QString("T = %1 <br/>").arg(M.T));
+	
+	
+	
+		// Affichage de P
+	QString proba[M.T];
+	QString resproba;
+	
+	for(int i = 0; i<M.T; i++)
+	{
+		proba[i] = QString::number(M.P[i]);
+	}
+	
+	resproba = "P = { ";
+	
+	for(int i = 0; i<M.T; i++)
+	{
+		if(i == M.T-1)
+		{
+			resproba = resproba + proba[i] + " }";
+		}
+		else
+		{
+			resproba = resproba + proba[i] + " , ";
+		}
+	}
+	tabproba = new QLabel(resproba,this);
 
-    echeancier->setFont(QFont("Lato Light", 15));
-    echeancier->setMaximumWidth(500);
 
+
+// Affichage de F (arcs)
+	int sa = sizeof(this->M.F);
+	QString arcs[sa][3];
+	QString resarcs;
+	
+	for(int i = 0; i<sa; i++)
+	{
+		for(int j = 0; j<3; j++)
+		{
+			arcs[i][j] = QString::number(F[i][j]);
+		}
+	}
+	
+	
+	resarcs = "F = { ";
+	
+	
+	for(int i = 0; i<sa; i++)
+	{
+		resarcs = resarcs + "{ ";
+		for(int j = 0; j<3; j++)
+		{
+			if(j == 2)
+			{
+				resarcs = resarcs + arcs[i][j] + " }";
+			}
+			else
+			{
+				resarcs = resarcs + arcs[i][j] + " , ";
+			}
+		}
+		if(i == sa-1)
+		{
+			resarcs = resarcs + " }";
+		}
+		else
+		{
+			resarcs = resarcs + " , ";
+			if(i%5 ==  0 && i != 0)
+			{
+				resarcs = resarcs + "<br/>";
+			}
+		}
+	}
+	tabarcs = new QLabel(resarcs, this);
+
+
+
+		// Affichage de M
+	QString jetcontenu[M.S];
+	QString resjetcontenu;
+	
+	for(int i = 0; i<M.S; i++)
+	{
+		jetcontenu[i] = QString::number(M.M[i]);
+	}
+	
+	resjetcontenu = "M = { ";
+	for(int i = 0; i<M.S; i++)
+	{
+		if(i == M.S-1)
+		{
+			resjetcontenu = resjetcontenu + jetcontenu[i] + " }";
+		}
+		else
+		{
+			resjetcontenu = resjetcontenu + jetcontenu[i] + " , ";
+		}
+	}
+	tabjetcontenu = new QLabel(resjetcontenu,this);
+
+
+
+		// Affichage de W
+	
+	QString jetcg[M.T][2];
+	QString resjetcg;
+	
+	for(int i = 0; i<M.T; i++)
+	{
+		for(int j = 0; j<2; j++)
+		{
+			jetcg[i][j] = QString::number(W[i][j]);
+		}
+	}
+	
+	
+	resjetcg = "W = { ";
+	
+	
+	for(int i = 0; i<M.T; i++)
+	{
+		resjetcg = resjetcg + "{ ";
+		for(int j = 0; j<2; j++)
+		{
+			if(j == 1)
+			{
+				resjetcg = resjetcg + jetcg[i][j] + " }";
+			}
+			else
+			{
+				resjetcg = resjetcg + jetcg[i][j] + " , ";
+			}
+		}
+		if(i == M.T-1)
+		{
+			resjetcg = resjetcg + " }";
+		}
+		else
+		{
+			resjetcg = resjetcg + " , ";
+			if(i%5 ==  0 && i != 0)
+			{
+				resjetcg = resjetcg + "<br/>";
+			}
+		}
+	}
+	tabjetcg = new QLabel(resjetcg, this);
+
+
+		// Affichage de K
+	QString jetmax[M.S];
+	QString resjetmax;
+	
+	for(int i = 0; i<M.S; i++)
+	{
+		jetmax[i] = QString::number(M.K[i]);
+	}
+	
+	resjetmax = "K = { ";
+	for(int i = 0; i<M.S; i++)
+	{
+		if(i == M.S-1)
+		{
+			resjetmax = resjetmax + jetmax[i] + " }";
+		}
+		else
+		{
+			resjetmax = resjetmax + jetmax[i] + " , ";
+		}
+	}
+	tabjetmax = new QLabel(resjetmax,this);
+	
+	
+	
+	
+	
+	
+
+	
+	//echeancierintro->setText(QString::number(Te));
+	echeancierintro->setFont(QFont("Lato Light", 15));
+	echeancierintro->setMaximumWidth(500);
+	tabproba->setFont(QFont("Lato Light", 12));
+	tabproba->setMaximumWidth(500);
+	tabarcs->setFont(QFont("Lato Light", 12));
+	tabarcs->setMaximumWidth(500);
+	tabjetcontenu->setFont(QFont("Lato Light", 12));
+	tabjetcontenu->setMaximumWidth(500);
+	tabjetmax->setFont(QFont("Lato Light", 12));
+	tabjetmax->setMaximumWidth(500);
 
 
     // CREATION DU LAYOUT POUR L'AFFICHAGE DE L'ÉCHEANCIER ET AJOUT DU WIDGET TEXTE
     QVBoxLayout *vlayout = new QVBoxLayout;
 
     vlayout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    vlayout->addWidget(echeancier);
+    vlayout->addWidget(echeancierintro);
+    vlayout->addWidget(tabproba);
+    vlayout->addWidget(tabarcs);
+    vlayout->addWidget(tabjetcontenu);
+    vlayout->addWidget(tabjetmax);
 
 
 
@@ -128,4 +280,37 @@ InterfaceGraphique::InterfaceGraphique() : QWidget()
     QObject::connect(charger, SIGNAL(clicked()), this, SLOT(fct_charger()));
     QObject::connect(avancer, SIGNAL(clicked()), this, SLOT(fct_avancer()));
     QObject::connect(reculer, SIGNAL(clicked()), this, SLOT(fct_reculer()));
+}
+
+
+
+// CREATION DES SLOTS
+
+void MaFenetre::fct_etatInitial()
+{
+    E.RenvoyerEtatReseau(0);
+    echeancierintro->setText(QString("Te = %1 <br/>").arg(M.Te)+QString("S = %1 <br/>").arg(S));
+}
+
+void MaFenetre::fct_avancer()
+{
+	E.RenvoyerEtatReseau(M.Te+1);
+	echeancierintro->setText(QString("Te = %1 <br/>").arg(M.Te)+QString("S = %1 <br/>").arg(S));
+	
+}
+
+void MaFenetre::fct_reculer()
+{
+    E.RenvoyerEtatReseau(M.Te-1);
+    echeancierintro->setText(QString("Te = %1 <br/>").arg(M.Te)+QString("S = %1 <br/>").arg(S));
+}
+
+void MaFenetre::fct_enregistrer()
+{
+    EnregistrerEcheancier(temp, fichier);
+}
+
+void MaFenetre::fct_charger()
+{
+    Charger(fichier);
 }
