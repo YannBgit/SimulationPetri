@@ -295,6 +295,174 @@ void InterfaceGraphique::fct_etatInitial()
 {
     E.RenvoyerEtatReseau(0);
     echeancierintro->setText(QString("Te = %1 <br/>").arg(M.Te)+QString("S = %1 <br/>").arg(S));
+	
+	// RAFRAICHIR PROBA P
+	QString resproba2;
+	QString proba2[2];
+	
+	QString proba[M.T];
+	QString resproba;
+	
+	for(int i = 0; i<M.T; i++)
+	{
+		proba[i] = QString::number(M.P[i]);
+	}
+	
+	resproba = "P = { ";
+	
+	for(int i = 0; i<M.T; i++)
+	{
+		if(i == M.T-1)
+		{
+			resproba = resproba + proba[i] + " }";
+		}
+		else
+		{
+			resproba = resproba + proba[i] + " , ";
+		}
+	}
+	tabproba->setText(resproba2);
+	
+	
+	
+	// RAFRAICHIR ARCS F
+	int sa = sizeof(this->M.F);
+	QString arcs[sa][3];
+	QString resarcs;
+	
+	for(int i = 0; i<sa; i++)
+	{
+		for(int j = 0; j<3; j++)
+		{
+			arcs[i][j] = QString::number(F[i][j]);
+		}
+	}
+	
+	
+	resarcs = "F = { ";
+	
+	
+	for(int i = 0; i<sa; i++)
+	{
+		resarcs = resarcs + "{ ";
+		for(int j = 0; j<3; j++)
+		{
+			if(j == 2)
+			{
+				resarcs = resarcs + arcs[i][j] + " }";
+			}
+			else
+			{
+				resarcs = resarcs + arcs[i][j] + " , ";
+			}
+		}
+		if(i == sa-1)
+		{
+			resarcs = resarcs + " }";
+		}
+		else
+		{
+			resarcs = resarcs + " , ";
+			if(i%5 ==  0 && i != 0)
+			{
+				resarcs = resarcs + "<br/>";
+			}
+		}
+	}
+	tabarcs->setText(resarcs);
+	
+	// RAFRAICHIR M (JETONS CONTENUS)
+	QString jetcontenu[M.S];
+	QString resjetcontenu;
+	
+	for(int i = 0; i<M.S; i++)
+	{
+		jetcontenu[i] = QString::number(M.M[i]);
+	}
+	
+	resjetcontenu = "M = { ";
+	for(int i = 0; i<M.S; i++)
+	{
+		if(i == M.S-1)
+		{
+			resjetcontenu = resjetcontenu + jetcontenu[i] + " }";
+		}
+		else
+		{
+			resjetcontenu = resjetcontenu + jetcontenu[i] + " , ";
+		}
+	}
+	tabjetcontenu->setText(resjetcontenu);
+	
+	// RAFRAICHIR W (JETMAX)
+	
+	QString jetcg[M.T][2];
+	QString resjetcg;
+	
+	for(int i = 0; i<M.T; i++)
+	{
+		for(int j = 0; j<2; j++)
+		{
+			jetcg[i][j] = QString::number(W[i][j]);
+		}
+	}
+	
+	
+	resjetcg = "W = { ";
+	
+	
+	for(int i = 0; i<M.T; i++)
+	{
+		resjetcg = resjetcg + "{ ";
+		for(int j = 0; j<2; j++)
+		{
+			if(j == 1)
+			{
+				resjetcg = resjetcg + jetcg[i][j] + " }";
+			}
+			else
+			{
+				resjetcg = resjetcg + jetcg[i][j] + " , ";
+			}
+		}
+		if(i == M.T-1)
+		{
+			resjetcg = resjetcg + " }";
+		}
+		else
+		{
+			resjetcg = resjetcg + " , ";
+			if(i%5 ==  0 && i != 0)
+			{
+				resjetcg = resjetcg + "<br/>";
+			}
+		}
+	}
+	tabjetcg->setText(resjetcg);
+	
+	// RAFRAICHIR K
+	
+	QString jetmax[M.S];
+	QString resjetmax;
+	
+	for(int i = 0; i<M.S; i++)
+	{
+		jetmax[i] = QString::number(M.K[i]);
+	}
+	
+	resjetmax = "K = { ";
+	for(int i = 0; i<M.S; i++)
+	{
+		if(i == M.S-1)
+		{
+			resjetmax = resjetmax + jetmax[i] + " }";
+		}
+		else
+		{
+			resjetmax = resjetmax + jetmax[i] + " , ";
+		}
+	}
+	tabjetmax->setText(resjetmax);
 }
 
 void InterfaceGraphique::fct_avancer()
@@ -476,6 +644,174 @@ void InterfaceGraphique::fct_reculer()
 {
     E.RenvoyerEtatReseau(M.Te-1);
     echeancierintro->setText(QString("Te = %1 <br/>").arg(M.Te)+QString("S = %1 <br/>").arg(S));
+	
+	// RAFRAICHIR PROBA P
+	QString resproba2;
+	QString proba2[2];
+	
+	QString proba[M.T];
+	QString resproba;
+	
+	for(int i = 0; i<M.T; i++)
+	{
+		proba[i] = QString::number(M.P[i]);
+	}
+	
+	resproba = "P = { ";
+	
+	for(int i = 0; i<M.T; i++)
+	{
+		if(i == M.T-1)
+		{
+			resproba = resproba + proba[i] + " }";
+		}
+		else
+		{
+			resproba = resproba + proba[i] + " , ";
+		}
+	}
+	tabproba->setText(resproba2);
+	
+	
+	
+	// RAFRAICHIR ARCS F
+	int sa = sizeof(this->M.F);
+	QString arcs[sa][3];
+	QString resarcs;
+	
+	for(int i = 0; i<sa; i++)
+	{
+		for(int j = 0; j<3; j++)
+		{
+			arcs[i][j] = QString::number(F[i][j]);
+		}
+	}
+	
+	
+	resarcs = "F = { ";
+	
+	
+	for(int i = 0; i<sa; i++)
+	{
+		resarcs = resarcs + "{ ";
+		for(int j = 0; j<3; j++)
+		{
+			if(j == 2)
+			{
+				resarcs = resarcs + arcs[i][j] + " }";
+			}
+			else
+			{
+				resarcs = resarcs + arcs[i][j] + " , ";
+			}
+		}
+		if(i == sa-1)
+		{
+			resarcs = resarcs + " }";
+		}
+		else
+		{
+			resarcs = resarcs + " , ";
+			if(i%5 ==  0 && i != 0)
+			{
+				resarcs = resarcs + "<br/>";
+			}
+		}
+	}
+	tabarcs->setText(resarcs);
+	
+	// RAFRAICHIR M (JETONS CONTENUS)
+	QString jetcontenu[M.S];
+	QString resjetcontenu;
+	
+	for(int i = 0; i<M.S; i++)
+	{
+		jetcontenu[i] = QString::number(M.M[i]);
+	}
+	
+	resjetcontenu = "M = { ";
+	for(int i = 0; i<M.S; i++)
+	{
+		if(i == M.S-1)
+		{
+			resjetcontenu = resjetcontenu + jetcontenu[i] + " }";
+		}
+		else
+		{
+			resjetcontenu = resjetcontenu + jetcontenu[i] + " , ";
+		}
+	}
+	tabjetcontenu->setText(resjetcontenu);
+	
+	// RAFRAICHIR W (JETMAX)
+	
+	QString jetcg[M.T][2];
+	QString resjetcg;
+	
+	for(int i = 0; i<M.T; i++)
+	{
+		for(int j = 0; j<2; j++)
+		{
+			jetcg[i][j] = QString::number(W[i][j]);
+		}
+	}
+	
+	
+	resjetcg = "W = { ";
+	
+	
+	for(int i = 0; i<M.T; i++)
+	{
+		resjetcg = resjetcg + "{ ";
+		for(int j = 0; j<2; j++)
+		{
+			if(j == 1)
+			{
+				resjetcg = resjetcg + jetcg[i][j] + " }";
+			}
+			else
+			{
+				resjetcg = resjetcg + jetcg[i][j] + " , ";
+			}
+		}
+		if(i == M.T-1)
+		{
+			resjetcg = resjetcg + " }";
+		}
+		else
+		{
+			resjetcg = resjetcg + " , ";
+			if(i%5 ==  0 && i != 0)
+			{
+				resjetcg = resjetcg + "<br/>";
+			}
+		}
+	}
+	tabjetcg->setText(resjetcg);
+	
+	// RAFRAICHIR K
+	
+	QString jetmax[M.S];
+	QString resjetmax;
+	
+	for(int i = 0; i<M.S; i++)
+	{
+		jetmax[i] = QString::number(M.K[i]);
+	}
+	
+	resjetmax = "K = { ";
+	for(int i = 0; i<M.S; i++)
+	{
+		if(i == M.S-1)
+		{
+			resjetmax = resjetmax + jetmax[i] + " }";
+		}
+		else
+		{
+			resjetmax = resjetmax + jetmax[i] + " , ";
+		}
+	}
+	tabjetmax->setText(resjetmax);
 }
 
 void InterfaceGraphique::fct_enregistrer()
