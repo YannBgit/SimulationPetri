@@ -16,6 +16,10 @@
 #include "Moteur.hpp" // Pour utiliser la classe Moteur
 #include "Echeancier.hpp" // Pour utiliser la classe Echancier
 #include "GestionnaireDeFichiers.hpp" // Pour utiliser la classe GestionnaireDeFichiers
+#include "Element.hpp" // Pour utiliser la classe GestionnaireDeFichiers
+
+
+class Element();
 
 // CLASSE
 class InterfaceGraphique : public QWidget //On hérite de QWidget
@@ -51,6 +55,13 @@ class InterfaceGraphique : public QWidget //On hérite de QWidget
     QLabel *tabjetcontenu;
     QLabel *tabjetmax;
     
+    int ajouterTe(int x);
+    float *changerP_plus(float *P);
+    int **changerF_plus(int **F);
+    int *changerM_plus(int *M);
+    int **changerW_plus(int **W);
+    int *changerK_plus(int *K);
+    
     void affichage_echeancier(); // Fonction pour afficher l'échéancier sous forme texte
 
     /*
@@ -64,7 +75,7 @@ class InterfaceGraphique : public QWidget //On hérite de QWidget
         QColor couleurTrait;
         QColor couleurRemplissage;
     };
-    Params parametres;
+    Params params;
 
     public:
     // CONSTRUCTEURS
@@ -172,7 +183,7 @@ class InterfaceGraphique : public QWidget //On hérite de QWidget
     Définit pour chaque arc une liste de positions contenant au moins celles d'une place et d'une transition pour les relier, en
     évitant de passer sur d'autres places et transitions.
     */
-    int ***calculerArcs(Element *elements, Moteur M, [params])
+    int ***calculerArcs(Element *elements, Moteur M, Params params)
     {
 
     }
@@ -221,70 +232,5 @@ class InterfaceGraphique : public QWidget //On hérite de QWidget
 /*
 Stock et dessine une place ou une transition avec ses données d'affichage
 */
-// CLASSE
-class Element
-{
-    private :
-    int pos_x; // Position x relative au 1er élément
-    int pos_y; // Position y relative au 1er élément
-    int nb_jetons; // Nb de jetons actuellement contenus dans l'élément si c'est une place
-    bool type; // Définit s'il s'agit d'une place (1) ou d'une transition (0)
-
-    public :
-    // CONSTRUCTEURS
-    /*
-    Constructeur de base
-    */
-    Element(int x, int y, bool type)
-    {
-
-    }
-
-    /*
-    Constructeur (si c'est une place)
-    */
-    Element(int x, int y, bool type, int nb_jetons)
-    {
-
-    }
-
-    // DESTRUCTEUR
-    ~Element();
-
-    // METHODES
-
-    /*
-    Dessine l'élément selon sa position et son type d'élément ainsi que les jetons qu'il contient et les paramètres.
-    */
-    void dessiner(Params params)
-    {
-
-    }
-
-    /*
-    Utilisé par miseAJourReseau() pour changer le nombre de jetons si l'élément est une place.
-    */
-    void setNbJetons(int n)
-    {
-
-    }
-
-    /*
-    Renvoie la valeur de type.
-    */
-    bool isPlace()
-    {
-
-    }
-
-    /*
-    Accesseurs pour les variables.
-    */
-    int getPosX();
-
-    int getPosY();
-
-    int getNbJetons();
-};
 
 #endif
