@@ -2,7 +2,6 @@
 #ifndef ECHEANCIER_HPP
 #define ECHEANCIER_HPP
 
-#define TAILLE_MAX 100
 
 // LIBRAIRIES
 #include "GestionnaireDeFichiers.hpp" // Pour utiliser la classe GestionnaireDeFichiers
@@ -20,8 +19,9 @@ class Echeancier
 
     public:
     // CONSTRUCTEURS
-    Echeancier(GestionnaireDeFichiers GDF)
+    Echeancier(Moteur RDP)
     {
+		this->TempsCourant = RDP.getTemps();
     }
 
     // DESTRUCTEUR
