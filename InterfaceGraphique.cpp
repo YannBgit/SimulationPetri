@@ -132,30 +132,21 @@ void InterfaceGraphique::buildElementsPosition()
 {       
         int nb_arcs = sizeof(M.F) / sizeof(M.F[0]);
         int matrice_arcs[M.S][M.T];
-        for (int i=0;i<M.S;i++) {
-            for (int y=0;y<M.T;y++) {
-                matrice_arcs[i][y] = 0;
+        for (int i=0;i<M.S;i++) {           //On génère une matrice avec en abscisse
+            for (int y=0;y<M.T;y++) {       //les places et en ordonnée les transitions
+                matrice_arcs[i][y] = 0;     //pour faciliter la création des éléments
             }
         }
 
-        for (int i=0;i<nb_arcs;i++) {
-            matrice_arcs[M.F[i][1]][M.F[i][2]] = (M.F[i][0] ? -1 : 1);
+        for (int i=0;i<nb_arcs;i++) {                                   //On indue les couples place transition qui sont liés dans la matrice
+            matrice_arcs[M.F[i][1]][M.F[i][2]] = (M.F[i][0] ? -1 : 1);  //la valeur est à 1 si on part de la place vers la transition et -1 inversement
         }
-        //printf("Matrice créée!\n");
 
-        /*for (int y=0;y<M.T;y++) {
-            printf("[");
-            for (int i=0;i+1<M.S;i++) {
-                printf("%2d",matrice_arcs[i][y]);
-            }
-            printf("%2d]\n",matrice_arcs[M.S-1][y]);
-        }*/
-
-        Element **truc = (Element**)malloc(sizeof(Element*)*(M.S+M.T));
+        Element **elements_traite = (Element**)malloc(sizeof(Element*)*(M.S+M.T));
         std::vector<int> transition_enfants;
 
         for (int i=0;i<M.S+M.T;i++) {
-            truc[i] = nullptr;
+            elements_traite[i] = nullptr;
         }
 
         std::list<int*> a_traiter;
@@ -166,7 +157,6 @@ void InterfaceGraphique::buildElementsPosition()
         a_traiter.push_front(tuple);
 
         while (!a_traiter.empty()) {
-            //printf("Nouveau tour //////////////////////////////////////////////////\n");
             curr_size = a_traiter.size();
             decalage = curr_size/2;
             curr_center = 0;
@@ -174,9 +164,8 @@ void InterfaceGraphique::buildElementsPosition()
                 if (i-decalage == 0 && curr_size%2 == 0) decalage--;
 
                 if (a_traiter.back()[1]) {  //Si le dernier élménet à traiter est une place
-                    //printf("Lélément est une place !\n");
                     for (j=0;j<M.T;j++) {                                                               //On ajoute toutes les transitions 
-                        if (matrice_arcs[a_traiter.back()[0]][j] == 1 && truc[M.S+j] == nullptr ) {      //liées depuis cette place
+                        if (matrice_arcs[a_traiter.back()[0]][j] == 1 && elements_traite[M.S+j] == nullptr ) {      //liées depuis cette place
                             tuple = (int*)malloc(sizeof(int)*2);                                        //
                             tuple[0] = j, tuple[1] = 0;                                                 //
                             if (isContainedBy(tuple, a_traiter)) {
@@ -187,50 +176,41 @@ void InterfaceGraphique::buildElementsPosition()
                         }
                     }
 
-                    truc[a_traiter.back()[0]] = new Element(parent_center+i-decalage, parent_y+1, 1, M.M[a_traiter.back()[0]]);
+                    elements_traite[a_traiter.back()[0]] = new Element(parent_center+i-decalage, parent_y+1, 1, M.M[a_traiter.back()[0]]);
                     if (i == 0 || i == curr_size-1) {                               //puis on crée et met l'élément correspondant à la place
-                        if (i == curr_size-1) curr_y = truc[a_traiter.back()[0]]->getPosY();          //  //dans la liste des éléments visuels.
-                        curr_center += truc[a_traiter.back()[0]]->getPosX();    //On récupère ici la position en y des éléments traités ce 
-                        //printf("current center : %d\n",curr_center);
+                        if (i == curr_size-1) curr_y = elements_traite[a_traiter.back()[0]]->getPosY();          //  //dans la liste des éléments visuels.
+                        curr_center += elements_traite[a_traiter.back()[0]]->getPosX();    //On récupère ici la position en y des éléments traités ce 
                     }                                                           //tour de boucle ci ainsi que le milieu de leurs x
                     free(a_traiter.back());                                         //
                     a_traiter.pop_back();                                           //enfin on supprime compléement le tuple de la liste
                                                                                     // a_traiter
                 } else {                    //Si c'est une transition
-                    //printf("Lélément est une transition !\n");
                     for (j=0;j<M.S;j++) {                                                                       //
-                        if (matrice_arcs[j][a_traiter.back()[0]] == -1 && truc[j] == nullptr) {                 //
+                        if (matrice_arcs[j][a_traiter.back()[0]] == -1 && elements_traite[j] == nullptr) {                 //
                             tuple = (int*)malloc(sizeof(int)*2);                                                //
                             tuple[0] = j, tuple[1] = 1;                                                         //
                             if (isContainedBy(tuple, a_traiter)) {
                                 free(tuple);
                             } else {
                                 a_traiter.push_front(tuple); 
-                            }                                                     //mêmes opérations mais en
-                        }                                                                                       //inversant place et transitions
-                    }                                                                                           //
-                    truc[a_traiter.back()[0]+M.S] = new Element(parent_center+i-decalage, parent_y+1, 0);      //
-                    //printf("parent : %d, i : %d, dec : %d\n",parent_center, i, decalage);
-                    if (i == 0 || i == curr_size-1) {                                                           //
-                        if (i == curr_size-1) curr_y = truc[a_traiter.back()[0]+M.S]->getPosY();                                          //
-                        curr_center += truc[a_traiter.back()[0]+M.S]->getPosX();
-                        //printf("current center : %d\n",curr_center);                                  //
+                            }                                                                                       //mêmes opérations mais en
+                        }                                                                                           //inversant place et transitions
+                    }                                                                                               //
+                    elements_traite[a_traiter.back()[0]+M.S] = new Element(parent_center+i-decalage, parent_y+1, 0);      //
+                    if (i == 0 || i == curr_size-1) {                                                           
+                        if (i == curr_size-1) curr_y = elements_traite[a_traiter.back()[0]+M.S]->getPosY();               
+                        curr_center += elements_traite[a_traiter.back()[0]+M.S]->getPosX();     //
                     }
-                    //free(a_traiter.back());
+                    free(a_traiter.back());
                     a_traiter.pop_back();
                 }
             }
-            //printf("current center : %d\n",curr_center);
             if (curr_size != 1) curr_center = curr_center / 2;
             parent_center = curr_center;
             parent_y = curr_y;
-
-            //printf("Current data : %d, %d\n",parent_center, curr_y);
-
-
         }
         
-        elements = truc;
+        elements = elements_traite;
     }
 
     bool InterfaceGraphique::isContainedBy(int* tuple, std::list<int*> liste)
@@ -419,7 +399,6 @@ void InterfaceGraphique::buildElementsPosition()
                 if (j == nb_sous_arc-2) {
                     ligne.setLine(arcs[i][j-1][0], arcs[i][j-1][1], arcs[i][j][0], arcs[i][j][1]);
                     angle = atan2(-ligne.dy(), ligne.dx());
-                    printf("angle : %f\n",angle);
                     QLineF arrow_tip(ligne);
                     arrow_tip.setLength((19.0/20.0)*ligne.length());
                     arrow_head.clear();
@@ -429,5 +408,16 @@ void InterfaceGraphique::buildElementsPosition()
                 }
             }
         }
-        
+    }
+
+    void InterfaceGraphique::miseAJourReseau(QGraphicsScene *scene)
+    {
+        for (int i=0;i<M.S;i++) {
+            if (M.M[i] != elements[i]->getNbJetons()) {
+                elements[i]->setNbJetons(M.M[i]);
+            }
+        }
+        scene->clear();
+        dessinerElements(scene);
+        dessinerArcs(scene);
     }

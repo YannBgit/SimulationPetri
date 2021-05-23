@@ -63,6 +63,13 @@ int main(int argc, char *argv[])
 
     test.dessinerArcs(s);
 
+    M.M[0] = 1;
+    M.M[2] = 1;
+    
+    test.setMoteur(M);
+
+    test.miseAJourReseau(s);
+
     //truc->dessiner(s, params);
     //machin->dessiner(s, params);
 

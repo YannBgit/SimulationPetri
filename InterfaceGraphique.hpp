@@ -174,10 +174,7 @@ class InterfaceGraphique : public QWidget //On hérite de QWidget
     Récupère le nouvel état du réseau et modifie le nombre de jetons pour chaque élément graphique où c'est nécessaire. Appellée lors
     d'un déplacement dans le réseau.
     */
-    void miseAJourReseau(Element *elements, Moteur M)
-    {
-
-    }
+    void miseAJourReseau(QGraphicsScene *scene);
         
     /*
     Utilisée par calculerArcs(). Renvoie des points de passage (x, y) permettant à l'arc en cours de calcul de ne pas intersecter avec
