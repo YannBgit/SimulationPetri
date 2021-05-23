@@ -189,20 +189,20 @@ class Moteur
 	int *Marquage(Moteur RDP, int **W)
     {
         int marq[RDP.S];
-        int transition_possible[T]; //ce tablea à en valeur des transitions
+        int transi_possible[T]; //ce tablea à en valeur des transitions
 		int nbr_transi;
         int i,j;
 
-        for(i=0; i<RDP.S;i++) marqu[i]=0;
+        for(i=0; i<RDP.S;i++) marq[i]=0;
 
         for(i=0; i<RDP.S; i++)
         {
-            transition_possible = transition_possible(RDP.S,RDP.T, RDP.F);
+            transi_possible = transition_possible(RDP.S,RDP.T, RDP.F);
             nbr_transi = nbr_transition(transition_possible, RDP.T);
 
-            for(j=0; j<=transition_possible;j++)
+            for(j=0; j<=nbr_transi;j++)
             {
-                marq[i] += Nbr_Jetons(RDP.W , transition_possible[j], RDP.M));
+                marq[i] += Nbr_Jetons(RDP.W , transi_possible[j], RDP.M));
             }
         }
 
@@ -219,7 +219,6 @@ class Moteur
     {
         int nbr;
         nbr = W[S][T] + M[S];
-        
         return nbr;
     }
 
@@ -229,14 +228,14 @@ class Moteur
         for(int i=0;i<T;i++)
         {
             if(F[S][i]) transition[i]=1;
-            else transition=0;
+            else transition[i]=0;
         }
             return transition;
-        }
+    }
 
-            /* Compte les transitions possibles*/
-            int	nbr_transition(int *transition, int T)
-        {
+/* Compte les transitions possibles*/
+    int	nbr_transition(int *transition, int T)
+	{
             
         int nbr_transi=0;
         int i = 0;
@@ -244,7 +243,7 @@ class Moteur
         for(int i=0;i<T;i++)
             if(transition[i]) nbr_transi++;
 
-        return nbr_transi;
+		return nbr_transi;
     }
 
     /*
