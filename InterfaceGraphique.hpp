@@ -18,6 +18,7 @@
 //#include "GestionnaireDeFichiers.hpp" // Pour utiliser la classe GestionnaireDeFichiers
 
 #include <stdio.h>
+#include <cmath>
 
 class Element;
 
@@ -240,17 +241,60 @@ class Element
     Dessine l'élément selon sa position et son type d'élément ainsi que les jetons qu'il contient et les paramètres.
     */
     void dessiner(QGraphicsScene *scene, InterfaceGraphique::Params params)
-    {
+    {   
+        float pos_x_scene, pos_y_scene, size;
+        size = params.tailleElement;    //stocke le diamètre de la place
         if (type) {
-            scene->addEllipse(pos_x*params.tailleElement+pos_x*params.elementsDistance,
-                pos_y*params.tailleElement+pos_y*params.elementsDistance,
-                params.tailleElement, params.tailleElement, QPen(Qt::black,2)
-             );
+            pos_x_scene = pos_x*size+pos_x*params.elementsDistance; //Position en x de la place sur la scene (l'écran)
+            pos_y_scene = pos_y*size+pos_y*params.elementsDistance; //Position en y de la place sur la scene (l'écran)
+            scene->addEllipse(pos_x_scene, pos_y_scene,
+                size, size,
+                QPen(Qt::black,2)
+            );
+
+            if (nb_jetons) {
+                if (nb_jetons == 1) {                              
+                    scene->addEllipse(pos_x_scene+size/4, pos_y_scene+size/4,
+                    params.tailleElement/2, params.tailleElement/2,                     //si on essayait de répartir un ou deux jetons on aurait
+                    QPen(Qt::black,2), QBrush(Qt::SolidPattern)                         //des erreurs avec les fonctions cosinus et sinus etc...
+                );
+                }else if (nb_jetons == 2 && size > 6) {
+                    scene->addEllipse(pos_x_scene+3, pos_y_scene+params.tailleElement/4+3,
+                    size/2-6, size/2-6,
+                    QPen(Qt::black,2), QBrush(Qt::SolidPattern)
+                    );
+                    scene->addEllipse(pos_x_scene+params.tailleElement/2+3, pos_y_scene+params.tailleElement/4+3,
+                    params.tailleElement/2-6, params.tailleElement/2-6,
+                    QPen(Qt::black,2), QBrush(Qt::SolidPattern)
+                    );
+                } else {
+                    double r_token, ln_base, ln_cote, angle, d_token, x_token, y_token;//On dessine les tokens présents dans la place en les répartissants comme cercles inscrits dans nb_jetons triangles isocèles
+                    angle = (2*M_PI)/nb_jetons, ln_cote = size/2;   //Angle du haut des triangles et longeur des cotés (rayon de la place)
+                    ln_base = (ln_cote * sin(angle) / sin((M_PI-angle) /2));        //Longeur de la base des tiangles
+                    r_token = (ln_base/2) * sqrt((2*ln_cote-ln_base) / (2*ln_cote+ln_base));  //rayon d'un token
+                    d_token = sqrt( abs(ln_cote*ln_cote - pow(ln_base/2,2))) - r_token;      //distance du centre du token au centre de la place (h_triangle-r_token)
+
+                    r_token *= 1 + 5/(pow(nb_jetons,2.0));
+                    d_token *= 1 + 20/(pow(nb_jetons,2.9));
+
+                    for(int i=0;i<nb_jetons;i++) {
+                        x_token = pos_x_scene+size/2-r_token + d_token*cos(angle*i) +2;
+                        y_token = pos_y_scene+size/2-r_token + d_token*sin(angle*i) +2;
+                        scene->addEllipse(x_token, y_token,
+                            (r_token-2)*2, (r_token-2)*2,
+                            QPen(Qt::black,2), QBrush(Qt::SolidPattern)
+                        );
+                    }
+                }
+            }
+
+
         } else {
-            scene->addRect(pos_x*params.tailleElement+pos_x*params.elementsDistance,
-                pos_y*params.tailleElement+pos_y*params.elementsDistance+(3.0/8.0)*params.tailleElement,
-                params.tailleElement, params.tailleElement/4.0, QPen(), QBrush(Qt::SolidPattern)
-             );
+            scene->addRect(pos_x*size+pos_x*params.elementsDistance,
+                pos_y*size+pos_y*params.elementsDistance+(3.0/8.0)*size,
+                size, size/4.0,
+                QPen(), QBrush(Qt::SolidPattern)
+            );
         }
     }
 

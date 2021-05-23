@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
     params.elementsDistance = 25;
     params.tailleElement = 50;
 
-    InterfaceGraphique::Moteur M = {4,3,{{0,0,0},{1,1,0},{1,2,0},{0,1,1},{0,2,1},{1,3,1},{1,0,1}},{2,1,0,1},7};
+    InterfaceGraphique::Moteur M = {4,3,{{0,0,0},{1,1,0},{1,2,0},{0,1,1},{0,2,1},{1,3,1},{1,0,1}},{3,1,0,1},7};
     
 
     printf("taille : %d\n",sizeof(M.F) / sizeof(M.F[0]));
