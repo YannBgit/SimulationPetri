@@ -13,14 +13,13 @@
 #include <QLayout> // QLayout nous permet de postionner des widgets, comme par exemple, nos boutons
 #include <QGraphicsView> // Permet d'afficher une scène avec beaucoup d'options
 #include <QGraphicsScene> // Permet de dessinner le réseau de Pétri sur une scène
+#include <QGraphicsItem>    //Permet de gérer les collisions entre éléments graphiques
 //#include "Moteur.hpp" // Pour utiliser la classe Moteur
 //#include "Echeancier.hpp" // Pour utiliser la classe Echancier
 //#include "GestionnaireDeFichiers.hpp" // Pour utiliser la classe GestionnaireDeFichiers
 
 #include <stdio.h>
 #include <cmath>
-
-#include <QGraphicsItem>
 
 
 class Element;
@@ -163,7 +162,7 @@ class InterfaceGraphique : public QWidget //On hérite de QWidget
     Définit pour chaque arc une liste de positions contenant au moins celles d'une place et d'une transition pour les relier, en
     évitant de passer sur d'autres places et transitions.
     */
-    void calculerArcs();    //
+    void calculerArcs();    
 
     /*
     Dessine les arcs entre les places et les transitions.
@@ -192,7 +191,8 @@ class InterfaceGraphique : public QWidget //On hérite de QWidget
     Element **elements;
         
     /*
-    Stock les transitions, chacune correspondant à une liste de couples d'entiers x, y.
+    Liste stockant les arcs, un arcs (int**) correspondant à la liste des points formant ses segments, et se terminant par nullptr.
+    Un point (int*) contient les coordonnées x et y dans cet ordre d'une extrémitée d'un segment.
     */
     int ***arcs;
 };
