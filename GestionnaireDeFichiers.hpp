@@ -26,16 +26,6 @@ class GestionnaireDeFichiers
     ~GestionnaireDeFichiers();
 
     // METHODES
-    /*
-    Fonction de type void pour ne rien renvoyer.
-    La fonction charge un fichier et l'enregistre dans le GestionnaireDeFichiers.
-    */
-    void Charger(Moteur M)
-    {
-	    
-    	
-        return;
-    }
 
     /*
     Fonction de type void pour ne rien renvoyer.
@@ -55,14 +45,15 @@ class GestionnaireDeFichiers
             {	// Ouverture réussie et on ecrit dans le fichier
                 
                     
-                cout<< "S="<< M.getNbSommets()<<endl;
-		cout<< "T="<< M.getNbTransitions()<<endl;
-		cout<< "P="<< M.getProbabiliteTirParTransition()<<endl;
-		cout<< "F="<< M.getMatricesArcs()<<endl;
-		cout<< "M="<< M.getNbJetonsParSommet()<<endl;
-		cout<< "W="<< M.getEvolutionNbJetonPourChaqueTransition()<<endl;
-		cout<< "K="<< M.getNbMaxJetonsParSommet()<<endl;
-		    fclose (this->fichier);
+                std::cout << "S=" << M.getNbSommets() << std::endl;
+                std::cout<< "T="<< M.getNbTransitions()<< std::endl;
+                std::cout<< "P="<< M.getProbabiliteTirParTransition()<< std::endl;
+                std::cout<< "F="<< M.getMatricesArcs()<< std::endl;
+                std::cout<< "M="<< M.getNbJetonsParSommet()<< std::endl;
+                std::cout<< "W="<< M.getEvolutionNbJetonPourChaqueTransition()<< std::endl;
+                std::cout<< "K="<< M.getNbMaxJetonsParSommet()<< std::endl;
+
+                fclose (this->fichier);
             }
         }
 
@@ -82,24 +73,24 @@ class GestionnaireDeFichiers
 			this->fichier = fopen("etatreseau.txt", "r++");
         
         if (fichier == NULL)	// Erreur dans l'ouverture
-            cout << "Impossible d'ouvrir le fichier en écriture !" << endl;
+            std::cout << "Impossible d'ouvrir le fichier en écriture !" << std::endl;
         else
         {
-			cout<< "S="<< M.getNbSommets()<<endl;
-			cout<< "T="<< M.getNbTransitions()<<endl;
-			cout<< "P="<< M.getProbabiliteTirParTransition()<<endl;
-			cout<< "F="<< M.getMatricesArcs()<<endl;
-			cout<< "M="<< M.getNbJetonsParSommet()<<endl;
-			cout<< "W="<< M.getEvolutionNbJetonPourChaqueTransition()<<endl;
-			cout<< "K="<< M.getNbMaxJetonsParSommet()<<endl;
+			std::cout<< "S="<< M.getNbSommets()<< std::endl;
+			std::cout<< "T="<< M.getNbTransitions()<< std::endl;
+			std::cout<< "P="<< M.getProbabiliteTirParTransition()<< std::endl;
+			std::cout<< "F="<< M.getMatricesArcs()<< std::endl;
+			std::cout<< "M="<< M.getNbJetonsParSommet()<< std::endl;
+			std::cout<< "W="<< M.getEvolutionNbJetonPourChaqueTransition()<< std::endl;
+			std::cout<< "K="<< M.getNbMaxJetonsParSommet()<< std::endl;
+
 			fclose (this->fichier);
 		}
 	}
+
 	FILE *getFichier()
     {
     	return this->fichier;
-    }
-
     }
 
     /*

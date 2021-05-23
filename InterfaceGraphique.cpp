@@ -1,5 +1,5 @@
 #include "InterfaceGraphique.hpp"
-
+#include "Moteur.hpp"
 
 Moteur M = new Moteur();
 

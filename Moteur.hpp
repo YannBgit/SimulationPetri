@@ -77,7 +77,7 @@ class Moteur
     */
     int *Tirage()
     {
-        int *TableauTirage = malloc(sizeof(int) * this->T);
+        int *TableauTirage = (int *)malloc(sizeof(int) * this->T);
 
         // On vérifie que la transition considérée dispose d'assez de jetons dans ses sommets sources et on évalue aléatoirement si
         // elle doit être tirée.
@@ -104,7 +104,7 @@ class Moteur
             if((this->F[i][0] == 0))
             {
                 int nbTransitionsConflit = 1;
-                int *IDtransitionsConflit = malloc(nbTransitionsConflit * sizeof(int));
+                int *IDtransitionsConflit = (int *)malloc(nbTransitionsConflit * sizeof(int));
                 IDtransitionsConflit[0] = this->F[i][2];
 
                 for(int j = 0; j < (sizeof(this->F) / sizeof(this->F[0])); j++)
@@ -113,7 +113,7 @@ class Moteur
                     this->W[this->F[j][2]][0]) > this->M[this->F[i][1]]))
                     {
                         nbTransitionsConflit++;
-                        IDtransitionsConflit = realloc(IDtransitionsConflit, sizeof(int) * nbTransitionsConflit);
+                        IDtransitionsConflit = (int *)realloc(IDtransitionsConflit, sizeof(int) * nbTransitionsConflit);
                         IDtransitionsConflit[nbTransitionsConflit - 1] = this->F[j][2];
                     }
                 }

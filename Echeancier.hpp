@@ -21,7 +21,6 @@ class Echeancier
     // CONSTRUCTEURS
     Echeancier(GestionnaireDeFichiers GDF)
     {
-
     }
 
     // DESTRUCTEUR
