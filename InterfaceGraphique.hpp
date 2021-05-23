@@ -20,6 +20,9 @@
 #include <stdio.h>
 #include <cmath>
 
+#include <QGraphicsItem>
+
+
 class Element;
 
 // CLASSE
@@ -257,7 +260,7 @@ class Element
                     scene->addEllipse(pos_x_scene+size/4, pos_y_scene+size/4,
                     params.tailleElement/2, params.tailleElement/2,                     //si on essayait de répartir un ou deux jetons on aurait
                     QPen(Qt::black,2), QBrush(Qt::SolidPattern)                         //des erreurs avec les fonctions cosinus et sinus etc...
-                );
+                );                                                                      //car 
                 }else if (nb_jetons == 2 && size > 6) {
                     scene->addEllipse(pos_x_scene+3, pos_y_scene+params.tailleElement/4+3,
                     size/2-6, size/2-6,

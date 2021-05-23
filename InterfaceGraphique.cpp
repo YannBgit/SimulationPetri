@@ -87,9 +87,6 @@ InterfaceGraphique::InterfaceGraphique() : QWidget()
 
     // CREATION DU LAYOUT GRID POUR LES BOUTONS ET AJOUT DES WIDGETS BOUTONS
     QGridLayout *glayout = new QGridLayout;
-
-    glayout->setAlignment(Qt::AlignLeft | Qt::AlignBottom);
-    glayout->addWidget(enregistrer,2,0);
     glayout->addWidget(charger,2,1);
     glayout->addWidget(avancer,1,0);
     glayout->addWidget(reculer,1,1);
@@ -222,11 +219,6 @@ void InterfaceGraphique::buildElementsPosition()
                     //free(a_traiter.back());
                     a_traiter.pop_back();
                 }
-                
-                /*for (int i=0;i<M.S+M.T;i++) {
-                    printf("{%d,%d}", (truc[i] == nullptr ? 666 : truc[i]->getPosX()), (truc[i] == nullptr ? 666 : truc[i]->getPosY()) );
-                }
-                printf("\n\n");*/
             }
             //printf("current center : %d\n",curr_center);
             if (curr_size != 1) curr_center = curr_center / 2;
@@ -259,7 +251,7 @@ void InterfaceGraphique::buildElementsPosition()
 
     void InterfaceGraphique::calculerArcs()
     {
-        int x_dep, y_dep, x_fin, y_fin;
+        int x_dep, y_dep, x_fin, y_fin, nb_points = 4;
         int nb_arcs = sizeof(M.F) / sizeof(M.F[0]);
         int*** liste = (int***)malloc(sizeof(int*)*nb_arcs);
         int** un_arc, *un_point;
@@ -287,47 +279,155 @@ void InterfaceGraphique::buildElementsPosition()
                 x_fin = x_fin*parametres.tailleElement+x_fin*parametres.elementsDistance+parametres.tailleElement/2;
                 y_fin = y_fin*parametres.tailleElement+y_fin*parametres.elementsDistance;
             }
-            un_arc = (int**)malloc(sizeof(int*)*2);
+            int **arcs_a_ajouter = eviterIntersection(x_dep, y_dep+parametres.elementsDistance/5+1, x_fin, y_fin-(parametres.elementsDistance/5)-1);
+            int nb_a_ajouter;
+            for (nb_a_ajouter=0;arcs_a_ajouter[nb_a_ajouter] != nullptr;nb_a_ajouter++) {}
+            nb_points = nb_a_ajouter+2;
+            
+            un_arc = (int**)malloc(sizeof(int*)*(nb_points+1));
+
             un_point = (int*)malloc(sizeof(int)*2);
             un_point[0] = x_dep, un_point[1] = y_dep;
             un_arc[0] = un_point;
+
+            for (int i=1;i<nb_a_ajouter+1;i++) {
+                un_arc[i] = arcs_a_ajouter[i-1];
+            }        
+                        
             un_point = (int*)malloc(sizeof(int)*2);
             un_point[0] = x_fin, un_point[1] = y_fin;
-            un_arc[1] = un_point;
+            un_arc[nb_points-1] = un_point;
+
+            un_arc[nb_points] = nullptr;
             liste[i] = un_arc;
+
+            free(arcs_a_ajouter);
         }
-        printf("%d\n",liste[0][0][0]);
         arcs = liste;
     }
 
     int **InterfaceGraphique::eviterIntersection(int x_depart, int y_depart, int x_arrivee, int y_arrivee)
     {   
-        int elem_x, elem_y;
+        QGraphicsLineItem *arc = new QGraphicsLineItem(x_depart, y_depart, x_arrivee, y_arrivee);
+        QGraphicsItem *sommet;
+        std::vector<QGraphicsItem *> collides, no_collides;
+        qreal pos_x, pos_y, t_dep_x, t_fin_x;
+        int rep = 0;
+        bool is_colliding = false, still_colide;
+
         for (int i=0;i<M.S+M.T;i++) {
-            elem_x = elements[i]->getPosX(), elem_y = elements[i]->getPosY();
-            if (i/M.S == 0) {                                                          //si l'élément appartient au 1ers éléménts (place)
-                elem_x = elem_x*parametres.tailleElement+elem_x*parametres.elementsDistance;
-                elem_y = elem_y*parametres.tailleElement+elem_y*parametres.elementsDistance;
-            } else {                                                                   //sinon c'est une transition
-                elem_x = elem_x*parametres.tailleElement+elem_x*parametres.elementsDistance;
-                elem_y = elem_y*parametres.tailleElement+elem_y*parametres.elementsDistance+(3.0/8.0)*parametres.tailleElement;
+            if (elements[i]->isPlace()) {
+                pos_x = elements[i]->getPosX()*parametres.tailleElement+elements[i]->getPosX()*parametres.elementsDistance;
+                pos_y = elements[i]->getPosY()*parametres.tailleElement+elements[i]->getPosY()*parametres.elementsDistance;
+                sommet = new QGraphicsEllipseItem(pos_x, pos_y, parametres.tailleElement, parametres.tailleElement);
+            } else {
+                pos_x = elements[i]->getPosX()*parametres.tailleElement+elements[i]->getPosX()*parametres.elementsDistance;
+                pos_y = elements[i]->getPosY()*parametres.tailleElement+elements[i]->getPosY()*parametres.elementsDistance+(3.0/8.0)*parametres.tailleElement;
+                sommet = new QGraphicsRectItem(pos_x, pos_y, parametres.tailleElement, parametres.tailleElement*(2.0/8.0));
             }
 
+            if (arc->collidesWithItem(sommet)) {
+                collides.push_back(sommet);
+            } else {
+                no_collides.push_back(sommet);
+            }
         }
-        if (1) ;
+        if (collides.empty()) {
+            int **arc_points = (int**)malloc(sizeof(int*)*3);
+            arc_points[0] = (int*)malloc(sizeof(int)*2);
+            arc_points[0][0] = x_depart ,arc_points[0][1] = y_depart;
 
-        int** arc = (int**)malloc(sizeof(int*)*2);
-        
-        return arc;
+            arc_points[1] = (int*)malloc(sizeof(int)*2);
+            arc_points[1][0] = x_arrivee, arc_points[1][1] = y_arrivee;
+
+            arc_points[2] = nullptr;
+
+            return arc_points;
+        } else {
+            is_colliding = true;
+        }
+
+        while (is_colliding) {
+            t_dep_x = x_depart + ((rep/2)*parametres.elementsDistance+parametres.tailleElement*(rep?rep/2:1)) * (rep%2?1:-1);
+            t_fin_x = x_arrivee + ((rep/2)*parametres.elementsDistance+parametres.tailleElement*(rep?rep/2:1)) * (rep%2?1:-1);
+            arc->setLine(QLineF(QPointF(t_dep_x, y_depart), QPointF(t_fin_x, y_arrivee)));
+
+            still_colide = false;
+
+            for (size_t i=0;i<collides.size();i++) {
+                if (arc->collidesWithItem(collides.at(i))) {
+                    still_colide = true;
+                    break;
+                }
+            }
+
+            if (still_colide) {
+                rep++;
+            } else {
+                for (size_t i=0;i<no_collides.size();i++) {
+                    if (arc->collidesWithItem(no_collides.at(i))) {
+                        still_colide = true;
+                        break;
+                    }
+                }
+
+                if (still_colide) {
+                    rep++;
+                } else {
+                    is_colliding = false;
+                }
+            }
+        }
+        for (size_t i=0;i<collides.size();i++) {
+            delete collides.back();
+            collides.pop_back();
+        }
+        for (size_t i=0;i<no_collides.size();i++) {
+            delete no_collides.back();
+            no_collides.pop_back();
+        }
+
+        int **arc_points = (int**)malloc(sizeof(int*)*5);
+        arc_points[0] = (int*)malloc(sizeof(int)*2);
+        arc_points[0][0] = x_depart ,arc_points[0][1] = y_depart;
+
+        arc_points[1] = (int*)malloc(sizeof(int)*2);
+        arc_points[1][0] = t_dep_x, arc_points[1][1] = y_depart;
+
+        arc_points[2] = (int*)malloc(sizeof(int)*2);
+        arc_points[2][0] = t_fin_x, arc_points[2][1] = y_arrivee;
+
+        arc_points[3] = (int*)malloc(sizeof(int)*2);
+        arc_points[3][0] = x_arrivee, arc_points[3][1] = y_arrivee;
+
+        arc_points[4] = nullptr;
+
+        return arc_points;
     }
 
     void InterfaceGraphique::dessinerArcs(QGraphicsScene *scene)
     {
-        int x_dep, y_dep, x_fin, y_fin;
+        int nb_sous_arc;
         int nb_arcs = sizeof(M.F) / sizeof(M.F[0]);
+        double angle;
+        QLineF ligne;
+        QPolygonF arrow_head;
         for (int i=0;i<nb_arcs;i++) {
-            printf("i : %d\n",i);
-            scene->addLine(arcs[i][0][0], arcs[i][0][1], arcs[i][1][0], arcs[i][1][1]);
+            for (nb_sous_arc = 0;arcs[i][nb_sous_arc] != nullptr; nb_sous_arc++) {}
+            for (int j=1;j<nb_sous_arc;j++) {
+                scene->addLine(arcs[i][j-1][0], arcs[i][j-1][1], arcs[i][j][0], arcs[i][j][1]);
+                if (j == nb_sous_arc-2) {
+                    ligne.setLine(arcs[i][j-1][0], arcs[i][j-1][1], arcs[i][j][0], arcs[i][j][1]);
+                    angle = atan2(-ligne.dy(), ligne.dx());
+                    printf("angle : %f\n",angle);
+                    QLineF arrow_tip(ligne);
+                    arrow_tip.setLength((19.0/20.0)*ligne.length());
+                    arrow_head.clear();
+                    arrow_head << arrow_tip.p2() << arrow_tip.p2() - QPointF(sin(angle + M_PI/2.7)*(parametres.tailleElement/7+1), cos(angle + M_PI/2.7)*(parametres.tailleElement/7+1))
+                                                 << arrow_tip.p2() - QPointF(sin(angle + M_PI - M_PI/2.7)*(parametres.tailleElement/7+1), cos(angle + M_PI - M_PI/2.7)*(parametres.tailleElement/7+1));
+                    scene->addPolygon(arrow_head,QPen(Qt::black),QBrush(Qt::black));
+                }
+            }
         }
         
     }
