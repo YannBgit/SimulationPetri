@@ -109,7 +109,7 @@ class Moteur
 
                 for(int j = 0; j < (sizeof(this->F) / sizeof(this->F[0])); j++)
                 {
-                    if((this->F[j][0] == 0) && (this->F[i][1] == this->F[j][1]) && ((this->W[this->F[i][2]][0] +
+                    if((this->F[i] != this->F[j]) && (this->F[j][0] == 0) && (this->F[i][1] == this->F[j][1]) && ((this->W[this->F[i][2]][0] +
                     this->W[this->F[j][2]][0]) > this->M[this->F[i][1]]))
                     {
                         nbTransitionsConflit++;
