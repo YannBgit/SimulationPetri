@@ -1,10 +1,10 @@
-#include "MaFenetre.h"
+#include "InterfaceGraphique.hpp"
 
 
 Moteur M = new Moteur();
 
 
-MaFenetre::MaFenetre()
+InterfaceGraphique()::InterfaceGraphique()
 {
     setFixedSize(1500, 800);
     setWindowTitle("Simulateur de Rdp");
@@ -286,31 +286,31 @@ MaFenetre::MaFenetre()
 
 // CREATION DES SLOTS
 
-void MaFenetre::fct_etatInitial()
+void InterfaceGraphique::fct_etatInitial()
 {
     E.RenvoyerEtatReseau(0);
     echeancierintro->setText(QString("Te = %1 <br/>").arg(M.Te)+QString("S = %1 <br/>").arg(S));
 }
 
-void MaFenetre::fct_avancer()
+void InterfaceGraphique::fct_avancer()
 {
 	E.RenvoyerEtatReseau(M.Te+1);
 	echeancierintro->setText(QString("Te = %1 <br/>").arg(M.Te)+QString("S = %1 <br/>").arg(S));
 	
 }
 
-void MaFenetre::fct_reculer()
+void InterfaceGraphique::fct_reculer()
 {
     E.RenvoyerEtatReseau(M.Te-1);
     echeancierintro->setText(QString("Te = %1 <br/>").arg(M.Te)+QString("S = %1 <br/>").arg(S));
 }
 
-void MaFenetre::fct_enregistrer()
+void InterfaceGraphique::fct_enregistrer()
 {
     EnregistrerEcheancier(temp, fichier);
 }
 
-void MaFenetre::fct_charger()
+void InterfaceGraphique::fct_charger()
 {
     Charger(fichier);
 }

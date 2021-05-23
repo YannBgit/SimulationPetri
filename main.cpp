@@ -14,10 +14,16 @@ int main()
     GestionnaireDeFichiers GDF(RdP);
     Echeancier E(GDF);
 
-    // Initialisation du moteur et de l'interface graphique
+    // Initialisation du moteur
     Moteur EtatInitial = E.E.RenvoyerEtatReseauCourant();
     Moteur M(EtatInitial.S, EtatInitial.T, EtatInitial.P, EtatInitial.F, EtatInitial.M, EtatInitial.W, EtatInitial.K);
-    InterfaceGraphique IG();
+    
+	// Utilisation de l'interface graphique
+	QApplication app(argc, argv);
 
-    return 0;
+    InterfaceGraphique fenetre;
+    
+    fenetre.show();
+    
+    return app.exec();
 }
