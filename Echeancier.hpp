@@ -9,6 +9,7 @@
 #include "Moteur.hpp" // Pour utiliser la classe Moteur
 #include <stdio.h> // Permettre principalement la manipulation des flux de caractères
 #include <iostream>
+class Moteur;
 
 // CLASSE
 class Echeancier

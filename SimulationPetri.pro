@@ -20,4 +20,4 @@ HEADERS += Echeancier.hpp \
            GestionnaireDeFichiers.hpp \
            InterfaceGraphique.hpp \
            Moteur.hpp
-SOURCES += InterfaceGraphique.cpp main.cpp
+SOURCES += InterfaceGraphique.cpp

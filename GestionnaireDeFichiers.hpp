@@ -6,6 +6,7 @@
 #include "Moteur.hpp" // Pour utiliser la classe Moteur
 #include <stdio.h> // Permettre principalement la manipulation des flux de caractères
 #include <iostream> // Contrôler la lecture et l'écriture des flux standard
+class Moteur;
 
 // CLASSE
 class GestionnaireDeFichiers

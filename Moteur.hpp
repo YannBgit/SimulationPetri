@@ -175,9 +175,9 @@ class Moteur
 	La fonction observe si l'utilisateur a choisi ou non de reculer, si oui il demande à l'échéancier les anciennes informations du
     RDP et les renvoi.
 	*/
-	void Reculer()
+	void Reculer(Echeancier E)
     {
-        RenvoyerEtatReseauSelonTemps(this->Te--);
+        E.RenvoyerEtatReseauSelonTemps(this->Te--);
     }
 	
 	/*
