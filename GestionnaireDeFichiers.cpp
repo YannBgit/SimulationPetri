@@ -302,16 +302,16 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier)
 		}
 		std::cout << std::endl;
 		//// FIN K ////
-			
+		
+		Moteur m(Te, S, T, P, F, M, W, K);
+		free(ligne);
+
+		return m;
 	}
 	
-	else{
+	else
+	{
 		std::cout << "Erreur d'ouverture de fichier\n" << std::endl;
 		exit(1);
 	}
-	
-	Moteur m = new Moteur(Te, S, T, P, F, M, W, K);
-	free(ligne);
-
-	return m;
 }

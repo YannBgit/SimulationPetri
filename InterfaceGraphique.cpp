@@ -6,15 +6,11 @@ QLabel *tabjetcontenu;
 QLabel *tabjetcg;
 QLabel *tabjetmax;
 
-Moteur* M = new Moteur();
-FILE* fichier;
-FILE* temp;
-GestionnaireDeFichiers* GDF = new GestionnaireDeFichiers(fichier);
-Echeancier* E = new Echeancier(*M);
-
-
-
-
+fichier FILE *fichier;
+GestionnaireDeFichiers GDF(fichier);
+Echeancier E(rechercheEtat(0));
+Moteur M(GDF.rechercheEtat().Te,  GDF.rechercheEtat().S, GDF.rechercheEtat().T, GDF.rechercheEtat().P, GDF.rechercheEtat().F, 
+GDF.rechercheEtat().M, GDF.rechercheEtat().W, GDF.rechercheEtat().K);
 
 
 

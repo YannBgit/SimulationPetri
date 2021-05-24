@@ -1,6 +1,7 @@
 # SimulationPetri
 
 Pour compiler sous Linux avec un compilateur g++ :
+qmake
 make run
 
 Pour purger les fichiers temporaires du dossier :
