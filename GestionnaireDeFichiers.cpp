@@ -168,7 +168,9 @@ FILE *GestionnaireDeFichiers::getTemp()
 {
     return this->temp;
 }
-Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier){
+
+Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier)
+{
 	
 	fichier = fopen("RdP.txt","r");
 	
@@ -308,7 +310,8 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier){
 		exit(1);
 	}
 	
-	Moteur m = new Moteur(Te,S,T,P[T],F[S][3],M[S],W[T][S],K[S]);
+	Moteur m = new Moteur(Te, S, T, P, F, M, W, K);
 	free(ligne);
+
 	return m;
 }

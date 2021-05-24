@@ -53,7 +53,7 @@ class GestionnaireDeFichiers
 	*/
     void Charger(FILE *fichier);
 
-    Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier);
+    Moteur rechercheEtat(int Te, FILE *fichier);
 	
     FILE *getFichier();
 
