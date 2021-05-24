@@ -291,7 +291,7 @@ InterfaceGraphique::InterfaceGraphique()
 
 void InterfaceGraphique::fct_etatInitial()
 {
-    M = Echeancier E() .RenvoyerEtatReseau(0);
+    M = Echeancier E.RenvoyerEtatReseau(0);
     echeancierintro->setText(QString("Te = %1 <br/>").arg(M.getTe())+QString("S = %1 <br/>").arg(M.getS()));
 	
 	// RAFRAICHIR PROBA P
