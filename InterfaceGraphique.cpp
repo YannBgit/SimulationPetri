@@ -6,11 +6,11 @@ QLabel *tabjetcontenu;
 QLabel *tabjetcg;
 QLabel *tabjetmax;
 
-Moteur M;
+Moteur* M = new Moteur();
 FILE* fichier;
 FILE* temp;
 GestionnaireDeFichiers* GDF = new GestionnaireDeFichiers(fichier);
-Echeancier* E = new Echeancier(M);
+Echeancier* E = new Echeancier(*M);
 
 
 
