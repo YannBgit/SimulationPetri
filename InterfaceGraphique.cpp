@@ -6,11 +6,13 @@ QLabel *tabjetcontenu;
 QLabel *tabjetcg;
 QLabel *tabjetmax;
 
-fichier FILE *fichier;
+FILE *fichier;
 GestionnaireDeFichiers GDF(fichier);
-Echeancier E(rechercheEtat(0));
-Moteur M(GDF.rechercheEtat().Te,  GDF.rechercheEtat().S, GDF.rechercheEtat().T, GDF.rechercheEtat().P, GDF.rechercheEtat().F, 
-GDF.rechercheEtat().M, GDF.rechercheEtat().W, GDF.rechercheEtat().K);
+GDF.CreerFichierTemporaire();
+FILE *temp = GDF.getTemp();
+Echeancier E(GDF.rechercheEtat(0, fichier));
+Moteur M(GDF.rechercheEtat(0, fichier).getTe(),  GDF.rechercheEtat(0, fichier).getS(), GDF.rechercheEtat(0, fichier).getT(), GDF.rechercheEtat(0, fichier).getP(),
+GDF.rechercheEtat(0, fichier).getF(), GDF.rechercheEtat(0, fichier).getM(), GDF.rechercheEtat(0, fichier).getW(), GDF.rechercheEtat(0, fichier).getK());
 
 
 
@@ -299,7 +301,7 @@ InterfaceGraphique::InterfaceGraphique()
 
 void InterfaceGraphique::fct_etatInitial()
 {
-    M = E->RenvoyerEtatReseauSelonTemps(0, *GDF);
+    M = E.RenvoyerEtatReseauSelonTemps(0, GDF);
     echeancierintro->setText(QString("Te = %1 <br/>").arg(M.getTe())+QString("S = %1 <br/>").arg(M.getS()));
 	
 	// RAFRAICHIR PROBA P
@@ -475,7 +477,7 @@ void InterfaceGraphique::fct_etatInitial()
 
 void InterfaceGraphique::fct_avancer()
 {
-	M = E->RenvoyerEtatReseauSelonTemps(M.getTe()+1, *GDF);
+	M = E.RenvoyerEtatReseauSelonTemps(M.getTe()+1, GDF);
 	echeancierintro->setText(QString("Te = %1 <br/>").arg(M.getTe())+QString("S = %1 <br/>").arg(M.getS()));
 	
 	// RAFRAICHIR PROBA P
@@ -652,7 +654,7 @@ void InterfaceGraphique::fct_avancer()
 
 void InterfaceGraphique::fct_reculer()
 {
-    M = E->RenvoyerEtatReseauSelonTemps(M.getTe()-1, *GDF);
+    M = E.RenvoyerEtatReseauSelonTemps(M.getTe()-1, GDF);
     echeancierintro->setText(QString("Te = %1 <br/>").arg(M.getTe())+QString("S = %1 <br/>").arg(M.getS()));
 	
 	// RAFRAICHIR PROBA P
@@ -828,12 +830,12 @@ void InterfaceGraphique::fct_reculer()
 
 void InterfaceGraphique::fct_enregistrer()
 {
-    GDF->EnregistrerEcheancier(temp, fichier);
+    GDF.EnregistrerEcheancier(temp, fichier);
 }
 
 void InterfaceGraphique::fct_charger()
 {
-    GDF->Charger(fichier);
+    GDF.Charger(fichier);
 }
 
 //Afficheur de Reseau

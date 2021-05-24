@@ -16,6 +16,7 @@ GestionnaireDeFichiers::~GestionnaireDeFichiers();
 void GestionnaireDeFichiers::Charger(FILE *fichier)
 {
 	this->fichier = fichier;
+	
 	return;
 }
 
@@ -23,8 +24,8 @@ void GestionnaireDeFichiers::CreerFichierTemporaire()
 {
 	FILE *fichier;
 	this->temp = fichier;
+
 	return;
-	
 }
 
 void GestionnaireDeFichiers::EcrireEtat(Moteur M, FILE *fichier)
