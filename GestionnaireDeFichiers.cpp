@@ -2,7 +2,7 @@
 
 #include "GestionnaireDeFichiers.hpp"
 #include "Moteur.hpp"
-
+#define TAILLE_MAX 999
 
 // FONCTIONS
 
