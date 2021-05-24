@@ -61,26 +61,26 @@ InterfaceGraphique::InterfaceGraphique()
     // AFFICHAGE DE L'ECHEANCIER
     
  
-		// Affichage de Te, S, T
+	// Affichage de Te, S, T
 	echeancierintro = new QLabel("", this);
-	echeancierintro->setText(QString("Te = %1 <br/>").arg(M.Te)+QString("S = %1 <br/>").arg(M.S)+QString("T = %1 <br/>").arg(M.T));
+	echeancierintro->setText(QString("Te = %1 <br/>").arg(M.getTe())+QString("S = %1 <br/>").arg(M.getS())+QString("T = %1 <br/>").arg(M.getT()));
 	
 	
 	
-		// Affichage de P
-	QString proba[M.T];
+	// Affichage de P
+	QString proba[M.getT()];
 	QString resproba;
 	
-	for(int i = 0; i<M.T; i++)
+	for(int i = 0; i<M.getT(); i++)
 	{
-		proba[i] = QString::number(M.P[i]);
+		proba[i] = QString::number(M.getP()[i]);
 	}
 	
 	resproba = "P = { ";
 	
-	for(int i = 0; i<M.T; i++)
+	for(int i = 0; i<M.getT(); i++)
 	{
-		if(i == M.T-1)
+		if(i == M.getT()-1)
 		{
 			resproba = resproba + proba[i] + " }";
 		}
@@ -89,12 +89,12 @@ InterfaceGraphique::InterfaceGraphique()
 			resproba = resproba + proba[i] + " , ";
 		}
 	}
-	tabproba = new QLabel(resproba,this);
+	tabproba = new QLabel(resproba, this);
 
 
 
 	// Affichage de F (arcs)
-	int sa = sizeof(this->M.F);
+	int sa = sizeof(this->M.getF());
 	QString arcs[sa][3];
 	QString resarcs;
 	
@@ -102,7 +102,7 @@ InterfaceGraphique::InterfaceGraphique()
 	{
 		for(int j = 0; j<3; j++)
 		{
-			arcs[i][j] = QString::number(F[i][j]);
+			arcs[i][j] = QString::number(M.getF()[i][j]);
 		}
 	}
 	
@@ -142,18 +142,18 @@ InterfaceGraphique::InterfaceGraphique()
 
 
 		// Affichage de M
-	QString jetcontenu[M.S];
+	QString jetcontenu[M.getS()];
 	QString resjetcontenu;
 	
-	for(int i = 0; i<M.S; i++)
+	for(int i = 0; i<M.getS(); i++)
 	{
-		jetcontenu[i] = QString::number(M.M[i]);
+		jetcontenu[i] = QString::number(M.getM()[i]);
 	}
 	
 	resjetcontenu = "M = { ";
-	for(int i = 0; i<M.S; i++)
+	for(int i = 0; i<M.getS(); i++)
 	{
-		if(i == M.S-1)
+		if(i == M.getS()-1)
 		{
 			resjetcontenu = resjetcontenu + jetcontenu[i] + " }";
 		}
@@ -168,14 +168,14 @@ InterfaceGraphique::InterfaceGraphique()
 
 		// Affichage de W
 	
-	QString jetcg[M.T][2];
+	QString jetcg[M.getT()][2];
 	QString resjetcg;
 	
-	for(int i = 0; i<M.T; i++)
+	for(int i = 0; i<M.getT(); i++)
 	{
 		for(int j = 0; j<2; j++)
 		{
-			jetcg[i][j] = QString::number(W[i][j]);
+			jetcg[i][j] = QString::number(M.getW()[i][j]);
 		}
 	}
 	
@@ -183,7 +183,7 @@ InterfaceGraphique::InterfaceGraphique()
 	resjetcg = "W = { ";
 	
 	
-	for(int i = 0; i<M.T; i++)
+	for(int i = 0; i<M.getT(); i++)
 	{
 		resjetcg = resjetcg + "{ ";
 		for(int j = 0; j<2; j++)
@@ -197,7 +197,7 @@ InterfaceGraphique::InterfaceGraphique()
 				resjetcg = resjetcg + jetcg[i][j] + " , ";
 			}
 		}
-		if(i == M.T-1)
+		if(i == M.getT()-1)
 		{
 			resjetcg = resjetcg + " }";
 		}
@@ -214,18 +214,18 @@ InterfaceGraphique::InterfaceGraphique()
 
 
 		// Affichage de K
-	QString jetmax[M.S];
+	QString jetmax[M.getS()];
 	QString resjetmax;
 	
-	for(int i = 0; i<M.S; i++)
+	for(int i = 0; i<M.getS(); i++)
 	{
-		jetmax[i] = QString::number(M.K[i]);
+		jetmax[i] = QString::number(M.getK()[i]);
 	}
 	
 	resjetmax = "K = { ";
-	for(int i = 0; i<M.S; i++)
+	for(int i = 0; i<M.getS(); i++)
 	{
-		if(i == M.S-1)
+		if(i == M.getS()-1)
 		{
 			resjetmax = resjetmax + jetmax[i] + " }";
 		}
@@ -266,8 +266,6 @@ InterfaceGraphique::InterfaceGraphique()
     vlayout->addWidget(tabjetcontenu);
     vlayout->addWidget(tabjetmax);
 
-M.T
-
     // CREATION DES LAYOUT PRINCIPAL
     QVBoxLayout *layoutPrincipal = new QVBoxLayout;
 
@@ -293,25 +291,25 @@ M.T
 void InterfaceGraphique::fct_etatInitial()
 {
     E.RenvoyerEtatReseau(0);
-    echeancierintro->setText(QString("Te = %1 <br/>").arg(M.Te)+QString("S = %1 <br/>").arg(S));
+    echeancierintro->setText(QString("Te = %1 <br/>").arg(M.getTe())+QString("S = %1 <br/>").arg(M.getS()));
 	
 	// RAFRAICHIR PROBA P
 	QString resproba2;
 	QString proba2[2];
 	
-	QString proba[M.T];
+	QString proba[M.getT()];
 	QString resproba;
 	
-	for(int i = 0; i<M.T; i++)
+	for(int i = 0; i<M.getT(); i++)
 	{
-		proba[i] = QString::number(M.P[i]);
+		proba[i] = QString::number(M.getP()[i]);
 	}
 	
 	resproba = "P = { ";
 	
-	for(int i = 0; i<M.T; i++)
+	for(int i = 0; i<M.getT(); i++)
 	{
-		if(i == M.T-1)
+		if(i == M.getT()-1)
 		{
 			resproba = resproba + proba[i] + " }";
 		}
@@ -325,7 +323,7 @@ void InterfaceGraphique::fct_etatInitial()
 	
 	
 	// RAFRAICHIR ARCS F
-	int sa = sizeof(this->M.F);
+	int sa = sizeof(this->M.getF());
 	QString arcs[sa][3];
 	QString resarcs;
 	
@@ -333,7 +331,7 @@ void InterfaceGraphique::fct_etatInitial()
 	{
 		for(int j = 0; j<3; j++)
 		{
-			arcs[i][j] = QString::number(F[i][j]);
+			arcs[i][j] = QString::number(M.getF()[i][j]);
 		}
 	}
 	
@@ -371,18 +369,18 @@ void InterfaceGraphique::fct_etatInitial()
 	tabarcs->setText(resarcs);
 	
 	// RAFRAICHIR M (JETONS CONTENUS)
-	QString jetcontenu[M.S];
+	QString jetcontenu[M.getS()];
 	QString resjetcontenu;
 	
-	for(int i = 0; i<M.S; i++)
+	for(int i = 0; i<M.getS(); i++)
 	{
-		jetcontenu[i] = QString::number(M.M[i]);
+		jetcontenu[i] = QString::number(M.getM()[i]);
 	}
 	
 	resjetcontenu = "M = { ";
-	for(int i = 0; i<M.S; i++)
+	for(int i = 0; i<M.getS(); i++)
 	{
-		if(i == M.S-1)
+		if(i == M.getS()-1)
 		{
 			resjetcontenu = resjetcontenu + jetcontenu[i] + " }";
 		}
@@ -395,14 +393,14 @@ void InterfaceGraphique::fct_etatInitial()
 	
 	// RAFRAICHIR W (JETMAX)
 	
-	QString jetcg[M.T][2];
+	QString jetcg[M.getT()][2];
 	QString resjetcg;
 	
-	for(int i = 0; i<M.T; i++)
+	for(int i = 0; i<M.getT(); i++)
 	{
 		for(int j = 0; j<2; j++)
 		{
-			jetcg[i][j] = QString::number(W[i][j]);
+			jetcg[i][j] = QString::number(M.getW()[i][j]);
 		}
 	}
 	
@@ -410,7 +408,7 @@ void InterfaceGraphique::fct_etatInitial()
 	resjetcg = "W = { ";
 	
 	
-	for(int i = 0; i<M.T; i++)
+	for(int i = 0; i<M.getT(); i++)
 	{
 		resjetcg = resjetcg + "{ ";
 		for(int j = 0; j<2; j++)
@@ -424,7 +422,7 @@ void InterfaceGraphique::fct_etatInitial()
 				resjetcg = resjetcg + jetcg[i][j] + " , ";
 			}
 		}
-		if(i == M.T-1)
+		if(i == M.getT()-1)
 		{
 			resjetcg = resjetcg + " }";
 		}
@@ -441,18 +439,18 @@ void InterfaceGraphique::fct_etatInitial()
 	
 	// RAFRAICHIR K
 	
-	QString jetmax[M.S];
+	QString jetmax[M.getS()];
 	QString resjetmax;
 	
-	for(int i = 0; i<M.S; i++)
+	for(int i = 0; i<M.getS(); i++)
 	{
-		jetmax[i] = QString::number(M.K[i]);
+		jetmax[i] = QString::number(M.getK()[i]);
 	}
 	
 	resjetmax = "K = { ";
-	for(int i = 0; i<M.S; i++)
+	for(int i = 0; i<M.getS(); i++)
 	{
-		if(i == M.S-1)
+		if(i == M.getS()-1)
 		{
 			resjetmax = resjetmax + jetmax[i] + " }";
 		}
@@ -466,26 +464,26 @@ void InterfaceGraphique::fct_etatInitial()
 
 void InterfaceGraphique::fct_avancer()
 {
-	E.RenvoyerEtatReseau(M.Te+1);
-	echeancierintro->setText(QString("Te = %1 <br/>").arg(M.Te)+QString("S = %1 <br/>").arg(S));
+	E.RenvoyerEtatReseau(M.getTe()+1);
+	echeancierintro->setText(QString("Te = %1 <br/>").arg(M.getTe())+QString("S = %1 <br/>").arg(M.getS()));
 	
 	// RAFRAICHIR PROBA P
 	QString resproba2;
 	QString proba2[2];
 	
-	QString proba[M.T];
+	QString proba[M.getT()];
 	QString resproba;
 	
-	for(int i = 0; i<M.T; i++)
+	for(int i = 0; i<M.getT(); i++)
 	{
-		proba[i] = QString::number(M.P[i]);
+		proba[i] = QString::number(M.getP()[i]);
 	}
 	
 	resproba = "P = { ";
 	
-	for(int i = 0; i<M.T; i++)
+	for(int i = 0; i<M.getT(); i++)
 	{
-		if(i == M.T-1)
+		if(i == M.getT()-1)
 		{
 			resproba = resproba + proba[i] + " }";
 		}
@@ -499,7 +497,7 @@ void InterfaceGraphique::fct_avancer()
 	
 	
 	// RAFRAICHIR ARCS F
-	int sa = sizeof(this->M.F);
+	int sa = sizeof(this->M.getF());
 	QString arcs[sa][3];
 	QString resarcs;
 	
@@ -507,7 +505,7 @@ void InterfaceGraphique::fct_avancer()
 	{
 		for(int j = 0; j<3; j++)
 		{
-			arcs[i][j] = QString::number(F[i][j]);
+			arcs[i][j] = QString::number(M.getF()[i][j]);
 		}
 	}
 	
@@ -545,18 +543,18 @@ void InterfaceGraphique::fct_avancer()
 	tabarcs->setText(resarcs);
 	
 	// RAFRAICHIR M (JETONS CONTENUS)
-	QString jetcontenu[M.S];
+	QString jetcontenu[M.getS()];
 	QString resjetcontenu;
 	
-	for(int i = 0; i<M.S; i++)
+	for(int i = 0; i<M.getS(); i++)
 	{
-		jetcontenu[i] = QString::number(M.M[i]);
+		jetcontenu[i] = QString::number(M.getM()[i]);
 	}
 	
 	resjetcontenu = "M = { ";
-	for(int i = 0; i<M.S; i++)
+	for(int i = 0; i<M.getS(); i++)
 	{
-		if(i == M.S-1)
+		if(i == M.getS()-1)
 		{
 			resjetcontenu = resjetcontenu + jetcontenu[i] + " }";
 		}
@@ -569,14 +567,14 @@ void InterfaceGraphique::fct_avancer()
 	
 	// RAFRAICHIR W (JETMAX)
 	
-	QString jetcg[M.T][2];
+	QString jetcg[M.getT()][2];
 	QString resjetcg;
 	
-	for(int i = 0; i<M.T; i++)
+	for(int i = 0; i<M.getT(); i++)
 	{
 		for(int j = 0; j<2; j++)
 		{
-			jetcg[i][j] = QString::number(W[i][j]);
+			jetcg[i][j] = QString::number(M.getW()[i][j]);
 		}
 	}
 	
@@ -584,7 +582,7 @@ void InterfaceGraphique::fct_avancer()
 	resjetcg = "W = { ";
 	
 	
-	for(int i = 0; i<M.T; i++)
+	for(int i = 0; i<M.getT(); i++)
 	{
 		resjetcg = resjetcg + "{ ";
 		for(int j = 0; j<2; j++)
@@ -598,7 +596,7 @@ void InterfaceGraphique::fct_avancer()
 				resjetcg = resjetcg + jetcg[i][j] + " , ";
 			}
 		}
-		if(i == M.T-1)
+		if(i == M.getT()-1)
 		{
 			resjetcg = resjetcg + " }";
 		}
@@ -615,18 +613,18 @@ void InterfaceGraphique::fct_avancer()
 	
 	// RAFRAICHIR K
 	
-	QString jetmax[M.S];
+	QString jetmax[M.getS()];
 	QString resjetmax;
 	
-	for(int i = 0; i<M.S; i++)
+	for(int i = 0; i<M.getS(); i++)
 	{
-		jetmax[i] = QString::number(M.K[i]);
+		jetmax[i] = QString::number(M.getK()[i]);
 	}
 	
 	resjetmax = "K = { ";
-	for(int i = 0; i<M.S; i++)
+	for(int i = 0; i<M.getS(); i++)
 	{
-		if(i == M.S-1)
+		if(i == M.getS()-1)
 		{
 			resjetmax = resjetmax + jetmax[i] + " }";
 		}
@@ -641,26 +639,26 @@ void InterfaceGraphique::fct_avancer()
 
 void InterfaceGraphique::fct_reculer()
 {
-    E.RenvoyerEtatReseau(M.Te-1);
-    echeancierintro->setText(QString("Te = %1 <br/>").arg(M.Te)+QString("S = %1 <br/>").arg(S));
+    E.RenvoyerEtatReseau(M.getTe()-1);
+    echeancierintro->setText(QString("Te = %1 <br/>").arg(M.getTe())+QString("S = %1 <br/>").arg(M.getS()));
 	
 	// RAFRAICHIR PROBA P
 	QString resproba2;
 	QString proba2[2];
 	
-	QString proba[M.T];
+	QString proba[M.getT()];
 	QString resproba;
 	
-	for(int i = 0; i<M.T; i++)
+	for(int i = 0; i<M.getT(); i++)
 	{
-		proba[i] = QString::number(M.P[i]);
+		proba[i] = QString::number(M.getP()[i]);
 	}
 	
 	resproba = "P = { ";
 	
-	for(int i = 0; i<M.T; i++)
+	for(int i = 0; i<M.getT(); i++)
 	{
-		if(i == M.T-1)
+		if(i == M.getT()-1)
 		{
 			resproba = resproba + proba[i] + " }";
 		}
@@ -674,7 +672,7 @@ void InterfaceGraphique::fct_reculer()
 	
 	
 	// RAFRAICHIR ARCS F
-	int sa = sizeof(this->M.F);
+	int sa = sizeof(this->M.getF());
 	QString arcs[sa][3];
 	QString resarcs;
 	
@@ -682,7 +680,7 @@ void InterfaceGraphique::fct_reculer()
 	{
 		for(int j = 0; j<3; j++)
 		{
-			arcs[i][j] = QString::number(F[i][j]);
+			arcs[i][j] = QString::number(M.getF()[i][j]);
 		}
 	}
 	
@@ -720,18 +718,18 @@ void InterfaceGraphique::fct_reculer()
 	tabarcs->setText(resarcs);
 	
 	// RAFRAICHIR M (JETONS CONTENUS)
-	QString jetcontenu[M.S];
+	QString jetcontenu[M.getS()];
 	QString resjetcontenu;
 	
-	for(int i = 0; i<M.S; i++)
+	for(int i = 0; i<M.getS(); i++)
 	{
-		jetcontenu[i] = QString::number(M.M[i]);
+		jetcontenu[i] = QString::number(M.getM()[i]);
 	}
 	
 	resjetcontenu = "M = { ";
-	for(int i = 0; i<M.S; i++)
+	for(int i = 0; i<M.getS(); i++)
 	{
-		if(i == M.S-1)
+		if(i == M.getS()-1)
 		{
 			resjetcontenu = resjetcontenu + jetcontenu[i] + " }";
 		}
@@ -744,14 +742,14 @@ void InterfaceGraphique::fct_reculer()
 	
 	// RAFRAICHIR W (JETMAX)
 	
-	QString jetcg[M.T][2];
+	QString jetcg[M.getT()][2];
 	QString resjetcg;
 	
-	for(int i = 0; i<M.T; i++)
+	for(int i = 0; i<M.getT(); i++)
 	{
 		for(int j = 0; j<2; j++)
 		{
-			jetcg[i][j] = QString::number(W[i][j]);
+			jetcg[i][j] = QString::number(M.getW()[i][j]);
 		}
 	}
 	
@@ -759,7 +757,7 @@ void InterfaceGraphique::fct_reculer()
 	resjetcg = "W = { ";
 	
 	
-	for(int i = 0; i<M.T; i++)
+	for(int i = 0; i<M.getT(); i++)
 	{
 		resjetcg = resjetcg + "{ ";
 		for(int j = 0; j<2; j++)
@@ -773,7 +771,7 @@ void InterfaceGraphique::fct_reculer()
 				resjetcg = resjetcg + jetcg[i][j] + " , ";
 			}
 		}
-		if(i == M.T-1)
+		if(i == M.getT()-1)
 		{
 			resjetcg = resjetcg + " }";
 		}
@@ -790,18 +788,18 @@ void InterfaceGraphique::fct_reculer()
 	
 	// RAFRAICHIR K
 	
-	QString jetmax[M.S];
+	QString jetmax[M.getS()];
 	QString resjetmax;
 	
-	for(int i = 0; i<M.S; i++)
+	for(int i = 0; i<M.getS(); i++)
 	{
-		jetmax[i] = QString::number(M.K[i]);
+		jetmax[i] = QString::number(M.getK()[i]);
 	}
 	
 	resjetmax = "K = { ";
-	for(int i = 0; i<M.S; i++)
+	for(int i = 0; i<M.getS(); i++)
 	{
-		if(i == M.S-1)
+		if(i == M.getS()-1)
 		{
 			resjetmax = resjetmax + jetmax[i] + " }";
 		}
@@ -815,7 +813,7 @@ void InterfaceGraphique::fct_reculer()
 
 void InterfaceGraphique::fct_enregistrer()
 {
-    EnregistrerEcheancier(temp, fichier);
+    GDF.EnregistrerEcheancier(temp, fichier);
 }
 
 void InterfaceGraphique::fct_charger()
@@ -827,21 +825,21 @@ void InterfaceGraphique::fct_charger()
 
 void InterfaceGraphique::buildElementsPosition() 
 {       
-        int nb_arcs = sizeof(M.getMatricesArcs()) / sizeof(M.getMatricesArcs()[0]);
-        int matrice_arcs[M.getNbSommets()][M.getNbTransitions()];
-        for (int i=0;i<M.getNbSommets();i++) {           //On génère une matrice avec en abscisse
-            for (int y=0;y<M.getNbTransitions();y++) {       //les places et en ordonnée les transitions
+        int nb_arcs = sizeof(M.getF()) / sizeof(M.getF()[0]);
+        int matrice_arcs[M.getS()][M.getT()];
+        for (int i=0;i<M.getS();i++) {           //On génère une matrice avec en abscisse
+            for (int y=0;y<M.getT();y++) {       //les places et en ordonnée les transitions
                 matrice_arcs[i][y] = 0;     //pour faciliter la création des éléments
             }
         }
 
         for (int i=0;i<nb_arcs;i++) {                                   //On indue les couples place transition qui sont liés dans la matrice
-            matrice_arcs[M.getMatricesArcs()[i][1]][M.getMatricesArcs()[i][2]] = (M.getMatricesArcs()[i][0] ? -1 : 1);  //la valeur est à 1 si on part de la place vers la transition et -1 inversement
+            matrice_arcs[M.getF()[i][1]][M.getF()[i][2]] = (M.getF()[i][0] ? -1 : 1);  //la valeur est à 1 si on part de la place vers la transition et -1 inversement
         }
 
-        Element **elements_traite = (Element**)malloc(sizeof(Element*)*(M.getNbSommets()+M.getNbTransitions()));  //On crée la liste qui contiendra toutes les places et transitions une fois celles-ci definies
+        Element **elements_traite = (Element**)malloc(sizeof(Element*)*(M.getS()+M.getT()));  //On crée la liste qui contiendra toutes les places et transitions une fois celles-ci definies
 
-        for (int i=0;i<M.getNbSommets()+M.getNbTransitions();i++) {
+        for (int i=0;i<M.getS()+M.getT();i++) {
             elements_traite[i] = nullptr;       //On initialise cette liste à nullptr
         }
 
@@ -860,8 +858,8 @@ void InterfaceGraphique::buildElementsPosition()
                 if (i-decalage == 0 && curr_size%2 == 0) decalage--;
 
                 if (a_traiter.back()[1]) {  //Si le dernier élémnet à traiter est une place
-                    for (j=0;j<M.getNbTransitions();j++) {                                                               //On ajoute toutes les transitions qui sont liées par un arc partant de cette place.
-                        if (matrice_arcs[a_traiter.back()[0]][j] == 1 && elements_traite[M.getNbSommets()+j] == nullptr ) {     //et qui n'ont pas été déja placé dans elements_traite
+                    for (j=0;j<M.getT();j++) {                                                               //On ajoute toutes les transitions qui sont liées par un arc partant de cette place.
+                        if (matrice_arcs[a_traiter.back()[0]][j] == 1 && elements_traite[M.getS()+j] == nullptr ) {     //et qui n'ont pas été déja placé dans elements_traite
                             tuple = (int*)malloc(sizeof(int)*2);                                        // 
                             tuple[0] = j, tuple[1] = 0;              //On assigne la transition au tuple
                             if (isContainedBy(tuple, a_traiter)) {      //si le tuple est déjà dans la liste a_traiter, on ignore et on libère la mémoire
@@ -881,7 +879,7 @@ void InterfaceGraphique::buildElementsPosition()
                     a_traiter.pop_back();                                           //enfin on supprime complétement le tuple de l'élément que l'on vient de traiter de la liste a_traiter
 
                 } else {                    //Si c'est une transition
-                    for (j=0;j<M.getNbSommets();j++) {                                                                           //
+                    for (j=0;j<M.getS();j++) {                                                                           //
                         if (matrice_arcs[j][a_traiter.back()[0]] == -1 && elements_traite[j] == nullptr) {          //
                             tuple = (int*)malloc(sizeof(int)*2);                                                    //
                             tuple[0] = j, tuple[1] = 1;                                                             //mêmes opérations mais en
@@ -892,10 +890,10 @@ void InterfaceGraphique::buildElementsPosition()
                             }                                                                                       //
                         }                                                                                           //
                     }                                                                                               //
-                    elements_traite[a_traiter.back()[0]+M.getNbSommets()] = new Element(parent_center+i-decalage, parent_y+1, 0);      
+                    elements_traite[a_traiter.back()[0]+M.getS()] = new Element(parent_center+i-decalage, parent_y+1, 0);      
                     if (i == 0 || i == curr_size-1) {                                                           
-                        if (i == curr_size-1) curr_y = elements_traite[a_traiter.back()[0]+M.getNbSommets()]->getPosY();               
-                        curr_center += elements_traite[a_traiter.back()[0]+M.getNbSommets()]->getPosX();     //
+                        if (i == curr_size-1) curr_y = elements_traite[a_traiter.back()[0]+M.getS()]->getPosY();               
+                        curr_center += elements_traite[a_traiter.back()[0]+M.getS()]->getPosX();     //
                     }
                     free(a_traiter.back());
                     a_traiter.pop_back();
@@ -920,7 +918,7 @@ void InterfaceGraphique::buildElementsPosition()
 
     void InterfaceGraphique::dessinerElements(QGraphicsScene *scene)
     {
-        for (int i=0;i<M.getNbSommets()+M.getNbTransitions();i++) {                                               //On parcour simplement tous les éléments
+        for (int i=0;i<M.getS()+M.getT();i++) {                                               //On parcour simplement tous les éléments
             if (elements[i] != nullptr) elements[i]->dessiner(scene, parametres);   //et appelle leur méthode dessine(scene)
         }
     }
@@ -928,17 +926,17 @@ void InterfaceGraphique::buildElementsPosition()
     void InterfaceGraphique::calculerArcs()
     {
         int x_dep, y_dep, x_fin, y_fin, nb_points = 4;
-        int nb_arcs = sizeof(M.getMatricesArcs()) / sizeof(M.getMatricesArcs()[0]);             //On récupère le nb_d'arcs grâce à la liste F du moteur
+        int nb_arcs = sizeof(M.getF()) / sizeof(M.getF()[0]);             //On récupère le nb_d'arcs grâce à la liste F du moteur
         int*** liste = (int***)malloc(sizeof(int*)*nb_arcs);
         int** un_arc, *un_point;
 
         for (int i=0;i<nb_arcs;i++) {                                    //On parcours tous les arcs
 
-            if (M.getMatricesArcs()[i][0] == 0) {                               //Si le premier membre est à 0, ça signifie que l'on vas d'une place  à une transition
-                x_dep = elements[M.getMatricesArcs()[i][1]]->getPosX();
-                y_dep = elements[M.getMatricesArcs()[i][1]]->getPosY();         //On récupère donc les position des éléments concernés avec celle de la place comme départ 
-                x_fin = elements[M.getMatricesArcs()[i][2]+M.getNbSommets()]->getPosX();     //comme départ et celle de la tranbsition comme fin.
-                y_fin = elements[M.getMatricesArcs()[i][2]+M.getNbSommets()]->getPosY();     //c'est positions ne représente que celle des éléments par rapport au premier
+            if (M.getF()[i][0] == 0) {                               //Si le premier membre est à 0, ça signifie que l'on vas d'une place  à une transition
+                x_dep = elements[M.getF()[i][1]]->getPosX();
+                y_dep = elements[M.getF()[i][1]]->getPosY();         //On récupère donc les position des éléments concernés avec celle de la place comme départ 
+                x_fin = elements[M.getF()[i][2]+M.getS()]->getPosX();     //comme départ et celle de la tranbsition comme fin.
+                y_fin = elements[M.getF()[i][2]+M.getS()]->getPosY();     //c'est positions ne représente que celle des éléments par rapport au premier
 
                 x_dep = x_dep*parametres.tailleElement+x_dep*parametres.elementsDistance+parametres.tailleElement/2;    
                 y_dep = y_dep*parametres.tailleElement+y_dep*parametres.elementsDistance+parametres.tailleElement;          //on calcule donc ici la position graphique des éléments sur
@@ -947,10 +945,10 @@ void InterfaceGraphique::buildElementsPosition()
 
 
             } else {
-                x_fin = elements[M.getMatricesArcs()[i][1]]->getPosX();
-                y_fin = elements[M.getMatricesArcs()[i][1]]->getPosY();                         //On fait dans ce else les mêms opérations, mais en inversant le départ et la fin,
-                x_dep = elements[M.getMatricesArcs()[i][2]+M.getNbSommets()]->getPosX();                     //puisque cet arc part de la transition vers la place
-                y_dep = elements[M.getMatricesArcs()[i][2]+M.getNbSommets()]->getPosY();
+                x_fin = elements[M.getF()[i][1]]->getPosX();
+                y_fin = elements[M.getF()[i][1]]->getPosY();                         //On fait dans ce else les mêms opérations, mais en inversant le départ et la fin,
+                x_dep = elements[M.getF()[i][2]+M.getS()]->getPosX();                     //puisque cet arc part de la transition vers la place
+                y_dep = elements[M.getF()[i][2]+M.getS()]->getPosY();
 
                 x_dep = x_dep*parametres.tailleElement+x_dep*parametres.elementsDistance+parametres.tailleElement/2;
                 y_dep = y_dep*parametres.tailleElement+y_dep*parametres.elementsDistance+(5.0/8.0)*parametres.tailleElement;
@@ -994,7 +992,7 @@ void InterfaceGraphique::buildElementsPosition()
         int rep = 0;                            // nombre de tour dans le while ci-dessous. multiplicateur du décalage
         bool is_colliding = false, still_colide;    //pour faire tourner le while si il y'a collision; et pour savoir s'il ya toujours collisions aorès décalage pendant le tour de boucle courant
 
-        for (int i=0;i<M.getNbSommets()+M.getNbTransitions();i++) {   //On parcours tous les élémenrs du réseau 
+        for (int i=0;i<M.getS()+M.getT();i++) {   //On parcours tous les élémenrs du réseau 
 
             if (elements[i]->isPlace()) {                                                                                       // 
                 pos_x = elements[i]->getPosX()*parametres.tailleElement+elements[i]->getPosX()*parametres.elementsDistance;     //On crée un objet de type ellipse car l'élément est une place
@@ -1092,7 +1090,7 @@ void InterfaceGraphique::buildElementsPosition()
     void InterfaceGraphique::dessinerArcs(QGraphicsScene *scene)
     {
         int nb_segments;
-        int nb_arcs = sizeof(M.getMatricesArcs()) / sizeof(M.getMatricesArcs()[0]);     //on récupère la taille de la liste contenant tout les arcs
+        int nb_arcs = sizeof(M.getF()) / sizeof(M.getF()[0]);     //on récupère la taille de la liste contenant tout les arcs
         double angle;
         QLineF ligne;
         QPolygonF arrow_head;
@@ -1122,7 +1120,7 @@ void InterfaceGraphique::buildElementsPosition()
 
     void InterfaceGraphique::miseAJourReseau(QGraphicsScene *scene)
     {
-        for (int i=0;i<M.getNbSommets();i++) {                           //
+        for (int i=0;i<M.getS();i++) {                           //
             if (M.getNbJetonsParSommet()[i] != elements[i]->getNbJetons()) {     //Pour chaque place dont le nombre de jetons à changé
                 elements[i]->setNbJetons(M.getNbJetonsParSommet()[i]);           //on met à jour son nombre de jetons
             }                                               //

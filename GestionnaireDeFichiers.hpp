@@ -3,10 +3,9 @@
 #define GESTIONNAIREDEFICHIERS_HPP
 
 // LIBRAIRIES
-#include "Moteur.hpp" // Pour utiliser la classe Moteur
 #include <stdio.h> // Permettre principalement la manipulation des flux de caractères
 #include <iostream> // Contrôler la lecture et l'écriture des flux standard
-class Moteur;
+class Moteur; // Pour utiliser la classe Moteur
 
 // CLASSE
 class GestionnaireDeFichiers
@@ -18,10 +17,7 @@ class GestionnaireDeFichiers
 
     public:
     // CONSTRUCTEURS
-    GestionnaireDeFichiers(FILE *fichier)
-    {
-        this->fichier = fichier;
-    }
+    GestionnaireDeFichiers(FILE *fichier);
 
     // DESTRUCTEUR
     ~GestionnaireDeFichiers();
@@ -33,62 +29,14 @@ class GestionnaireDeFichiers
     Aucun argument n'est nécessaire à cette fonction.
     La fonction crée un fichier temporaire vide pour l'échéancier.
     */
-    void CreerFichierTemporaire(Moteur M)
-    {
-        //Pour chaque temps Te
-    	for (int i = 0; i < M.getTemps(); i++)
-        {
-            this->fichier = fopen("rdpv.txt", "r+");	// Ouvre le fichier vide en lecture et écriture
-                
-            if (this->fichier == NULL)	// Erreur dans l'ouverture
-                std::cout << "Impossible d'ouvrir le fichier en écriture !" << std::endl;
-            else
-            {	// Ouverture réussie et on ecrit dans le fichier
-                
-                    
-                std::cout << "S=" << M.getNbSommets() << std::endl;
-                std::cout<< "T="<< M.getNbTransitions()<< std::endl;
-                std::cout<< "P="<< M.getProbabiliteTirParTransition()<< std::endl;
-                std::cout<< "F="<< M.getMatricesArcs()<< std::endl;
-                std::cout<< "M="<< M.getNbJetonsParSommet()<< std::endl;
-                std::cout<< "W="<< M.getEvolutionNbJetonPourChaqueTransition()<< std::endl;
-                std::cout<< "K="<< M.getNbMaxJetonsParSommet()<< std::endl;
-
-                fclose (this->fichier);
-            }
-        }
-
-        return;
-    }
+    void CreerFichierTemporaire(Moteur M);
 
     /*
     Fonction de type void pour ne rien renvoyer.
     Argument de type Moteur pour avoir les informations à écrire et FILE * pour spécifier le fichier dans lequel écrire.
     La fonction sert à écrire un état du réseau de Petri dans un fichier.
     */
-    void EcrireEtat(Moteur M, FILE *fichier)
-    {
-	    //Pour chaque temps Te
-    	for (int i = 0; i < M.getTemps(); i++)
-        {
-			this->fichier = fopen("etatreseau.txt", "r++");
-        
-            if (fichier == NULL)	// Erreur dans l'ouverture
-                std::cout << "Impossible d'ouvrir le fichier en écriture !" << std::endl;
-            else
-            {
-                std::cout<< "S="<< M.getNbSommets()<< std::endl;
-                std::cout<< "T="<< M.getNbTransitions()<< std::endl;
-                std::cout<< "P="<< M.getProbabiliteTirParTransition()<< std::endl;
-                std::cout<< "F="<< M.getMatricesArcs()<< std::endl;
-                std::cout<< "M="<< M.getNbJetonsParSommet()<< std::endl;
-                std::cout<< "W="<< M.getEvolutionNbJetonPourChaqueTransition()<< std::endl;
-                std::cout<< "K="<< M.getNbMaxJetonsParSommet()<< std::endl;
-
-                fclose (this->fichier);
-            }
-        }
-	}
+    void EcrireEtat(Moteur M, FILE *fichier);
 
     /*
     Fonction de type void pour ne rien renvoyer.
@@ -96,44 +44,11 @@ class GestionnaireDeFichiers
     La fonction permet d'enregistrer un échéancier en faisant passer les informations du fichier temporaire dans lequel ses données
     sont conservées vers le fichier principal d'enregistrement.
     */
-    void EnregistrerEcheancier(FILE *temp, FILE *fichier)
-    {
-        this->temp = fopen("rdvp.txt","r");
-        this->fichier = fopen("rdp.txt", "r++");
-            
-        if (this->temp != NULL) //si le fichier existe bien
-		{
-        /*string ligne;*/
-            while(getline(this->temp, ligne)) // On le lis ligne par ligne
-            {
-                if(this->fichier) // Si le lieu de destination existe ( j'entend par la le dossier )
-                {
-                    this->fichier << ligne << std::endl; // On ecrit dans le fichier de destination
-                }                          // Et au passage on le créer si il n'existe pas
-                else
-                {
-                    std::cout << "ERREUR: Impossible d'ouvrir le fichier." << std::endl;
-                }
-            }
-        }
+    void EnregistrerEcheancier(FILE *temp, FILE *fichier);
 
-        else
-        {
-            std::cout << "ERREUR: Impossible d'ouvrir le fichier en lecture." << std::endl;
-        }
+    FILE *getFichier();
 
-        return;
-    }
-
-    FILE *getFichier()
-    {
-    	return this->fichier;
-    }
-
-    FILE *getTemp()
-    {
-    	return this->temp;
-    }
+    FILE *getTemp();
 };
 
 #endif
