@@ -168,3 +168,147 @@ FILE *GestionnaireDeFichiers::getTemp()
 {
     return this->temp;
 }
+Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier){
+	
+	fichier = fopen("RdP.txt","r");
+	
+	int S;
+	int T; 
+
+	
+	char *ligne = (char*)malloc(sizeof(char)*TAILLE_MAX);
+	
+	char c;
+	int i = 0;
+	int j = 0;
+	int cpt = Te * 9 + 1;
+	
+	if(fichier){
+		if(cpt > 1){
+			while(i < cpt - 1){//On parcours le fichier de départ jusqu'à la ligne Te du paramètre
+					fgets(ligne,TAILLE_MAX,fichier);
+					i++;
+				}	
+		}
+		
+		////// TE ////////
+		char *str = fgets(ligne,TAILLE_MAX,fichier);
+		std::cout << " ligne = " << ligne << std::endl;
+		char *decoupe;
+		decoupe = strtok(str,"Te=;");
+		Te = atoi(decoupe);
+		std::cout << "Te = " << Te << std::endl;
+		std::cout << "decoupe = " << decoupe << std::endl;
+		//// FIN TE ////
+		
+		////// S ////////
+		str = fgets(ligne,TAILLE_MAX,fichier);
+		std::cout << " ligne = " << ligne << std::endl;
+		decoupe = strtok(str,"S=;");
+		S = atoi(decoupe);
+		std::cout << "S = " << S << std::endl;
+		std::cout << "decoupe = " << decoupe << std::endl;
+		//// FIN S ////
+		
+		////// T ////////
+		str = fgets(ligne,TAILLE_MAX,fichier);
+		std::cout << " ligne = " << ligne << std::endl;
+		decoupe = strtok(str,"T=;");
+		T = atoi(decoupe);
+		std::cout << "T = " << T << std::endl;
+		std::cout << "decoupe = " << decoupe << std::endl;
+		//// FIN T ////
+		
+		////// P ////////
+		float P[T];
+		str = fgets(ligne, TAILLE_MAX,fichier);
+		decoupe = strtok(str,"P={,}");
+		i = 0;
+		while (decoupe != NULL && i < S) {
+			P[i] = atof(decoupe);
+			decoupe = strtok(NULL, "P={,}");
+			//std::cout << "P = " << P[i] << " ";
+			i++;
+		}
+		for(j = 0; j < i - 1; j++){
+			std::cout << "P = " << P[j] << " ";
+		}
+		std::cout << std::endl;
+		//// FIN P ////
+		
+		////// F ////////
+		int F[S][3];
+		str = fgets(ligne,TAILLE_MAX,fichier);
+		decoupe = strtok(str,"F{=}; ");
+		i = 0;
+		while (decoupe != NULL && i < S) {
+			sscanf(decoupe,"%d,%d,%d",&(F[i][0]),&(F[i][1]),&(F[i][2]));
+			decoupe = strtok(NULL, "F={} ");
+			std::cout << "F = " << F[i][0] << " " << F[i][1] << " " << F[i][2] << std::endl;
+			i++;
+		}
+		////// FIN F ////////
+		
+		////// M ////////
+		int M[S];
+		str = fgets(ligne, TAILLE_MAX,fichier);
+		decoupe = strtok(str,"M={,};");
+		i = 0;
+		while (decoupe != NULL && i < S) {
+			M[i] = atoi(decoupe);
+			decoupe = strtok(NULL, "M={,}");
+			i++;
+		}
+		for(j = 0; j < i ; j++){
+			std::cout << "M = " << M[j] << " ";
+		}
+		std::cout << std::endl;
+		//// FIN M ////
+		
+		////// W ////////
+		int W[T][S];
+		str = fgets(ligne,TAILLE_MAX,fichier);
+		decoupe = strtok(str,"W{=};, ");
+		i = 0;
+		while (decoupe != NULL && i < T){
+			j = 0;
+			std::cout << "W = ";
+			while(j < S){
+				sscanf(decoupe,"%d",&(W[i][j]));
+				decoupe = strtok(NULL, "{,} ");
+				std::cout << W[i][j] << " ";
+				j++;
+			}
+			std::cout << std::endl;
+			i++;
+		}
+		////// FIN W ////////
+		
+		////// K ////////
+		int K[S];
+		str = fgets(ligne, TAILLE_MAX,fichier);
+		decoupe = strtok(str,"M={,};");
+		std::cout << "decoupe = " << decoupe << std::endl;
+		i = 0;
+		while (decoupe != NULL && i < S) {
+			decoupe = strtok(NULL, "K={,}");
+			K[i] = atoi(decoupe);
+			i++;
+		}
+		for(j = 0; j < i ; j++){
+			std::cout << "K = " << K[j] << " ";
+		}
+		std::cout << std::endl;
+		//// FIN K ////
+			
+	}
+	
+	else{
+		std::cout << "Erreur d'ouverture de fichier\n" << std::endl;
+		exit(1);
+	}
+	
+	Moteur m = new Moteur(Te,S,T,P[T],F[S][3],M[S],W[T][S],K[S]);
+	free(ligne);
+	return m;
+}
