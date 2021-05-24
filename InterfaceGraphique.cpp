@@ -8,8 +8,7 @@ QLabel *tabjetmax;
 
 FILE *fichier;
 GestionnaireDeFichiers GDF(fichier);
-GDF.CreerFichierTemporaire();
-FILE *temp = GDF.getTemp();
+FILE *temp = GDF.CreerFichierTemporaire();
 Echeancier E(GDF.rechercheEtat(0, fichier));
 Moteur M(GDF.rechercheEtat(0, fichier).getTe(),  GDF.rechercheEtat(0, fichier).getS(), GDF.rechercheEtat(0, fichier).getT(), GDF.rechercheEtat(0, fichier).getP(),
 GDF.rechercheEtat(0, fichier).getF(), GDF.rechercheEtat(0, fichier).getM(), GDF.rechercheEtat(0, fichier).getW(), GDF.rechercheEtat(0, fichier).getK());

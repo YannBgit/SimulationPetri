@@ -29,7 +29,7 @@ class GestionnaireDeFichiers
     Aucun argument n'est nécessaire à cette fonction.
     La fonction crée un fichier temporaire vide pour l'échéancier.
     */
-    void CreerFichierTemporaire();
+    FILE *CreerFichierTemporaire();
 
     /*
     Fonction de type void pour ne rien renvoyer.
