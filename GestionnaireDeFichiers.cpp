@@ -13,83 +13,150 @@ GestionnaireDeFichiers::GestionnaireDeFichiers(FILE *fichier)
 
 GestionnaireDeFichiers::~GestionnaireDeFichiers();
 
-void GestionnaireDeFichiers::CreerFichierTemporaire(Moteur M)
+void GestionnaireDeFichiers::Charger(FILE *fichier)
 {
-    //Pour chaque temps Te
-    for (int i = 0; i < M.getTemps(); i++)
-    {
-        this->fichier = fopen("rdpv.txt", "r+");	// Ouvre le fichier vide en lecture et écriture
-            
-        if (this->fichier == NULL)	// Erreur dans l'ouverture
-            std::cout << "Impossible d'ouvrir le fichier en écriture !" << std::endl;
-        else
-        {	// Ouverture réussie et on ecrit dans le fichier
-            std::cout << "S=" << M.getNbSommets() << std::endl;
-            std::cout<< "T="<< M.getNbTransitions()<< std::endl;
-            std::cout<< "P="<< M.getProbabiliteTirParTransition()<< std::endl;
-            std::cout<< "F="<< M.getMatricesArcs()<< std::endl;
-            std::cout<< "M="<< M.getNbJetonsParSommet()<< std::endl;
-            std::cout<< "W="<< M.getEvolutionNbJetonPourChaqueTransition()<< std::endl;
-            std::cout<< "K="<< M.getNbMaxJetonsParSommet()<< std::endl;
+	this->fichier = fichier;
+	return;
+}
 
-            fclose (this->fichier);
-        }
-    }
-
-    return;
+void GestionnaireDeFichiers::CreerFichierTemporaire()
+{
+	FILE *fichier;
+	this->temp = fichier;
+	return;
+	
 }
 
 void GestionnaireDeFichiers::EcrireEtat(Moteur M, FILE *fichier)
 {
-    //Pour chaque temps Te
-    for (int i = 0; i < M.getTemps(); i++)
-    {
-        this->fichier = fopen("etatreseau.txt", "r++");
+	//On prends les infos du Moteur
+	int Te = M.getTemps();
+    int S = M.getNbSommets();
+    int T = M.getNbTransitions(); 
+    float *P = M.getProbabiliteTirParTransition();
+    int **F = M.getMatricesArcs();
+    int *M1 = M.getNbJetonsParSommet();
+    int **W = M.getEvolutionNbJetonPourChaqueTransition();
+    int *K = M.getNbMaxJetonsParSommet();
     
-        if (fichier == NULL)	// Erreur dans l'ouverture
-            std::cout << "Impossible d'ouvrir le fichier en écriture !" << std::endl;
-        else
-        {
-            std::cout<< "S="<< M.getNbSommets()<< std::endl;
-            std::cout<< "T="<< M.getNbTransitions()<< std::endl;
-            std::cout<< "P="<< M.getProbabiliteTirParTransition()<< std::endl;
-            std::cout<< "F="<< M.getMatricesArcs()<< std::endl;
-            std::cout<< "M="<< M.getNbJetonsParSommet()<< std::endl;
-            std::cout<< "W="<< M.getEvolutionNbJetonPourChaqueTransition()<< std::endl;
-            std::cout<< "K="<< M.getNbMaxJetonsParSommet()<< std::endl;
+    //a+ pour ajouter à chaque fois à la fin du fichier
+    fichier = fopen("Temporaire.txt","a+");
+	this->fichier = fichier;
+	
+    if(fichier){
+		
+		printf("Fichier ouvert\n");
+		fprintf(fichier, "Te= %d;\n", Te);
+		fprintf(fichier, "S= %d;\n", S);
+		fprintf(fichier, "T= %d;\n", T);
 
-            fclose (this->fichier);
-        }
-    }
+		
+		//Afficher P
+		fprintf(fichier, "P= {");
+		for(int i = 0; i < T; i++){
+			if(i == T - 1){
+				fprintf(fichier, "%.1f",P[i]);
+			}
+			else{
+				fprintf(fichier, "%.1f, ",P[i]);
+			}
+		}
+		fprintf(fichier, "};\n");
+		
+		//Afficher F
+		fprintf(fichier, "F= {");
+		for(int i = 0; i < S; i++){
+			fprintf(fichier, "{");
+			for(int j = 0; j < S; j++){
+				if(j == S - 1){fprintf(fichier, "%d} ",F[i][j]);}
+				else{fprintf(fichier, "%d, ",F[i][j]);}
+			}
+		}
+		fprintf(fichier, "};\n");
+		
+		//Afficher M
+		fprintf(fichier, "M= {");
+		for(int i = 0; i < S; i++){
+			if(i == S - 1){
+				fprintf(fichier, "%d",M1[i]);
+			}
+			else{
+				fprintf(fichier, "%d, ", M1[i]);
+			}
+		}
+		fprintf(fichier, "};\n");
+		
+		//Afficher W
+		fprintf(fichier, "W= {");
+		for(int i = 0; i < T; i++){
+			fprintf(fichier, "{");
+			for(int j = 0; j < S; j++){
+				if(j == S - 1){fprintf(fichier, "%d} ",W[i][j]);}
+				else{fprintf(fichier, "%d, ",W[i][j]);}
+			}
+		}
+		fprintf(fichier, "};\n");
+		
+		//Afficher K
+		fprintf(fichier, "K= {");
+		for(int i = 0; i < S; i++){
+			if(i == S - 1){
+				fprintf(fichier, "%d",K[i]);
+			}
+			else{
+				fprintf(fichier, "%d, ", K[i]);
+			}
+		}
+		fprintf(fichier, "};\n");
+		fprintf(fichier, "------------------------\n");
+	}
+	
+	else{
+		std::cout << "Erreur d'ouverture de fichier\n" << std::endl;
+		exit(1);
+	}
+	
+	fclose(fichier);
+	   
 }
 
 void GestionnaireDeFichiers::EnregistrerEcheancier(FILE *temp, FILE *fichier)
 {
-    this->temp = fopen("rdvp.txt","r");
-    this->fichier = fopen("rdp.txt", "r++");
+        temp = fopen("Temporaire.txt","r");
+        fichier = fopen("RdP.txt", "a+");
         
-    if (this->temp != NULL) //si le fichier existe bien
-    {
-    /*string ligne;*/
-        while(getline(this->temp, ligne)) // On le lis ligne par ligne
+        this->fichier = fichier;
+        this->temp = temp;
+        
+        //Configurer la chaine qui lira ligne par ligne
+        char ligne[TAILLE_MAX] = "";
+        if(temp)
         {
-            if(this->fichier) // Si le lieu de destination existe ( j'entend par la le dossier )
-            {
-                this->fichier << ligne << std::endl; // On ecrit dans le fichier de destination
-            }                          // Et au passage on le créer si il n'existe pas
-            else
-            {
-                std::cout << "ERREUR: Impossible d'ouvrir le fichier." << std::endl;
-            }
-        }
-    }
+			if(fichier)
+			{
+				while((fgets(ligne,TAILLE_MAX,temp)) != NULL){//On parcours le fichier de départ tant qu'on est pas à la fin du fichier 
+					
+					fputs(ligne,fichier);// On ecrit dans le fichier de destination
+				}
+			}
+			
+			else
+			{
+				std::cout << "Erreur d'ouverture de fichier\n" << std::endl;
+				exit(1);
+			}
+		}
+		
+		else
+		{
+			std::cout << "Erreur d'ouverture de fichier\n" << std::endl;
+			exit(1);
+		}
 
-    else
-    {
-        std::cout << "ERREUR: Impossible d'ouvrir le fichier en lecture." << std::endl;
-    }
-
-    return;
+	fclose(fichier);
+	fclose(temp);
+	
+        return;
 }
 
 FILE *GestionnaireDeFichiers::getFichier()
