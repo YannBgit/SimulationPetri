@@ -31,13 +31,13 @@ void GestionnaireDeFichiers::EcrireEtat(Moteur M, FILE *fichier)
 {
 	//On prends les infos du Moteur
 	int Te = M.getTemps();
-    int S = M.getNbSommets();
-    int T = M.getNbTransitions(); 
-    float *P = M.getProbabiliteTirParTransition();
-    int **F = M.getMatricesArcs();
-    int *M1 = M.getNbJetonsParSommet();
-    int **W = M.getEvolutionNbJetonPourChaqueTransition();
-    int *K = M.getNbMaxJetonsParSommet();
+	int S = M.getNbSommets();
+	int T = M.getNbTransitions(); 
+	float *P = M.getProbabiliteTirParTransition();
+	int **F = M.getMatricesArcs();
+	int *M1 = M.getNbJetonsParSommet();
+	int **W = M.getEvolutionNbJetonPourChaqueTransition();
+	int *K = M.getNbMaxJetonsParSommet();
     
     //a+ pour ajouter à chaque fois à la fin du fichier
     fichier = fopen("Temporaire.txt","a+");
