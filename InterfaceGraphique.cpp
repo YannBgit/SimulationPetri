@@ -1,7 +1,5 @@
 #include "InterfaceGraphique.hpp"
 
-Moteur *M = new Moteur();
-
 QLabel *tabproba;
 QLabel *tabarcs;
 QLabel *tabjetcontenu;
@@ -238,11 +236,6 @@ InterfaceGraphique::InterfaceGraphique()
 	
 	
 	
-	
-	
-	
-
-	
 	//echeancierintro->setText(QString::number(Te));
 	echeancierintro->setFont(QFont("Lato Light", 15));
 	echeancierintro->setMaximumWidth(500);
@@ -267,13 +260,20 @@ InterfaceGraphique::InterfaceGraphique()
     vlayout->addWidget(tabjetmax);
 
     // CREATION DES LAYOUT PRINCIPAL
-    QVBoxLayout *layoutPrincipal = new QVBoxLayout;
+    QGridLayout *layoutPrincipal = new QGridLayout();
+
+	//Création du widget de l'afficheu de réseau
+	QGraphicsView *view_afficheur_reseau = new QGraphicsView(this);
+	afficheur_reseau = new QGraphicsScene(view_afficheur_reseau);
+	view_afficheur_reseau->setScene(afficheur_reseau);
+
 
 
 
     // AJOUT DES LAYOUTS DANS LE LAYOUT PRINCIPAL
-    layoutPrincipal->addLayout(vlayout,50); //Ajout du Layout Vertical "vlayout"
-    layoutPrincipal->addLayout(glayout); //Ajout du Layout Grid "glayout"
+    layoutPrincipal->addLayout(vlayout, 0, 0, 8, 2); //Ajout du Layout Vertical "vlayout"
+    layoutPrincipal->addLayout(glayout, 8, 4, 4, 2); //Ajout du Layout Grid "glayout"
+	layoutPrincipal->addWidget(view_afficheur_reseau, 0, 2, 12, 3);//Ajout de la vue du diagramme du réseau
 
     setLayout(layoutPrincipal);
 
@@ -282,6 +282,7 @@ InterfaceGraphique::InterfaceGraphique()
     QObject::connect(charger, SIGNAL(clicked()), this, SLOT(fct_charger()));
     QObject::connect(avancer, SIGNAL(clicked()), this, SLOT(fct_avancer()));
     QObject::connect(reculer, SIGNAL(clicked()), this, SLOT(fct_reculer()));
+
 }
 
 
@@ -290,7 +291,7 @@ InterfaceGraphique::InterfaceGraphique()
 
 void InterfaceGraphique::fct_etatInitial()
 {
-    E.RenvoyerEtatReseau(0);
+    M = Echeancier E() .RenvoyerEtatReseau(0);
     echeancierintro->setText(QString("Te = %1 <br/>").arg(M.getTe())+QString("S = %1 <br/>").arg(M.getS()));
 	
 	// RAFRAICHIR PROBA P
@@ -460,6 +461,8 @@ void InterfaceGraphique::fct_etatInitial()
 		}
 	}
 	tabjetmax->setText(resjetmax);
+
+	miseAJourReseau();
 }
 
 void InterfaceGraphique::fct_avancer()
@@ -634,6 +637,8 @@ void InterfaceGraphique::fct_avancer()
 		}
 	}
 	tabjetmax->setText(resjetmax);
+
+	miseAJourReseau();
 	
 }
 
@@ -809,6 +814,8 @@ void InterfaceGraphique::fct_reculer()
 		}
 	}
 	tabjetmax->setText(resjetmax);
+
+	miseAJourReseau();
 }
 
 void InterfaceGraphique::fct_enregistrer()
@@ -870,7 +877,7 @@ void InterfaceGraphique::buildElementsPosition()
                         }
                     }
 
-                    elements_traite[a_traiter.back()[0]] = new Element(parent_center+i-decalage, parent_y+1, 1, M.getNbJetonsParSommet()[a_traiter.back()[0]]); //On crée l'élément que l'on viens de traiter et on le met dans la liste
+                    elements_traite[a_traiter.back()[0]] = new Element(parent_center+i-decalage, parent_y+1, 1, M.getM()[a_traiter.back()[0]]); //On crée l'élément que l'on viens de traiter et on le met dans la liste
                     if (i == 0 || i == curr_size-1) { 
                         if (i == curr_size-1) curr_y = elements_traite[a_traiter.back()[0]]->getPosY();    //On récupère ici la position en y des éléments traités ce 
                         curr_center += elements_traite[a_traiter.back()[0]]->getPosX();                    //tour de boucle ci ainsi que le milieu de leurs x
@@ -916,10 +923,10 @@ void InterfaceGraphique::buildElementsPosition()
         return false;
     }
 
-    void InterfaceGraphique::dessinerElements(QGraphicsScene *scene)
+    void InterfaceGraphique::dessinerElements()
     {
         for (int i=0;i<M.getS()+M.getT();i++) {                                               //On parcour simplement tous les éléments
-            if (elements[i] != nullptr) elements[i]->dessiner(scene, parametres);   //et appelle leur méthode dessine(scene)
+            if (elements[i] != nullptr) elements[i]->dessiner(parametres);   //et appelle leur méthode dessine(parametres)
         }
     }
 
@@ -1087,7 +1094,7 @@ void InterfaceGraphique::buildElementsPosition()
         return arc_points;
     }
 
-    void InterfaceGraphique::dessinerArcs(QGraphicsScene *scene)
+    void InterfaceGraphique::dessinerArcs()
     {
         int nb_segments;
         int nb_arcs = sizeof(M.getF()) / sizeof(M.getF()[0]);     //on récupère la taille de la liste contenant tout les arcs
@@ -1101,7 +1108,7 @@ void InterfaceGraphique::buildElementsPosition()
 
             for (int j=1;j<nb_segments;j++) {
 
-                scene->addLine(arcs[i][j-1][0], arcs[i][j-1][1], arcs[i][j][0], arcs[i][j][1]);     //On dessinne chque segment
+                afficheur_reseau->addLine(arcs[i][j-1][0], arcs[i][j-1][1], arcs[i][j][0], arcs[i][j][1]);     //On dessinne chque segment
 
                 if (j == nb_segments-2) {                                                           //Sur l'avant dernier segment, on ajoute une tête de flèche
                     ligne.setLine(arcs[i][j-1][0], arcs[i][j-1][1], arcs[i][j][0], arcs[i][j][1]);
@@ -1112,20 +1119,20 @@ void InterfaceGraphique::buildElementsPosition()
                     arrow_head << arrow_tip.p2() << arrow_tip.p2() - QPointF(sin(angle + M_PI/2.7)*(parametres.tailleElement/7+1), cos(angle + M_PI/2.7)*(parametres.tailleElement/7+1))
                                                  << arrow_tip.p2() - QPointF(sin(angle + M_PI - M_PI/2.7)*(parametres.tailleElement/7+1), cos(angle + M_PI - M_PI/2.7)*(parametres.tailleElement/7+1));
 
-                    scene->addPolygon(arrow_head,QPen(Qt::black),QBrush(Qt::black));    //La tête de flèche est ajouté à lz scene comme polygone des 3 points ci-dessus
+                    afficheur_reseau->addPolygon(arrow_head,QPen(Qt::black),QBrush(Qt::black));    //La tête de flèche est ajouté à lz afficheur_reseau comme polygone des 3 points ci-dessus
                 }
             }
         }
     }
 
-    void InterfaceGraphique::miseAJourReseau(QGraphicsScene *scene)
+    void InterfaceGraphique::miseAJourReseau()
     {
         for (int i=0;i<M.getS();i++) {                           //
-            if (M.getNbJetonsParSommet()[i] != elements[i]->getNbJetons()) {     //Pour chaque place dont le nombre de jetons à changé
-                elements[i]->setNbJetons(M.getNbJetonsParSommet()[i]);           //on met à jour son nombre de jetons
+            if (M.getM()[i] != elements[i]->getNbJetons()) {     //Pour chaque place dont le nombre de jetons à changé
+                elements[i]->setNbJetons(M.getM()[i]);           //on met à jour son nombre de jetons
             }                                               //
         }
-        scene->clear();                         //
-        dessinerElements(scene);                //On vide la scène et on re-dessine les places, transitions et arcs
-        dessinerArcs(scene);                    //
+        afficheur_reseau->clear();                         //
+        dessinerElements();                //On vide la scène et on re-dessine les places, transitions et arcs
+        dessinerArcs();                    //
     }

@@ -22,6 +22,7 @@ int main()
 	QApplication app(argc, argv);
 
     InterfaceGraphique fenetre;
+    fenetre.setMoteur(M);
     
     fenetre.show();
     

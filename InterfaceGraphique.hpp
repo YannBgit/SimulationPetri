@@ -39,13 +39,15 @@ class InterfaceGraphique : public QWidget //On hérite de QWidget
     QVBoxLayout *vlayout; // Layout vertical
     QHBoxLayout *hlayout; // Layout horizontal
     QGridLayout *glayout; // Layout sous forme de tableau
-    QVBoxLayout *layoutprincipal;
+    QGridLayout *layoutPrincipale;
     
-    QLabel *echeancier;
+    QLabel *echeancierintro;
     QLabel *tabproba;
     QLabel *tabarcs;
     QLabel *tabjetcontenu;
     QLabel *tabjetmax;
+
+    QGraphicsScene *afficheur_reseau;
 
     Moteur M;   //Contient toutes les données du réseau nécessaires à l'affichage de l'échéancier et du diagramme du réseau
     
@@ -147,7 +149,7 @@ class InterfaceGraphique : public QWidget //On hérite de QWidget
     /*
     Dessine les places et les transitions contenues dans elements.
     */
-    void dessinerElements(QGraphicsScene *scene);
+    void dessinerElements();
 
     /*
     Définit pour chaque arc une liste de positions contenant au moins celles d'une place et d'une transition pour les relier, en
@@ -158,13 +160,13 @@ class InterfaceGraphique : public QWidget //On hérite de QWidget
    /*
     Dessine les arcs entre les places et les transitions.
     */
-    void dessinerArcs(QGraphicsScene *scene);
+    void dessinerArcs();
 
     /*
     Récupère le nouvel état du réseau et modifie le nombre de jetons pour chaque élément graphique où c'est nécessaire. Appellée lors
     d'un déplacement dans le réseau.
     */
-    void miseAJourReseau(QGraphicsScene *scene);
+    void miseAJourReseau();
         
      /*
     Utilisée par calculerArcs(). Renvoie des points de passage (x, y) permettant à l'arc en cours de calcul de ne pas intersecter avec
@@ -231,30 +233,31 @@ class Element
     /*
     Dessine l'élément selon sa position et son type d'élément ainsi que les jetons qu'il contient et les paramètres.
     */
-    void dessiner(QGraphicsScene *scene, InterfaceGraphique::Params params)
+    void dessiner(InterfaceGraphique::Params params)
     {   
+        QGraphicsScene *afficheur_reseau;
         float pos_x_scene, pos_y_scene, size;
         size = params.tailleElement;    //stocke le diamètre de la place
         if (type) {
             pos_x_scene = pos_x*size+pos_x*params.elementsDistance; //Position en x de la place sur la scene (l'écran)
             pos_y_scene = pos_y*size+pos_y*params.elementsDistance; //Position en y de la place sur la scene (l'écran)
-            scene->addEllipse(pos_x_scene, pos_y_scene,
+            afficheur_reseau->addEllipse(pos_x_scene, pos_y_scene,
                 size, size,
                 QPen(Qt::black,2)
             );
 
             if (nb_jetons) {
                 if (nb_jetons == 1) {                              
-                    scene->addEllipse(pos_x_scene+size/4, pos_y_scene+size/4,
+                    afficheur_reseau->addEllipse(pos_x_scene+size/4, pos_y_scene+size/4,
                     params.tailleElement/2, params.tailleElement/2,                     //si on essayait de répartir un ou deux jetons on aurait
                     QPen(Qt::black,2), QBrush(Qt::SolidPattern)                         //des erreurs avec les fonctions cosinus et sinus etc...
                 );                                                                      //car 
                 }else if (nb_jetons == 2 && size > 6) {
-                    scene->addEllipse(pos_x_scene+3, pos_y_scene+params.tailleElement/4+3,
+                    afficheur_reseau->addEllipse(pos_x_scene+3, pos_y_scene+params.tailleElement/4+3,
                     size/2-6, size/2-6,
                     QPen(Qt::black,2), QBrush(Qt::SolidPattern)
                     );
-                    scene->addEllipse(pos_x_scene+params.tailleElement/2+3, pos_y_scene+params.tailleElement/4+3,
+                    afficheur_reseau->addEllipse(pos_x_scene+params.tailleElement/2+3, pos_y_scene+params.tailleElement/4+3,
                     params.tailleElement/2-6, params.tailleElement/2-6,
                     QPen(Qt::black,2), QBrush(Qt::SolidPattern)
                     );
@@ -271,7 +274,7 @@ class Element
                     for(int i=0;i<nb_jetons;i++) {
                         x_token = pos_x_scene+size/2-r_token + d_token*cos(angle*i) +2;
                         y_token = pos_y_scene+size/2-r_token + d_token*sin(angle*i) +2;
-                        scene->addEllipse(x_token, y_token,
+                        afficheur_reseau->addEllipse(x_token, y_token,
                             (r_token-2)*2, (r_token-2)*2,
                             QPen(Qt::black,2), QBrush(Qt::SolidPattern)
                         );
@@ -281,7 +284,7 @@ class Element
 
 
         } else {
-            scene->addRect(pos_x*size+pos_x*params.elementsDistance,
+            afficheur_reseau->addRect(pos_x*size+pos_x*params.elementsDistance,
                 pos_y*size+pos_y*params.elementsDistance+(3.0/8.0)*size,
                 size, size/4.0,
                 QPen(), QBrush(Qt::SolidPattern)
