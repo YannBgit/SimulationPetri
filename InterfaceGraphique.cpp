@@ -6,6 +6,18 @@ QLabel *tabjetcontenu;
 QLabel *tabjetcg;
 QLabel *tabjetmax;
 
+Moteur M;
+FILE* fichier;
+FILE* temp;
+GestionnaireDeFichiers* GDF = new GestionnaireDeFichiers(fichier);
+Echeancier* E = new Echeancier(M);
+
+
+
+
+
+
+
 InterfaceGraphique::InterfaceGraphique()
 {
     setFixedSize(1500, 800);
@@ -291,7 +303,7 @@ InterfaceGraphique::InterfaceGraphique()
 
 void InterfaceGraphique::fct_etatInitial()
 {
-    M = Echeancier E.RenvoyerEtatReseau(0);
+    M = E->RenvoyerEtatReseauSelonTemps(0, *GDF);
     echeancierintro->setText(QString("Te = %1 <br/>").arg(M.getTe())+QString("S = %1 <br/>").arg(M.getS()));
 	
 	// RAFRAICHIR PROBA P
@@ -467,7 +479,7 @@ void InterfaceGraphique::fct_etatInitial()
 
 void InterfaceGraphique::fct_avancer()
 {
-	E.RenvoyerEtatReseau(M.getTe()+1);
+	M = E->RenvoyerEtatReseauSelonTemps(M.getTe()+1, *GDF);
 	echeancierintro->setText(QString("Te = %1 <br/>").arg(M.getTe())+QString("S = %1 <br/>").arg(M.getS()));
 	
 	// RAFRAICHIR PROBA P
@@ -644,7 +656,7 @@ void InterfaceGraphique::fct_avancer()
 
 void InterfaceGraphique::fct_reculer()
 {
-    E.RenvoyerEtatReseau(M.getTe()-1);
+    M = E->RenvoyerEtatReseauSelonTemps(M.getTe()-1, *GDF);
     echeancierintro->setText(QString("Te = %1 <br/>").arg(M.getTe())+QString("S = %1 <br/>").arg(M.getS()));
 	
 	// RAFRAICHIR PROBA P
@@ -820,12 +832,12 @@ void InterfaceGraphique::fct_reculer()
 
 void InterfaceGraphique::fct_enregistrer()
 {
-    GDF.EnregistrerEcheancier(temp, fichier);
+    GDF->EnregistrerEcheancier(temp, fichier);
 }
 
 void InterfaceGraphique::fct_charger()
 {
-    charger(fichier);
+    GDF->Charger(fichier);
 }
 
 //Afficheur de Reseau
