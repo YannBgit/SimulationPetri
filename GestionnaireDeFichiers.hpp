@@ -59,7 +59,7 @@ class GestionnaireDeFichiers
         }
 
         return;
-    } 
+    }
 
     /*
     Fonction de type void pour ne rien renvoyer.
@@ -73,26 +73,22 @@ class GestionnaireDeFichiers
         {
 			this->fichier = fopen("etatreseau.txt", "r++");
         
-        if (fichier == NULL)	// Erreur dans l'ouverture
-            std::cout << "Impossible d'ouvrir le fichier en écriture !" << std::endl;
-        else
-        {
-			std::cout<< "S="<< M.getNbSommets()<< std::endl;
-			std::cout<< "T="<< M.getNbTransitions()<< std::endl;
-			std::cout<< "P="<< M.getProbabiliteTirParTransition()<< std::endl;
-			std::cout<< "F="<< M.getMatricesArcs()<< std::endl;
-			std::cout<< "M="<< M.getNbJetonsParSommet()<< std::endl;
-			std::cout<< "W="<< M.getEvolutionNbJetonPourChaqueTransition()<< std::endl;
-			std::cout<< "K="<< M.getNbMaxJetonsParSommet()<< std::endl;
+            if (fichier == NULL)	// Erreur dans l'ouverture
+                std::cout << "Impossible d'ouvrir le fichier en écriture !" << std::endl;
+            else
+            {
+                std::cout<< "S="<< M.getNbSommets()<< std::endl;
+                std::cout<< "T="<< M.getNbTransitions()<< std::endl;
+                std::cout<< "P="<< M.getProbabiliteTirParTransition()<< std::endl;
+                std::cout<< "F="<< M.getMatricesArcs()<< std::endl;
+                std::cout<< "M="<< M.getNbJetonsParSommet()<< std::endl;
+                std::cout<< "W="<< M.getEvolutionNbJetonPourChaqueTransition()<< std::endl;
+                std::cout<< "K="<< M.getNbMaxJetonsParSommet()<< std::endl;
 
-			fclose (this->fichier);
-		}
+                fclose (this->fichier);
+            }
+        }
 	}
-
-	FILE *getFichier()
-    {
-    	return this->fichier;
-    }
 
     /*
     Fonction de type void pour ne rien renvoyer.

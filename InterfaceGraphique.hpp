@@ -16,7 +16,6 @@
 #include "Moteur.hpp" // Pour utiliser la classe Moteur
 #include "Echeancier.hpp" // Pour utiliser la classe Echancier
 #include "GestionnaireDeFichiers.hpp" // Pour utiliser la classe GestionnaireDeFichiers
-#include "Element.hpp" // Pour utiliser la classe GestionnaireDeFichiers
 
 
 class Element();

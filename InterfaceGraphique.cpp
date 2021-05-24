@@ -821,5 +821,5 @@ void InterfaceGraphique::fct_enregistrer()
 
 void InterfaceGraphique::fct_charger()
 {
-    Charger(fichier);
+    charger(fichier);
 }
