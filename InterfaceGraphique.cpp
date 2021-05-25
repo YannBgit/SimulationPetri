@@ -269,7 +269,7 @@ InterfaceGraphique::InterfaceGraphique()
     // CREATION DES LAYOUT PRINCIPAL
     QGridLayout *layoutPrincipal = new QGridLayout();
 
-	//Création du widget de l'afficheu de réseau
+	//Création du widget de l'afficheur de réseau
 	QGraphicsView *view_afficheur_reseau = new QGraphicsView(this);
 	afficheur_reseau = new QGraphicsScene(view_afficheur_reseau);
 	view_afficheur_reseau->setScene(afficheur_reseau);

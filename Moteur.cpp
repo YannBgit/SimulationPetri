@@ -2,7 +2,6 @@
 
 #include "Moteur.hpp"
 
-
 // FONCTIONS
 
 Moteur::Moteur(int Te, int S, int T, float *P, int **F, int *M, int **W, int *K)
@@ -110,9 +109,9 @@ void Moteur::Activer_Transitions(int *Tirage, int *M, int **F, int **W)
     return;
 }
 
-void Moteur::Reculer(Echeancier E)
+void Moteur::Reculer(Echeancier E, GestionnaireDeFichiers GDF)
 {
-    E.RenvoyerEtatReseauSelonTemps(this->Te--);
+    E.RenvoyerEtatReseauSelonTemps(this->Te--, GDF);
 }
 
 
