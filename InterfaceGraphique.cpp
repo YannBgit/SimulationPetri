@@ -27,7 +27,7 @@ InterfaceGraphique::InterfaceGraphique()
     avancer = new QPushButton("AVANCER", this);
     reculer = new QPushButton("RECULER", this);
 
-
+	printf("LA VALEUR DE P EST = %d et %d !\n\n\n\n\n\n\n", M.getP()[0], M.getP()[1]);
 
     // PERSONNALISATION DES BOUTONS
 
@@ -173,12 +173,12 @@ InterfaceGraphique::InterfaceGraphique()
 
 		// Affichage de W
 	
-	QString jetcg[M.getT()][2];
+	QString jetcg[M.getT()][4];
 	QString resjetcg;
 	
 	for(int i = 0; i<M.getT(); i++)
 	{
-		for(int j = 0; j<2; j++)
+		for(int j = 0; j<4; j++)
 		{
 			jetcg[i][j] = QString::number(M.getW()[i][j]);
 		}
@@ -191,9 +191,9 @@ InterfaceGraphique::InterfaceGraphique()
 	for(int i = 0; i<M.getT(); i++)
 	{
 		resjetcg = resjetcg + "{ ";
-		for(int j = 0; j<2; j++)
+		for(int j = 0; j<4; j++)
 		{
-			if(j == 1)
+			if(j == 4-1)
 			{
 				resjetcg = resjetcg + jetcg[i][j] + " }";
 			}
@@ -427,7 +427,7 @@ void InterfaceGraphique::fct_etatInitial()
 	for(int i = 0; i<M.getT(); i++)
 	{
 		resjetcg = resjetcg + "{ ";
-		for(int j = 0; j<2; j++)
+		for(int j = 0; j<M.getS(); j++)
 		{
 			if(j == 1)
 			{
@@ -590,7 +590,7 @@ void InterfaceGraphique::fct_avancer()
 	
 	for(int i = 0; i<M.getT(); i++)
 	{
-		for(int j = 0; j<2; j++)
+		for(int j = 0; j<M.getS(); j++)
 		{
 			jetcg[i][j] = QString::number(M.getW()[i][j]);
 		}
@@ -767,7 +767,7 @@ void InterfaceGraphique::fct_reculer()
 	
 	for(int i = 0; i<M.getT(); i++)
 	{
-		for(int j = 0; j<2; j++)
+		for(int j = 0; j<M.getS(); j++)
 		{
 			jetcg[i][j] = QString::number(M.getW()[i][j]);
 		}
