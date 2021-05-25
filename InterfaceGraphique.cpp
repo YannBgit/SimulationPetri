@@ -271,6 +271,11 @@ InterfaceGraphique::InterfaceGraphique()
 	afficheur_reseau = new QGraphicsScene(view_afficheur_reseau);
 	view_afficheur_reseau->setScene(afficheur_reseau);
 	wlayout->addWidget(view_afficheur_reseau);
+	
+    buildElementsPosition();
+    calculerArcs();
+    dessinerElements();
+    dessinerArcs();
 
 	// CREATION DES LAYOUT PRINCIPAL
     QVBoxLayout *layoutSecondaire = new QVBoxLayout;
