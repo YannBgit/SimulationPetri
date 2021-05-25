@@ -136,7 +136,7 @@ InterfaceGraphique::InterfaceGraphique()
 		else
 		{
 			resarcs = resarcs + " , ";
-			if(i%5 ==  0 && i != 0)
+			if(i%4 ==  0 && i != 0)
 			{
 				resarcs = resarcs + "<br/>";
 			}
@@ -252,6 +252,8 @@ InterfaceGraphique::InterfaceGraphique()
 	tabarcs->setMaximumWidth(500);
 	tabjetcontenu->setFont(QFont("Lato Light", 12));
 	tabjetcontenu->setMaximumWidth(500);
+	tabjetcg->setFont(QFont("Lato Light", 12));
+	tabjetcg->setMaximumWidth(500);
 	tabjetmax->setFont(QFont("Lato Light", 12));
 	tabjetmax->setMaximumWidth(500);
 
@@ -264,24 +266,30 @@ InterfaceGraphique::InterfaceGraphique()
     vlayout->addWidget(tabproba);
     vlayout->addWidget(tabarcs);
     vlayout->addWidget(tabjetcontenu);
+    vlayout->addWidget(tabjetcg);
     vlayout->addWidget(tabjetmax);
 
-    // CREATION DES LAYOUT PRINCIPAL
-    QGridLayout *layoutPrincipal = new QGridLayout();
-
 	//Création du widget de l'afficheur de réseau
+	QVBoxLayout *wlayout = new QVBoxLayout;
+	
+	wlayout->setAlignment(Qt::AlignRight | Qt::AlignTop);
 	QGraphicsView *view_afficheur_reseau = new QGraphicsView(this);
 	afficheur_reseau = new QGraphicsScene(view_afficheur_reseau);
 	view_afficheur_reseau->setScene(afficheur_reseau);
+	wlayout->addWidget(view_afficheur_reseau);
 
-
+	// CREATION DES LAYOUT PRINCIPAL
+    QVBoxLayout *layoutSecondaire = new QVBoxLayout;
+    QHBoxLayout *layoutPrincipal = new QHBoxLayout;
 
 
     // AJOUT DES LAYOUTS DANS LE LAYOUT PRINCIPAL
-    layoutPrincipal->addLayout(vlayout, 0, 0, 8, 2); //Ajout du Layout Vertical "vlayout"
-    layoutPrincipal->addLayout(glayout, 8, 4, 4, 2); //Ajout du Layout Grid "glayout"
-	layoutPrincipal->addWidget(view_afficheur_reseau, 0, 2, 12, 3);//Ajout de la vue du diagramme du réseau
+    layoutSecondaire->addLayout(vlayout, 50); //Ajout du Layout Vertical "vlayout"
+    layoutSecondaire->addLayout(glayout); //Ajout du Layout Grid "glayout"
+    layoutPrincipal->addLayout(layoutSecondaire);
+	layoutPrincipal->addLayout(wlayout);//Ajout de la vue du diagramme du réseau
 
+	//setLayout (layoutSecondaire);
     setLayout(layoutPrincipal);
 
     QObject::connect(etatInitial, SIGNAL(clicked()), this, SLOT(fct_etatInitial()));
@@ -368,7 +376,7 @@ void InterfaceGraphique::fct_etatInitial()
 		else
 		{
 			resarcs = resarcs + " , ";
-			if(i%5 ==  0 && i != 0)
+			if(i%4 ==  0 && i != 0)
 			{
 				resarcs = resarcs + "<br/>";
 			}
@@ -544,7 +552,7 @@ void InterfaceGraphique::fct_avancer()
 		else
 		{
 			resarcs = resarcs + " , ";
-			if(i%5 ==  0 && i != 0)
+			if(i%4 ==  0 && i != 0)
 			{
 				resarcs = resarcs + "<br/>";
 			}
@@ -721,7 +729,7 @@ void InterfaceGraphique::fct_reculer()
 		else
 		{
 			resarcs = resarcs + " , ";
-			if(i%5 ==  0 && i != 0)
+			if(i%4 ==  0 && i != 0)
 			{
 				resarcs = resarcs + "<br/>";
 			}
