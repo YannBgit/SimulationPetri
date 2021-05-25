@@ -87,7 +87,7 @@ int *Moteur::Tirage()
     return TableauTirage;
 }
 
-void Moteur::Activer_Transitions(int *Tirage, int *M, int **W)
+void Moteur::Activer_Transitions(int *Tirage, int *M, int **F, int **W)
 {
     //Pour chaque transition
     for (int i = 0; i < this->T; i++) {
@@ -100,31 +100,21 @@ void Moteur::Activer_Transitions(int *Tirage, int *M, int **W)
 
                 //Vérification que le nombre de jetons ne dépasse pas le maximum
                 if (M[j] > K[j]) M[j] = K[j];
-            } 
+            }
         }
     }
 
     this->Te++;
 
-    //Le marquage est directement modifié sur *M 
+    //Le marquage est directement modifié sur *M
     return;
 }
 
-/*void Moteur::Reculer(Echeancier E)
+void Moteur::Reculer(Echeancier E)
 {
     E.RenvoyerEtatReseauSelonTemps(this->Te--);
-}*/
-
-/*int *Moteur::transition_possible(int S, int T, int **F)
-{
-    int *transition = (int*)malloc(sizeof(int) * T);
-    for(int i=0;i<T;i++)
-    {
-        if(F[S][i]) transition[i]=1;
-        else transition[i]=0;
-    }
-        return transition;
 }
+
 
 int Moteur::Nbr_Jetons(int **W, int T, int S, int *M)
 {
@@ -133,36 +123,60 @@ int Moteur::Nbr_Jetons(int **W, int T, int S, int *M)
     return nbr;
 }
 
-int Moteur::nbr_transition(int *transition, int T)
+int *Moteur::transition_possible(int S, int T, int **F)
 {
+    int *transition = (int*) malloc(sizeof(int)*T);
+    int i;
+    //initialisation de transition
+    for(i=0;i<T;i++)
+    {
+      transition[i]=0;
+    }
+    
+    for(i=0;i<T;i++)
+    {
+        if(F[0][S]==i) transition[i]=1 + transition[i];
+        if(F[1][S]==i) transition[i]=1 + transition[i];
+    }
+        return transition;
+}
+
+int	Moteur::nbr_transition(int *transition, int T)
+{
+
     int nbr_transi=0;
+    int i = 0;
+
     for(int i=0;i<T;i++)
         if(transition[i]) nbr_transi++;
+
     return nbr_transi;
 }
 
 int *Moteur::Marquage(Moteur RDP, int **W)
 {
-    int marq[RDP.getS()];
-    int transi_possible[T]; //ce tableau à en valeur des transitions
+	int S = RDP.getS();
+    int *marq = (int*) malloc(sizeof(int)*S);
+    int *transi_p = (int*) malloc(sizeof(int)*T); //ce tableau à en valeur des transitions
     int nbr_transi;
     int i,j;
 
-    for(i=0; i<RDP.getS();i++) marq[i]=0;
+    for(i=0; i<S;i++) marq[i]=0;
 
-    for(i=0; i<RDP.getS(); i++)
+    for(i=0; i<S; i++)
     {
-        transi_possible = transition_possible(RDP.getS(),RDP.getT(), RDP.getF());
-        nbr_transi = nbr_transition(transition_possible, RDP.T);
+        transi_p = transition_possible(S,RDP.getT(), RDP.getF());
+        nbr_transi = nbr_transition(transi_p, RDP.getT());
 
         for(j=0; j<=nbr_transi;j++)
         {
-            marq[i] += Nbr_Jetons(RDP.W , transi_possible[j], RDP.getM());
+            marq[i] = marq[i]+Nbr_Jetons(RDP.getW(),transi_p[j],S,RDP.getM());
         }
     }
+    free(transi_p);
 
     return marq;
-}*/
+}
 
 int Moteur::getTe()
 {

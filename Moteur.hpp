@@ -4,9 +4,7 @@
 
 // LIBRAIRIES
 #include "Echeancier.hpp" // Pour utiliser la classe Echeancier
-#include "GestionnaireDeFichiers.hpp" // Pour utiliser la classe Gestionnaire de Fichiers
 class Echeancier;
-class GestionnaireDeFichiers;
 #include <stdio.h> // Permet principalement la manipulation des flux de caractères
 #include <stdlib.h> // Permet principalement la génération de nombres aléatoires
 
@@ -53,17 +51,17 @@ class Moteur
     tirage associée, et si besoin notre fonction de résolution de conflits.
     */
     int *Tirage();
-    
+
     /*
     Fonction de type void pour modifier le tableau de Marquage int *M pour représenter le déplacement des jetons tirés.
-	Argument de type int *Tirage représentant le tableau des transitions tirables que l'on va activer, 
+	Argument de type int *Tirage représentant le tableau des transitions tirables que l'on va activer,
 	int *M le tableau de Marquage que l'on va modifier (déplacement de jetons),
 	**F Le tableau d'arc pour savoir quelles sont les places liés aux transitions tiréés et remettre les pro,
 	**W Enregistrement du nombre de jetons consommé ou générer par chaque transitions tirées
 	Pour chaque Indice du tableau Tirage, la fonction active la transition correspondante et retire/ajoute le nombre de jetons
     correspondant entre les places de la transition.
 	*/
-	void Activer_Transitions(int *Tirage, int *M, int **W);
+	void Activer_Transitions(int *Tirage, int *M, int **F, int **W);
 
 	/*
 	Fonction de type Moteur pour renvoyer les infos d'un RDP.
@@ -71,28 +69,34 @@ class Moteur
 	La fonction observe si l'utilisateur a choisi ou non de reculer, si oui il demande à l'échéancier les anciennes informations du
     RDP et les renvoi.
 	*/
-	//void Reculer(Echeancier E);
-	
+	void Reculer(Echeancier E);
+
+	/*
+	Ces fonction aident pour générer le tableau de marquage.
+  */
+  /*
+	Fonction de type int, pour retourner le nombre de jetons restants.
+	Elle prend en argument un int**, la matrice représentant le nombre de jetons consommés et générés, et un int représentant le numéro d'une transition.
+	Pour chaque transition, on connait le nombre de jetons générés et consommés et de là, on déduit le nombre de jetons restants.
+	*/
+	int Nbr_Jetons(int **W, int T, int S, int *M);
+
+  /*
+  Fonction de type int *, elle retourne un tableau si il existe ou non un arc sommet-transition ou transition-sommet.
+  test pour chaque transition pour un sommet donné si il existe ou non un arc
+  */
+	int *transition_possible(int S, int T, int **F);
+
+    /* Compte les transitions possibles*/
+    int	nbr_transition(int *transition, int T);
+
 	/*
 	Fonction de type int* pour renvoyer un tableau  d'entier pour être le tableau de marquage.
 	Argument de type int pour le nombre de sommet du réseau et int** pour la matrice représentant le nombre de jetons consommés et
     générés.
 	La fonction parcourt tout les sommet et assigne à chacun de ces sommets les jetons restants.
 	*/
-	//int *Marquage(Moteur RDP, int **W);
-
-	/*
-	Cette fonction aide pour générer le tableau de marquage.
-	Fonction de type int, pour retourner le nombre de jetons restants.
-	Elle prend en argument un int**, la matrice représentant le nombre de jetons consommés et générés, et un int représentant le numéro d'une transition.
-	Pour chaque transition, on connait le nombre de jetons générés et consommés et de là, on déduit le nombre de jetons restants.
-	*/
-	//int Nbr_Jetons(int **W, int T, int S, int *M);
-
-	//int *transition_possible(int S, int T, int **F);
-
-    /* Compte les transitions possibles*/
-    //int	nbr_transition(int *transition, int T);
+	int *Marquage(Moteur RDP, int **W);
 
     /*
     Accesseurs pour les variables du moteur, nommés explicitement.
