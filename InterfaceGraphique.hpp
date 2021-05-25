@@ -37,15 +37,16 @@ class InterfaceGraphique : public QWidget //On hérite de QWidget
     QPushButton *etatInitial; // Associé à la méthode "fct_etatInitial()"
     
     QVBoxLayout *vlayout; // Layout vertical
-    QHBoxLayout *hlayout; // Layout horizontal
+    QVBoxLayout *layoutSecondaire;
+    QHBoxLayout *layoutPrincipal; // Layout horizontal
     QGridLayout *glayout; // Layout sous forme de tableau
-    QGridLayout *layoutPrincipale;
     
     QLabel *echeancierintro;
     QLabel *tabproba;
-    QLabel *tabarcs;
-    QLabel *tabjetcontenu;
-    QLabel *tabjetmax;
+	QLabel *tabarcs;
+	QLabel *tabjetcontenu;
+	QLabel *tabjetcg;
+	QLabel *tabjetmax;
 
     QGraphicsScene *afficheur_reseau;
 
