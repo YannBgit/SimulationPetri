@@ -172,7 +172,7 @@ InterfaceGraphique::InterfaceGraphique()
 	
 	for(int i = 0; i<M.getT(); i++)
 	{
-		for(int j = 0; j<4; j++)
+		for(int j = 0; j<2; j++)
 		{
 			jetcg[i][j] = QString::number(M.getW()[i][j]);
 		}
