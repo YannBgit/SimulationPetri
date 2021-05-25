@@ -1,11 +1,5 @@
 #include "InterfaceGraphique.hpp"
 
-QLabel *tabproba;
-QLabel *tabarcs;
-QLabel *tabjetcontenu;
-QLabel *tabjetcg;
-QLabel *tabjetmax;
-
 FILE *fichier;
 GestionnaireDeFichiers GDF(fichier);
 FILE *temp = GDF.CreerFichierTemporaire();
