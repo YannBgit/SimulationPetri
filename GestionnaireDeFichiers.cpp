@@ -24,8 +24,8 @@ void GestionnaireDeFichiers::Charger(FILE *fichier)
 FILE *GestionnaireDeFichiers::CreerFichierTemporaire()
 {
 	FILE *fic;
+	fic = fopen("temp.txt","w");
 	this->temp = fic;
-
 	return temp;
 }
 
@@ -42,7 +42,7 @@ void GestionnaireDeFichiers::EcrireEtat(Moteur M, FILE *fichier)
 	int *K = M.getK();
     
     //a+ pour ajouter à chaque fois à la fin du fichier
-    fichier = fopen("Temporaire.txt","a+");
+    fichier = fopen("temp.txt","a+");
 	this->fichier = fichier;
 	
     if(fichier){
@@ -124,7 +124,7 @@ void GestionnaireDeFichiers::EcrireEtat(Moteur M, FILE *fichier)
 
 void GestionnaireDeFichiers::EnregistrerEcheancier(FILE *temp, FILE *fichier)
 {
-        temp = fopen("Temporaire.txt","r");
+        temp = fopen("temp.txt","r");
         fichier = fopen("RdP.txt", "a+");
         
         //Configurer la chaine qui lira ligne par ligne

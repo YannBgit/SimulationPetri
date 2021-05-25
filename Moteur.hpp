@@ -63,7 +63,7 @@ class Moteur
 	Pour chaque Indice du tableau Tirage, la fonction active la transition correspondante et retire/ajoute le nombre de jetons
     correspondant entre les places de la transition.
 	*/
-	void Activer_Transitions(int *Tirage, int *M, int **F, int **W);
+	void Activer_Transitions(int *Tirage, int *M, int **W);
 
 	/*
 	Fonction de type Moteur pour renvoyer les infos d'un RDP.
@@ -79,7 +79,7 @@ class Moteur
     générés.
 	La fonction parcourt tout les sommet et assigne à chacun de ces sommets les jetons restants.
 	*/
-	int *Marquage(Moteur RDP, int **W);
+	//int *Marquage(Moteur RDP, int **W);
 
 	/*
 	Cette fonction aide pour générer le tableau de marquage.
@@ -87,12 +87,12 @@ class Moteur
 	Elle prend en argument un int**, la matrice représentant le nombre de jetons consommés et générés, et un int représentant le numéro d'une transition.
 	Pour chaque transition, on connait le nombre de jetons générés et consommés et de là, on déduit le nombre de jetons restants.
 	*/
-	int Nbr_Jetons(int **W, int T, int S, int *M);
+	//int Nbr_Jetons(int **W, int T, int S, int *M);
 
-	int *transition_possible(int S, int T, int **F);
+	//int *transition_possible(int S, int T, int **F);
 
     /* Compte les transitions possibles*/
-    int	nbr_transition(int *transition, int T);
+    //int	nbr_transition(int *transition, int T);
 
     /*
     Accesseurs pour les variables du moteur, nommés explicitement.
