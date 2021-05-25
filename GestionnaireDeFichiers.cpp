@@ -178,6 +178,7 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier){
 	
 	char *ligne = (char*)malloc(sizeof(char)*TAILLE_MAX);
 	
+	char *c;
 	int i = 0;
 	int j = 0;
 	int cpt = Te * 9 + 1;
@@ -185,48 +186,39 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier){
 	if(fichier){
 		if(cpt > 1){
 			while(i < cpt - 1){//On parcours le fichier de départ jusqu'à la ligne Te du paramètre
-					fgets(ligne,TAILLE_MAX,fichier);
+					c = fgets(ligne,TAILLE_MAX,fichier);
 					i++;
-				}	
+				}
 		}
 		
 		////// TE ////////
 		char *str = fgets(ligne,TAILLE_MAX,fichier);
-		std::cout << " ligne = " << ligne << std::endl;
 		char *decoupe;
 		decoupe = strtok(str,"Te=;");
 		Te = atoi(decoupe);
-		std::cout << "Te = " << Te << std::endl;
-		std::cout << "decoupe = " << decoupe << std::endl;
 		//// FIN TE ////
 		
 		////// S ////////
 		str = fgets(ligne,TAILLE_MAX,fichier);
-		std::cout << " ligne = " << ligne << std::endl;
 		decoupe = strtok(str,"S=;");
 		S = atoi(decoupe);
-		std::cout << "S = " << S << std::endl;
-		std::cout << "decoupe = " << decoupe << std::endl;
+
 		//// FIN S ////
 		
 		////// T ////////
 		str = fgets(ligne,TAILLE_MAX,fichier);
-		std::cout << " ligne = " << ligne << std::endl;
 		decoupe = strtok(str,"T=;");
 		T = atoi(decoupe);
-		std::cout << "T = " << T << std::endl;
-		std::cout << "decoupe = " << decoupe << std::endl;
 		//// FIN T ////
 		
 		////// P ////////
-		float P[T];
+		float *P = (float*)malloc(sizeof(float) * T);
 		str = fgets(ligne, TAILLE_MAX,fichier);
 		decoupe = strtok(str,"P={,}");
 		i = 0;
-		while (decoupe != NULL && i < S) {
+		while (decoupe != NULL && i < T) {
 			P[i] = atof(decoupe);
 			decoupe = strtok(NULL, "P={,}");
-			//std::cout << "P = " << P[i] << " ";
 			i++;
 		}
 		for(j = 0; j < i - 1; j++){
@@ -236,9 +228,9 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier){
 		//// FIN P ////
 		
 		////// F ////////
-		int *F[S];
-		for(i = 0; i < S; i++){
-			F[i] = (int*)malloc(3 * sizeof(int));
+		int **F = (int**)malloc(sizeof(int*) * 10);
+		for(i = 0; i < 10; i++){
+			F[i] = (int*)malloc(10 * sizeof(int));
 		}
 		str = fgets(ligne,TAILLE_MAX,fichier);
 		decoupe = strtok(str,"F{=}; ");
@@ -252,7 +244,7 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier){
 		////// FIN F ////////
 		
 		////// M ////////
-		int M[S];
+		int *M = (int*)malloc(sizeof(int) * S);
 		str = fgets(ligne, TAILLE_MAX,fichier);
 		decoupe = strtok(str,"M={,};");
 		i = 0;
@@ -268,9 +260,10 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier){
 		//// FIN M ////
 		
 		////// W ////////
-		int *W[S];
-		for(i = 0; i < S; i++){
-			W[i] = (int*)malloc(T * sizeof(int));
+		
+		int **W = (int **)malloc(sizeof(int*) * 10);
+		for(int i = 0; i < 10; i++){
+			W[i] = (int*)malloc(10 * sizeof(int));
 		}
 		str = fgets(ligne,TAILLE_MAX,fichier);
 		decoupe = strtok(str,"W{=};, ");
@@ -278,7 +271,7 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier){
 		while (decoupe != NULL && i < T){
 			j = 0;
 			std::cout << "W = ";
-			while(j < S){
+			while(j < T){
 				sscanf(decoupe,"%d",&(W[i][j]));
 				decoupe = strtok(NULL, "{,} ");
 				std::cout << W[i][j] << " ";
@@ -290,7 +283,7 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier){
 		////// FIN W ////////
 		
 		////// K ////////
-		int K[S];
+		int *K = (int*)malloc(sizeof(int) * S);
 		str = fgets(ligne, TAILLE_MAX,fichier);
 		decoupe = strtok(str,"M={,};");
 		std::cout << "decoupe = " << decoupe << std::endl;
@@ -307,16 +300,7 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier){
 		//// FIN K ////
 		
 		Moteur *m = new Moteur(Te, S, T, P, F, M, W, K);
-		std::cout << "m.Te = " << m->getTe() << std::endl;
-		for(int i = 0; i < 3; i++){
-			free(F[i]);
-		}
-		for(int i = 0; i < S; i++){
-			free(W[i]);
-		}
-		
 		free(ligne);
-		
 		return *m;
 	}
 	
