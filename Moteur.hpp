@@ -4,6 +4,7 @@
 
 // LIBRAIRIES
 #include "Echeancier.hpp" // Pour utiliser la classe Echeancier
+class Echeancier;
 #include <stdio.h> // Permet principalement la manipulation des flux de caractères
 #include <stdlib.h> // Permet principalement la génération de nombres aléatoires
 
@@ -27,7 +28,7 @@ class Moteur
     public:
     // CONSTRUCTEURS
     /*
-    Constructeur de base.
+    Constructeur de base
     */
     Moteur(int Te, int S, int T, float *P, int **F, int *M, int **W, int *K);
 

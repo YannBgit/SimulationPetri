@@ -3,6 +3,7 @@
 #define GESTIONNAIREDEFICHIERS_HPP
 
 // LIBRAIRIES
+#include <string.h>
 #include <stdio.h> // Permettre principalement la manipulation des flux de caractères
 #include <iostream> // Contrôler la lecture et l'écriture des flux standard
 class Moteur; // Pour utiliser la classe Moteur

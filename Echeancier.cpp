@@ -5,12 +5,13 @@
 
 // FONCTIONS
 
-Echeancier::Echeancier(Moteur RDP)
+Echeancier::Echeancier(Moteur M)
 {
-    this->TempsCourant = RDP.getTemps();
+    this->TempsCourant = M.getTe();
 }
 
-Echeancier::~Echeancier();
+Echeancier::~Echeancier()
+{}
 
 void Echeancier::AjouterEtatReseau(Moteur M, GestionnaireDeFichiers GDF)
 {
@@ -20,26 +21,14 @@ void Echeancier::AjouterEtatReseau(Moteur M, GestionnaireDeFichiers GDF)
     return;
 }
 
-Moteur Echeancier::RenvoyerEtatReseauCourant()
+Moteur Echeancier::RenvoyerEtatReseauSelonTemps(int Te, GestionnaireDeFichiers GDF)
 {
-    Moteur M = RenvoyerEtatReseauSelonTemps(TempsCourant);
-    return M;
+    return GDF.rechercheEtat(Te, GDF.getTemp());
 }
 
 void Echeancier::StockerTempsCourant(Moteur M)
 {
-    this->TempsCourant = M.getTemps();
+    this->TempsCourant = M.getTe();
     
     return;
-}
-
-Moteur Echeancier::RenvoyerEtatReseauSelonTemps(int Te, GestionnaireDeFichiers GDF)
-{
-    Moteur M;
-
-    /* Recherche dans le fichier */
-    M = GDF.rechercheChaine(search, GDF.getTemp);
-    /* Fin de la recherche dans le fichier et le stockage du moteur */
-
-    return M;
 }

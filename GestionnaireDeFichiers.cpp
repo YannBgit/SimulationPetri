@@ -32,14 +32,14 @@ FILE *GestionnaireDeFichiers::CreerFichierTemporaire()
 void GestionnaireDeFichiers::EcrireEtat(Moteur M, FILE *fichier)
 {
 	//On prends les infos du Moteur
-	int Te = M.getTemps();
-	int S = M.getNbSommets();
-	int T = M.getNbTransitions(); 
-	float *P = M.getProbabiliteTirParTransition();
-	int **F = M.getMatricesArcs();
-	int *M1 = M.getNbJetonsParSommet();
-	int **W = M.getEvolutionNbJetonPourChaqueTransition();
-	int *K = M.getNbMaxJetonsParSommet();
+	int Te = M.getTe();
+	int S = M.getS();
+	int T = M.getT(); 
+	float *P = M.getP();
+	int **F = M.getF();
+	int *M1 = M.getM();
+	int **W = M.getW();
+	int *K = M.getK();
     
     //a+ pour ajouter à chaque fois à la fin du fichier
     fichier = fopen("Temporaire.txt","a+");
@@ -182,17 +182,20 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier)
 	
 	char *ligne = (char*)malloc(sizeof(char)*TAILLE_MAX);
 	
-	char c;
+	char *c;
 	int i = 0;
 	int j = 0;
 	int cpt = Te * 9 + 1;
 	
-	if(fichier){
-		if(cpt > 1){
-			while(i < cpt - 1){//On parcours le fichier de départ jusqu'à la ligne Te du paramètre
-					fgets(ligne,TAILLE_MAX,fichier);
-					i++;
-				}	
+	if(fichier)
+	{
+		if(cpt > 1)
+		{
+			while(i < cpt - 1)
+			{//On parcours le fichier de départ jusqu'à la ligne Te du paramètre
+				c = fgets(ligne,TAILLE_MAX,fichier);
+				i++;
+			}	
 		}
 		
 		////// TE ////////

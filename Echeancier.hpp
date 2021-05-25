@@ -18,7 +18,7 @@ class Echeancier
 
     public:
     // CONSTRUCTEURS
-    Echeancier(Moteur RDP);
+    Echeancier(Moteur M);
 
     // DESTRUCTEUR
     ~Echeancier();
@@ -32,11 +32,12 @@ class Echeancier
     void AjouterEtatReseau(Moteur M, GestionnaireDeFichiers GDF);
 
     /*
-    Fonction de type Moteur pour renvoyer un état du réseau selon le temps courant.
-    Aucun argument n'est nécessaire.
-    La fonction recherche le dernier état du réseau enregistré et le renvoie.
+    Fonction de type Moteur pour renvoyer un état du réseau selon le temps cherché s'il existe ou le dernier temps stocké s'il n'existe
+    pas.
+    Argument de type int Te, le temps auquel on veut récupérer le réseau de Petri.
+    La fonction recherche un état du réseau enregistré avec un temps donné et le renvoie.
     */
-    Moteur RenvoyerEtatReseauCourant();
+    Moteur RenvoyerEtatReseauSelonTemps(int Te, GestionnaireDeFichiers GDF);
 
     /*
     Fonction de type void pour ne rien renvoyer.
@@ -44,14 +45,6 @@ class Echeancier
     La fonction enregistre le temps courant du réseau.
     */
     void StockerTempsCourant(Moteur M);
-
-    /*
-    Fonction de type Moteur pour renvoyer un état du réseau selon le temps cherché s'il existe ou le dernier temps stocké s'il n'existe
-    pas.
-    Argument de type int Te, le temps auquel on veut récupérer le réseau de Petri.
-    La fonction recherche un état du réseau enregistré avec un temps donné et le renvoie.
-    */
-    Moteur RenvoyerEtatReseauSelonTemps(int Te, GestionnaireDeFichiers GDF);
 };
 
 #endif
