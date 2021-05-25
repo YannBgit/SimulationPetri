@@ -7,13 +7,12 @@
 // FONCTIONS
 
 // MAIN
-int main()
+int main(int argc, char **argv)
 {
 	// Utilisation de l'interface graphique
 	QApplication app(argc, argv);
 
     InterfaceGraphique fenetre;
-    fenetre.setMoteur(M);
     
     fenetre.show();
     

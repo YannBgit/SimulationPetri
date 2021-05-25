@@ -4,7 +4,9 @@
 
 // LIBRAIRIES
 #include "Echeancier.hpp" // Pour utiliser la classe Echeancier
+#include "GestionnaireDeFichiers.hpp" // Pour utiliser la classe Gestionnaire de Fichiers
 class Echeancier;
+class GestionnaireDeFichiers;
 #include <stdio.h> // Permet principalement la manipulation des flux de caractères
 #include <stdlib.h> // Permet principalement la génération de nombres aléatoires
 
@@ -69,7 +71,7 @@ class Moteur
 	La fonction observe si l'utilisateur a choisi ou non de reculer, si oui il demande à l'échéancier les anciennes informations du
     RDP et les renvoi.
 	*/
-	void Reculer(Echeancier E);
+	//void Reculer(Echeancier E);
 	
 	/*
 	Fonction de type int* pour renvoyer un tableau  d'entier pour être le tableau de marquage.

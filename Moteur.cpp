@@ -110,62 +110,58 @@ void Moteur::Activer_Transitions(int *Tirage, int *M, int **F, int **W)
     return;
 }
 
-void Moteur::Reculer(Echeancier E)
+/*void Moteur::Reculer(Echeancier E)
 {
     E.RenvoyerEtatReseauSelonTemps(this->Te--);
-}
-
-int *Moteur::Marquage(Moteur RDP, int **W)
-{
-    int marq[RDP.S];
-    int transi_possible[T]; //ce tablea à en valeur des transitions
-    int nbr_transi;
-    int i,j;
-
-    for(i=0; i<RDP.S;i++) marq[i]=0;
-
-    for(i=0; i<RDP.S; i++)
-    {
-        transi_possible = transition_possible(RDP.S,RDP.T, RDP.F);
-        nbr_transi = nbr_transition(transition_possible, RDP.T);
-
-        for(j=0; j<=nbr_transi;j++)
-        {
-            marq[i] += Nbr_Jetons(RDP.W , transi_possible[j], RDP.M));
-        }
-    }
-
-    return marq;
-}
-
-int Moteur::Nbr_Jetons(int **W, int T, int S, int *M)
-{
-    int nbr;
-    nbr = W[S][T] + M[S];
-    return nbr;
-}
+}*/
 
 int *Moteur::transition_possible(int S, int T, int **F)
-{
-    int transition[T];
+{/*
+    int *transition = (int*)malloc(sizeof(int) * T);
     for(int i=0;i<T;i++)
     {
         if(F[S][i]) transition[i]=1;
         else transition[i]=0;
     }
-        return transition;
+        return transition;*/
 }
 
-int	Moteur::nbr_transition(int *transition, int T)
-{
-        
+int Moteur::Nbr_Jetons(int **W, int T, int S, int *M)
+{/*
+    int nbr;
+    nbr = W[S][T] + M[S];
+    return nbr;*/
+}
+
+int Moteur::nbr_transition(int *transition, int T)
+{/*
     int nbr_transi=0;
-    int i = 0;
-    
     for(int i=0;i<T;i++)
         if(transition[i]) nbr_transi++;
+    return nbr_transi;*/
+}
 
-    return nbr_transi;
+int *Moteur::Marquage(Moteur RDP, int **W)
+{/*
+    int marq[RDP.getS()];
+    int transi_possible[T]; //ce tableau à en valeur des transitions
+    int nbr_transi;
+    int i,j;
+
+    for(i=0; i<RDP.getS();i++) marq[i]=0;
+
+    for(i=0; i<RDP.getS(); i++)
+    {
+        transi_possible = transition_possible(RDP.getS(),RDP.getT(), RDP.getF());
+        nbr_transi = nbr_transition(transition_possible, RDP.T);
+
+        for(j=0; j<=nbr_transi;j++)
+        {
+            marq[i] += Nbr_Jetons(RDP.W , transi_possible[j], RDP.getM());
+        }
+    }
+
+    return marq;*/
 }
 
 int Moteur::getTe()

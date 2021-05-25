@@ -23,8 +23,8 @@ void GestionnaireDeFichiers::Charger(FILE *fichier)
 
 FILE *GestionnaireDeFichiers::CreerFichierTemporaire()
 {
-	FILE *fichier;
-	this->temp = fichier;
+	FILE *fic;
+	this->temp = fic;
 
 	return temp;
 }
@@ -127,9 +127,6 @@ void GestionnaireDeFichiers::EnregistrerEcheancier(FILE *temp, FILE *fichier)
         temp = fopen("Temporaire.txt","r");
         fichier = fopen("RdP.txt", "a+");
         
-        this->fichier = fichier;
-        this->temp = temp;
-        
         //Configurer la chaine qui lira ligne par ligne
         char ligne[TAILLE_MAX] = "";
         if(temp)
@@ -171,8 +168,7 @@ FILE *GestionnaireDeFichiers::getTemp()
     return this->temp;
 }
 
-Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier)
-{
+Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier){
 	
 	fichier = fopen("RdP.txt","r");
 	
@@ -182,20 +178,16 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier)
 	
 	char *ligne = (char*)malloc(sizeof(char)*TAILLE_MAX);
 	
-	char *c;
 	int i = 0;
 	int j = 0;
 	int cpt = Te * 9 + 1;
 	
-	if(fichier)
-	{
-		if(cpt > 1)
-		{
-			while(i < cpt - 1)
-			{//On parcours le fichier de départ jusqu'à la ligne Te du paramètre
-				c = fgets(ligne,TAILLE_MAX,fichier);
-				i++;
-			}	
+	if(fichier){
+		if(cpt > 1){
+			while(i < cpt - 1){//On parcours le fichier de départ jusqu'à la ligne Te du paramètre
+					fgets(ligne,TAILLE_MAX,fichier);
+					i++;
+				}	
 		}
 		
 		////// TE ////////
@@ -244,7 +236,10 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier)
 		//// FIN P ////
 		
 		////// F ////////
-		int F[S][3];
+		int *F[S];
+		for(i = 0; i < S; i++){
+			F[i] = (int*)malloc(3 * sizeof(int));
+		}
 		str = fgets(ligne,TAILLE_MAX,fichier);
 		decoupe = strtok(str,"F{=}; ");
 		i = 0;
@@ -273,7 +268,10 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier)
 		//// FIN M ////
 		
 		////// W ////////
-		int W[T][S];
+		int *W[S];
+		for(i = 0; i < S; i++){
+			W[i] = (int*)malloc(T * sizeof(int));
+		}
 		str = fgets(ligne,TAILLE_MAX,fichier);
 		decoupe = strtok(str,"W{=};, ");
 		i = 0;
@@ -308,10 +306,18 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier)
 		std::cout << std::endl;
 		//// FIN K ////
 		
-		Moteur m(Te, S, T, P, F, M, W, K);
+		Moteur *m = new Moteur(Te, S, T, P, F, M, W, K);
+		std::cout << "m.Te = " << m->getTe() << std::endl;
+		for(int i = 0; i < 3; i++){
+			free(F[i]);
+		}
+		for(int i = 0; i < S; i++){
+			free(W[i]);
+		}
+		
 		free(ligne);
-
-		return m;
+		
+		return *m;
 	}
 	
 	else
