@@ -17,18 +17,6 @@ Moteur::Moteur(int Te, int S, int T, float *P, int **F, int *M, int **W, int *K)
     this->K = K;
 }
 
-Moteur::Moteur()
-{
-    this->Te = 0;
-    this->S = 0;
-    this->T = 0;
-    this->P = NULL;
-    this->F = NULL;
-    this->M = NULL;
-    this->W = NULL;
-    this->K = NULL;
-}
-
 Moteur::~Moteur()
 {}
 

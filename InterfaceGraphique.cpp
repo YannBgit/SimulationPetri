@@ -13,14 +13,12 @@ Echeancier E(GDF.rechercheEtat(0, fichier));
 Moteur M(GDF.rechercheEtat(0, fichier).getTe(),  GDF.rechercheEtat(0, fichier).getS(), GDF.rechercheEtat(0, fichier).getT(), GDF.rechercheEtat(0, fichier).getP(),
 GDF.rechercheEtat(0, fichier).getF(), GDF.rechercheEtat(0, fichier).getM(), GDF.rechercheEtat(0, fichier).getW(), GDF.rechercheEtat(0, fichier).getK());
 
-
-
 InterfaceGraphique::InterfaceGraphique()
 {
     setFixedSize(1500, 800);
     setWindowTitle("Simulateur de Rdp");
 
-
+	
 
     // CONSTRUCTION DES BOUTONS
     etatInitial = new QPushButton("ETAT INITIAL", this);
@@ -101,7 +99,7 @@ InterfaceGraphique::InterfaceGraphique()
 
 
 	// Affichage de F (arcs)
-	int sa = sizeof(this->M.getF());
+	int sa = sizeof(M.getF());
 	QString arcs[sa][3];
 	QString resarcs;
 	
@@ -333,7 +331,7 @@ void InterfaceGraphique::fct_etatInitial()
 	
 	
 	// RAFRAICHIR ARCS F
-	int sa = sizeof(this->M.getF());
+	int sa = sizeof(M.getF());
 	QString arcs[sa][3];
 	QString resarcs;
 	
@@ -509,7 +507,7 @@ void InterfaceGraphique::fct_avancer()
 	
 	
 	// RAFRAICHIR ARCS F
-	int sa = sizeof(this->M.getF());
+	int sa = sizeof(M.getF());
 	QString arcs[sa][3];
 	QString resarcs;
 	
@@ -686,7 +684,7 @@ void InterfaceGraphique::fct_reculer()
 	
 	
 	// RAFRAICHIR ARCS F
-	int sa = sizeof(this->M.getF());
+	int sa = sizeof(M.getF());
 	QString arcs[sa][3];
 	QString resarcs;
 	

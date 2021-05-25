@@ -49,15 +49,6 @@ class InterfaceGraphique : public QWidget //On hérite de QWidget
 
     QGraphicsScene *afficheur_reseau;
 
-    Moteur M;   //Contient toutes les données du réseau nécessaires à l'affichage de l'échéancier et du diagramme du réseau
-    
-    int ajouterTe(int x);
-    float *changerP_plus(float *P);
-    int **changerF_plus(int **F);
-    int *changerM_plus(int *M);
-    int **changerW_plus(int **W);
-    int *changerK_plus(int *K);
-
     // Les fonctions situées ici indiquent à QT qu'elles peuvent être utilisées pour recevoir les signaux envoyés par les boutons
 
     private slots :
@@ -125,13 +116,6 @@ class InterfaceGraphique : public QWidget //On hérite de QWidget
     Cette fonction servira à l'affichage de l'échéancier sous forme de texte.
     */
     void affichage_echeancier();
-
-    /*
-    Donne sa valeur à la variable M, fournie par l'échéancier.
-    */
-    void setMoteur(Moteur new_moteur) {
-        M = new_moteur;
-    }
 
     // Affichage reseau
     /*

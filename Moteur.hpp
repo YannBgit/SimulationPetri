@@ -31,8 +31,6 @@ class Moteur
     */
     Moteur(int Te, int S, int T, float *P, int **F, int *M, int **W, int *K);
 
-    Moteur();
-
     // DESTRUCTEUR
     ~Moteur();
 
