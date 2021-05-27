@@ -21,22 +21,20 @@ InterfaceGraphique::InterfaceGraphique()
     avancer = new QPushButton("AVANCER", this);
     reculer = new QPushButton("RECULER", this);
 
-	printf("LA VALEUR DE P EST = %d et %d !\n\n\n\n\n\n\n", M.getP()[0], M.getP()[1]);
-
     // PERSONNALISATION DES BOUTONS
 
-            // Changement de la largeur minimale des boutons
+    // Changement de la largeur minimale des boutons
     enregistrer->setMinimumWidth(240);
     charger->setMinimumWidth(240); //On assigne cette largeur minimale seulement à ces 2 boutons car c'est suffisant pour que les autres soit aussi modifiés
 
-            // Changement de la hauteur des boutons
+    // Changement de la hauteur des boutons
     enregistrer->setMinimumHeight(90);
     charger->setMinimumHeight(90);
     avancer->setMinimumHeight(90);
     reculer->setMinimumHeight(90);
     etatInitial->setMinimumHeight(90);
 
-        // Changement de police et de taille
+    // Changement de police et de taille
     etatInitial->setFont(QFont("Lato Light",17));
     enregistrer->setFont(QFont("Lato Light",17));
     charger->setFont(QFont("Lato Light",17));
@@ -846,7 +844,7 @@ void InterfaceGraphique::fct_charger()
 
 void InterfaceGraphique::buildElementsPosition() 
 {       
-        int nb_arcs = sizeof(M.getF()) / sizeof(M.getF()[0]);
+        int nb_arcs = GDF.getarc();
         int matrice_arcs[M.getS()][M.getT()];
         for (int i=0;i<M.getS();i++) {           //On génère une matrice avec en abscisse
             for (int y=0;y<M.getT();y++) {       //les places et en ordonnée les transitions
@@ -947,7 +945,7 @@ void InterfaceGraphique::buildElementsPosition()
     void InterfaceGraphique::calculerArcs()
     {
         int x_dep, y_dep, x_fin, y_fin, nb_points = 4;
-        int nb_arcs = sizeof(M.getF()) / sizeof(M.getF()[0]);             //On récupère le nb_d'arcs grâce à la liste F du moteur
+        int nb_arcs = GDF.getarc();             //On récupère le nb_d'arcs grâce à la liste F du moteur
         int*** liste = (int***)malloc(sizeof(int*)*nb_arcs);
         int** un_arc, *un_point;
 
@@ -1111,7 +1109,7 @@ void InterfaceGraphique::buildElementsPosition()
     void InterfaceGraphique::dessinerArcs()
     {
         int nb_segments;
-        int nb_arcs = sizeof(M.getF()) / sizeof(M.getF()[0]);     //on récupère la taille de la liste contenant tout les arcs
+        int nb_arcs = GDF.getarc();     //on récupère la taille de la liste contenant tout les arcs
         double angle;
         QLineF ligne;
         QPolygonF arrow_head;

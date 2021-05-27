@@ -72,9 +72,9 @@ void GestionnaireDeFichiers::EcrireEtat(Moteur M, FILE *fichier)
 		
 		//Afficher F
 		fprintf(fichier, "F= {");
-		for(int i = 0; i < S; i++){
+		for(int i = 0; i < arc; i++){
 			fprintf(fichier, "{");
-			for(int j = 0; j < S; j++){
+			for(int j = 0; j < 3; j++){
 				if(j == S - 1){fprintf(fichier, "%d} ",F[i][j]);}
 				else{fprintf(fichier, "%d, ",F[i][j]);}
 			}
@@ -183,7 +183,6 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier){
 	
 	char *ligne = (char*)malloc(sizeof(char)*TAILLE_MAX);
 	
-	char *c;
 	int i = 0;
 	int j = 0;
 	int cpt = Te * 9 + 1;
@@ -191,7 +190,7 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier){
 	if(fichier){
 		if(cpt > 1){
 			while(i < cpt - 1){//On parcours le fichier de départ jusqu'à la ligne Te du paramètre
-					c = fgets(ligne,TAILLE_MAX,fichier);
+					char *c = fgets(ligne,TAILLE_MAX,fichier);
 					i++;
 				}
 		}

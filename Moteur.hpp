@@ -51,7 +51,7 @@ class Moteur
     Pour chaque transition, la fonction évalue si elle doit être tirée ou pas selon si la transition est tirable et sa probabilité de
     tirage associée, et si besoin notre fonction de résolution de conflits.
     */
-    int *Tirage();
+    int *Tirage(GestionnaireDeFichiers GDF);
 
     /*
     Fonction de type void pour modifier le tableau de Marquage int *M pour représenter le déplacement des jetons tirés.
@@ -62,7 +62,7 @@ class Moteur
 	Pour chaque Indice du tableau Tirage, la fonction active la transition correspondante et retire/ajoute le nombre de jetons
     correspondant entre les places de la transition.
 	*/
-	void Activer_Transitions(int *Tirage, int *M, int **F, int **W);
+	void Activer_Transitions(int *Tirage, int *M, int **W);
 
 	/*
 	Fonction de type Moteur pour renvoyer les infos d'un RDP.
@@ -97,7 +97,7 @@ class Moteur
     générés.
 	La fonction parcourt tout les sommet et assigne à chacun de ces sommets les jetons restants.
 	*/
-	int *Marquage(Moteur RDP, int **W);
+	int *Marquage(Moteur RDP);
 
     /*
     Accesseurs pour les variables du moteur, nommés explicitement.

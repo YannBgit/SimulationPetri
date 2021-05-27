@@ -24,7 +24,7 @@ int Moteur::ResoutConflit(int *T, int n)
     return T[rand() % n];
 }
 
-int *Moteur::Tirage()
+int *Moteur::Tirage(GestionnaireDeFichiers GDF)
 {
     int *TableauTirage = (int *)malloc(sizeof(int) * this->T);
 
@@ -32,7 +32,7 @@ int *Moteur::Tirage()
     // elle doit être tirée.
     for(int i = 0; i < this->T; i++)
     {
-        for(int j = 0; j < (sizeof(this->F) / sizeof(this->F[0])); j++)
+        for(int j = 0; j < GDF.getarc(); j++)
         {
             if((this->F[j][0] == 0) && (i == this->F[j][2]) && (this->M[this->F[j][1]] >= this->W[i][0]) &&
             ((100 * this->P[i]) > (rand() % 100)))
@@ -48,7 +48,7 @@ int *Moteur::Tirage()
 
     // On vérifie pour chaque transition à tirer qu'elle ne soit pas en concurrence avec une autre pour les mêmes jetons. Si oui,
     // on en tire une au hasard.
-    for(int i = 0; i < (sizeof(this->F) / sizeof(this->F[0])); i++)
+    for(int i = 0; i < GDF.getarc(); i++)
     {
         if((this->F[i][0] == 0))
         {
@@ -56,7 +56,7 @@ int *Moteur::Tirage()
             int *IDtransitionsConflit = (int *)malloc(nbTransitionsConflit * sizeof(int));
             IDtransitionsConflit[0] = this->F[i][2];
 
-            for(int j = 0; j < (sizeof(this->F) / sizeof(this->F[0])); j++)
+            for(int j = 0; j < GDF.getarc(); j++)
             {
                 if((this->F[i] != this->F[j]) && (this->F[j][0] == 0) && (this->F[i][1] == this->F[j][1]) && ((this->W[this->F[i][2]][0] +
                 this->W[this->F[j][2]][0]) > this->M[this->F[i][1]]))
@@ -86,7 +86,7 @@ int *Moteur::Tirage()
     return TableauTirage;
 }
 
-void Moteur::Activer_Transitions(int *Tirage, int *M, int **F, int **W)
+void Moteur::Activer_Transitions(int *Tirage, int *M, int **W)
 {
     //Pour chaque transition
     for (int i = 0; i < this->T; i++) {
@@ -144,7 +144,6 @@ int	Moteur::nbr_transition(int *transition, int T)
 {
 
     int nbr_transi=0;
-    int i = 0;
 
     for(int i=0;i<T;i++)
         if(transition[i]) nbr_transi++;
@@ -152,7 +151,7 @@ int	Moteur::nbr_transition(int *transition, int T)
     return nbr_transi;
 }
 
-int *Moteur::Marquage(Moteur RDP, int **W)
+int *Moteur::Marquage(Moteur RDP)
 {
 	int S = RDP.getS();
     int *marq = (int*) malloc(sizeof(int)*S);
