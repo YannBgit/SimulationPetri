@@ -89,9 +89,10 @@ InterfaceGraphique::InterfaceGraphique()
 		}
 	}
 	tabproba = new QLabel(resproba, this);
-
-
-
+	
+	//std::cout << "M.getF() =" << sizeof(M.getF())/sizeof(M.getF()[0]) << std::endl;
+	
+	
 	// Affichage de F (arcs)
 	int sa = GDF.getarc();
 	std::cout << "sa = " << sa << std::endl;
@@ -164,9 +165,9 @@ InterfaceGraphique::InterfaceGraphique()
 
 
 
-	// Affichage de W
+		// Affichage de W
 	
-	QString jetcg[M.getT()][2];
+	QString jetcg[M.getT()][2];//[M.getT()][4];
 	QString resjetcg;
 	
 	for(int i = 0; i< M.getT(); i++)
@@ -184,9 +185,9 @@ InterfaceGraphique::InterfaceGraphique()
 	for(int i = 0; i<M.getT(); i++)
 	{
 		resjetcg = resjetcg + "{ ";
-		for(int j = 0; j < 2; j++)
+		for(int j = 0; j < /*4*/2; j++)
 		{
-			if(j == 1)
+			if(j == 1/*4-1*/)
 			{
 				resjetcg = resjetcg + jetcg[i][j] + " }";
 			}
@@ -209,6 +210,7 @@ InterfaceGraphique::InterfaceGraphique()
 		}
 	}
 	tabjetcg = new QLabel(resjetcg, this);
+
 
 		// Affichage de K
 	QString jetmax[M.getS()];
@@ -270,10 +272,10 @@ InterfaceGraphique::InterfaceGraphique()
 	view_afficheur_reseau->setScene(afficheur_reseau);
 	wlayout->addWidget(view_afficheur_reseau);
 	
-    buildElementsPosition();
+    /*buildElementsPosition();
     calculerArcs();
     dessinerElements();
-    dessinerArcs();
+    dessinerArcs();*/
 
 	// CREATION DES LAYOUT PRINCIPAL
     QVBoxLayout *layoutSecondaire = new QVBoxLayout;
@@ -336,22 +338,23 @@ void InterfaceGraphique::fct_etatInitial()
 	
 	
 	// RAFRAICHIR ARCS F
-	int sa = GDF.getarc();
-	std::cout << "sa = " << sa << std::endl;
+	int sa = sizeof(M.getF());
 	QString arcs[sa][3];
 	QString resarcs;
-	for(int i = 0; i < sa; i++)
+	
+	for(int i = 0; i<sa; i++)
 	{
-		for(int j = 0; j < 3; j++)
+		for(int j = 0; j<3; j++)
 		{
 			arcs[i][j] = QString::number(M.getF()[i][j]);
 		}
 	}
 	
+	
 	resarcs = "F = { ";
 	
 	
-	for(int i = 0; i< sa; i++)
+	for(int i = 0; i<sa; i++)
 	{
 		resarcs = resarcs + "{ ";
 		for(int j = 0; j<3; j++)
@@ -378,7 +381,7 @@ void InterfaceGraphique::fct_etatInitial()
 			}
 		}
 	}
-	tabarcs = new QLabel(resarcs, this);
+	tabarcs->setText(resarcs);
 	
 	// RAFRAICHIR M (JETONS CONTENUS)
 	QString jetcontenu[M.getS()];
@@ -423,7 +426,7 @@ void InterfaceGraphique::fct_etatInitial()
 	for(int i = 0; i<M.getT(); i++)
 	{
 		resjetcg = resjetcg + "{ ";
-		for(int j = 0; j<M.getS(); j++)
+		for(int j = 0; j</*M.getS()*/2; j++)
 		{
 			if(j == 1)
 			{
@@ -584,7 +587,7 @@ void InterfaceGraphique::fct_avancer()
 	QString jetcg[M.getT()][2];
 	QString resjetcg;
 	
-	for(int i = 0; i< M.getT(); i++)
+	for(int i = 0; i<M.getT(); i++)
 	{
 		for(int j = 0; j<2; j++)
 		{
@@ -599,7 +602,7 @@ void InterfaceGraphique::fct_avancer()
 	for(int i = 0; i<M.getT(); i++)
 	{
 		resjetcg = resjetcg + "{ ";
-		for(int j = 0; j < 2; j++)
+		for(int j = 0; j<2; j++)
 		{
 			if(j == 1)
 			{
@@ -623,7 +626,7 @@ void InterfaceGraphique::fct_avancer()
 			}
 		}
 	}
-	tabjetcg = new QLabel(resjetcg, this);
+	tabjetcg->setText(resjetcg);
 	
 	// RAFRAICHIR K
 	
@@ -688,22 +691,23 @@ void InterfaceGraphique::fct_reculer()
 	
 	
 	// RAFRAICHIR ARCS F
-	int sa = GDF.getarc();
-	std::cout << "sa = " << sa << std::endl;
+	int sa = sizeof(M.getF());
 	QString arcs[sa][3];
 	QString resarcs;
-	for(int i = 0; i < sa; i++)
+	
+	for(int i = 0; i<sa; i++)
 	{
-		for(int j = 0; j < 3; j++)
+		for(int j = 0; j<3; j++)
 		{
 			arcs[i][j] = QString::number(M.getF()[i][j]);
 		}
 	}
 	
+	
 	resarcs = "F = { ";
 	
 	
-	for(int i = 0; i< sa; i++)
+	for(int i = 0; i<sa; i++)
 	{
 		resarcs = resarcs + "{ ";
 		for(int j = 0; j<3; j++)
@@ -730,7 +734,7 @@ void InterfaceGraphique::fct_reculer()
 			}
 		}
 	}
-	tabarcs = new QLabel(resarcs, this);
+	tabarcs->setText(resarcs);
 	
 	// RAFRAICHIR M (JETONS CONTENUS)
 	QString jetcontenu[M.getS()];
@@ -762,7 +766,7 @@ void InterfaceGraphique::fct_reculer()
 	
 	for(int i = 0; i<M.getT(); i++)
 	{
-		for(int j = 0; j<M.getS(); j++)
+		for(int j = 0; j</*M.getS()*/2; j++)
 		{
 			jetcg[i][j] = QString::number(M.getW()[i][j]);
 		}
