@@ -59,6 +59,8 @@ class GestionnaireDeFichiers
     FILE *getFichier();
 
     FILE *getTemp();
+	
+    int getarc();
 };
 
 #endif
