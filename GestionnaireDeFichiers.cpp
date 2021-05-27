@@ -21,6 +21,10 @@ void GestionnaireDeFichiers::Charger(FILE *fichier)
 	return;
 }
 
+int GestionnaireDeFichiers::getarc(){
+	return this->arc;
+}
+
 FILE *GestionnaireDeFichiers::CreerFichierTemporaire()
 {
 	FILE *fic;
@@ -40,6 +44,7 @@ void GestionnaireDeFichiers::EcrireEtat(Moteur M, FILE *fichier)
 	int *M1 = M.getM();
 	int **W = M.getW();
 	int *K = M.getK();
+	int arc = this->getarc();
     
     //a+ pour ajouter à chaque fois à la fin du fichier
     fichier = fopen("temp.txt","a+");
@@ -92,7 +97,7 @@ void GestionnaireDeFichiers::EcrireEtat(Moteur M, FILE *fichier)
 		fprintf(fichier, "W= {");
 		for(int i = 0; i < T; i++){
 			fprintf(fichier, "{");
-			for(int j = 0; j < S; j++){
+			for(int j = 0; j < 2; j++){
 				if(j == S - 1){fprintf(fichier, "%d} ",W[i][j]);}
 				else{fprintf(fichier, "%d, ",W[i][j]);}
 			}
@@ -228,14 +233,35 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier){
 		//// FIN P ////
 		
 		////// F ////////
-		int **F = (int**)malloc(sizeof(int*) * 10);
-		for(i = 0; i < 10; i++){
-			F[i] = (int*)malloc(10 * sizeof(int));
-		}
+		
 		str = fgets(ligne,TAILLE_MAX,fichier);
+		
+		int arcs = 0;
+		i = 0;
+		
+		//On souhaite savoir il y a combien d'arcs
+		while(str[i] != ';'){
+			if(str[i] == '{'){
+				arcs++;
+				i++;
+			}
+			else{
+				i++;
+			}
+		}
+		arcs = arcs - 1;
+		this->arc = arcs;
+		std::cout << "arcs = " << arcs << std::endl;
+		
+		int **F = (int**)malloc(sizeof(int*) * (arcs + 1));
+		
+		for(i = 0; i <= arcs; i++){
+			F[i] = (int*)malloc((S + T) * sizeof(int));
+		}
+		
 		decoupe = strtok(str,"F{=}; ");
 		i = 0;
-		while (decoupe != NULL && i < S) {
+		while (decoupe != NULL) {
 			sscanf(decoupe,"%d,%d,%d",&(F[i][0]),&(F[i][1]),&(F[i][2]));
 			decoupe = strtok(NULL, "F={} ");
 			std::cout << "F = " << F[i][0] << " " << F[i][1] << " " << F[i][2] << std::endl;
@@ -271,7 +297,7 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier){
 		while (decoupe != NULL && i < T){
 			j = 0;
 			std::cout << "W = ";
-			while(j < T){
+			while(j < 2){
 				sscanf(decoupe,"%d",&(W[i][j]));
 				decoupe = strtok(NULL, "{,} ");
 				std::cout << W[i][j] << " ";
