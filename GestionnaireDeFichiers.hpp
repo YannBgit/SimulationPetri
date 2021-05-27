@@ -15,6 +15,7 @@ class GestionnaireDeFichiers
     // VARIABLES
     FILE *fichier;
     FILE *temp;
+    int arc;
 
     public:
     // CONSTRUCTEURS
