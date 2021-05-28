@@ -46,8 +46,8 @@ void GestionnaireDeFichiers::EcrireEtat(Moteur M, FILE *fichier)
     fichier = fopen("temp.txt","a+");
 	this->fichier = fichier;
 	
-    if(fichier){
-		
+    if(fichier)
+	{
 		printf("Fichier ouvert\n");
 		fprintf(fichier, "Te= %d;\n", Te);
 		fprintf(fichier, "S= %d;\n", S);

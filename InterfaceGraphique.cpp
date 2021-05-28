@@ -86,14 +86,12 @@ InterfaceGraphique::InterfaceGraphique()
 	}
 	tabproba = new QLabel(resproba, this);
 	
-	//std::cout << "M.getF() =" << sizeof(M.getF())/sizeof(M.getF()[0]) << std::endl;
-	
 	
 	// Affichage de F (arcs)
 	int sa = GDF.getarc();
-	std::cout << "sa = " << sa << std::endl;
 	QString arcs[sa][3];
 	QString resarcs;
+
 	for(int i = 0; i < sa; i++)
 	{
 		for(int j = 0; j < 3; j++)
@@ -103,7 +101,6 @@ InterfaceGraphique::InterfaceGraphique()
 	}
 	
 	resarcs = "F = { ";
-	
 	
 	for(int i = 0; i< sa; i++)
 	{
