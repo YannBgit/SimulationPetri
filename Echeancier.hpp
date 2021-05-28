@@ -26,6 +26,13 @@ class Echeancier
     // METHODES
     /*
     Fonction de type void pour ne rien renvoyer.
+    Argument de type moteur où chercher le temps courant du réseau.
+    La fonction enregistre le temps courant du réseau.
+    */
+    void StockerTempsCourant(Moteur M);
+    
+    /*
+    Fonction de type void pour ne rien renvoyer.
     Argument de type Moteur pour trouver les informations à enregistrer.
     La fonction enregistre un état du réseau de Petri.
     */
@@ -38,13 +45,6 @@ class Echeancier
     La fonction recherche un état du réseau enregistré avec un temps donné et le renvoie.
     */
     Moteur RenvoyerEtatReseauSelonTemps(int Te, GestionnaireDeFichiers GDF);
-
-    /*
-    Fonction de type void pour ne rien renvoyer.
-    Argument de type moteur où chercher le temps courant du réseau.
-    La fonction enregistre le temps courant du réseau.
-    */
-    void StockerTempsCourant(Moteur M);
 };
 
 #endif

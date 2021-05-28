@@ -18,10 +18,10 @@ QT += widgets
 # Input
 HEADERS += Echeancier.hpp \
            GestionnaireDeFichiers.hpp \
-           InterfaceGraphique.hpp \
-           Moteur.hpp
+           Moteur.hpp \
+           InterfaceGraphique.hpp
 SOURCES += Echeancier.cpp \
-	   GestionnaireDeFichiers.cpp \
 	   InterfaceGraphique.cpp \
 	   Moteur.cpp \
+	   GestionnaireDeFichiers.cpp \
 	   main.cpp

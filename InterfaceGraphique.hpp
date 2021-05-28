@@ -14,12 +14,11 @@
 #include <QGraphicsView> // Permet d'afficher une scène avec beaucoup d'options
 #include <QGraphicsScene> // Permet de dessinner le réseau de Pétri sur une scène
 #include <QGraphicsItem>    //Permet de gérer les collisions entre éléments graphiques
+#include <stdio.h>
+#include <cmath>
 #include "Moteur.hpp" // Pour utiliser la classe Moteur
 #include "Echeancier.hpp" // Pour utiliser la classe Echancier
 #include "GestionnaireDeFichiers.hpp" // Pour utiliser la classe GestionnaireDeFichiers
-
-#include <stdio.h>
-#include <cmath>
 
 class Element;
 
@@ -51,7 +50,6 @@ class InterfaceGraphique : public QWidget //On hérite de QWidget
     QGraphicsScene *afficheur_reseau;
 
     // Les fonctions situées ici indiquent à QT qu'elles peuvent être utilisées pour recevoir les signaux envoyés par les boutons
-
     private slots :
     /*
     Cette fonction servira pour passer de l'affichage d'un temps quelconque au temps 0 (etat initial). Si le bouton "etatInitial" est
@@ -92,10 +90,7 @@ class InterfaceGraphique : public QWidget //On hérite de QWidget
     InterfaceGraphique();
 
     // DESTRUCTEUR
-    ~InterfaceGraphique()
-    {
-        free(elements);
-    }
+    ~InterfaceGraphique();
 
     /*
     Variables qui définisent l'aspect du réseau (espace entre deux élément, taille d'une place, couleur, etc...).
@@ -223,21 +218,24 @@ class Element
         QGraphicsScene *afficheur_reseau;
         float pos_x_scene, pos_y_scene, size;
         size = params.tailleElement;    //stocke le diamètre de la place
-        if (type) {
+
+        if (type)
+        {
             pos_x_scene = pos_x*size+pos_x*params.elementsDistance; //Position en x de la place sur la scene (l'écran)
             pos_y_scene = pos_y*size+pos_y*params.elementsDistance; //Position en y de la place sur la scene (l'écran)
-            afficheur_reseau->addEllipse(pos_x_scene, pos_y_scene,
-                size, size,
-                QPen(Qt::black,2)
-            );
+            afficheur_reseau->addEllipse(pos_x_scene, pos_y_scene, size, size, QPen(Qt::black,2));
 
-            if (nb_jetons) {
-                if (nb_jetons == 1) {                              
+            if (nb_jetons)
+            {
+                if (nb_jetons == 1)
+                {                              
                     afficheur_reseau->addEllipse(pos_x_scene+size/4, pos_y_scene+size/4,
                     params.tailleElement/2, params.tailleElement/2,                     //si on essayait de répartir un ou deux jetons on aurait
-                    QPen(Qt::black,2), QBrush(Qt::SolidPattern)                         //des erreurs avec les fonctions cosinus et sinus etc...
-                );                                                                      //car 
-                }else if (nb_jetons == 2 && size > 6) {
+                    QPen(Qt::black,2), QBrush(Qt::SolidPattern));                       //des erreurs avec les fonctions cosinus et sinus etc...
+
+                }
+                else if (nb_jetons == 2 && size > 6)
+                {
                     afficheur_reseau->addEllipse(pos_x_scene+3, pos_y_scene+params.tailleElement/4+3,
                     size/2-6, size/2-6,
                     QPen(Qt::black,2), QBrush(Qt::SolidPattern)
@@ -246,7 +244,9 @@ class Element
                     params.tailleElement/2-6, params.tailleElement/2-6,
                     QPen(Qt::black,2), QBrush(Qt::SolidPattern)
                     );
-                } else {
+                }
+                else
+                {
                     double r_token, ln_base, ln_cote, angle, d_token, x_token, y_token;//On dessine les tokens présents dans la place en les répartissants comme cercles inscrits dans nb_jetons triangles isocèles
                     angle = (2*M_PI)/nb_jetons, ln_cote = size/2;   //Angle du haut des triangles et longeur des cotés (rayon de la place)
                     ln_base = (ln_cote * sin(angle) / sin((M_PI-angle) /2));        //Longeur de la base des tiangles
@@ -256,24 +256,23 @@ class Element
                     r_token *= 1 + 5/(pow(nb_jetons,2.0));
                     d_token *= 1 + 20/(pow(nb_jetons,2.9));
 
-                    for(int i=0;i<nb_jetons;i++) {
+                    for(int i=0;i<nb_jetons;i++)
+                    {
                         x_token = pos_x_scene+size/2-r_token + d_token*cos(angle*i) +2;
                         y_token = pos_y_scene+size/2-r_token + d_token*sin(angle*i) +2;
-                        afficheur_reseau->addEllipse(x_token, y_token,
-                            (r_token-2)*2, (r_token-2)*2,
-                            QPen(Qt::black,2), QBrush(Qt::SolidPattern)
-                        );
+                        afficheur_reseau->addEllipse(x_token, y_token, (r_token-2)*2, (r_token-2)*2,
+                        QPen(Qt::black,2), QBrush(Qt::SolidPattern));
                     }
                 }
             }
 
 
-        } else {
+        }
+        else
+        {
             afficheur_reseau->addRect(pos_x*size+pos_x*params.elementsDistance,
-                pos_y*size+pos_y*params.elementsDistance+(3.0/8.0)*size,
-                size, size/4.0,
-                QPen(), QBrush(Qt::SolidPattern)
-            );
+            pos_y*size+pos_y*params.elementsDistance+(3.0/8.0)*size,
+            size, size/4.0, QPen(), QBrush(Qt::SolidPattern));
         }
     }
 

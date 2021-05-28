@@ -21,10 +21,6 @@ void GestionnaireDeFichiers::Charger(FILE *fichier)
 	return;
 }
 
-int GestionnaireDeFichiers::getarc(){
-	return this->arc;
-}
-
 FILE *GestionnaireDeFichiers::CreerFichierTemporaire()
 {
 	FILE *fic;
@@ -160,17 +156,7 @@ void GestionnaireDeFichiers::EnregistrerEcheancier(FILE *temp, FILE *fichier)
 	fclose(fichier);
 	fclose(temp);
 	
-        return;
-}
-
-FILE *GestionnaireDeFichiers::getFichier()
-{
-    return this->fichier;
-}
-
-FILE *GestionnaireDeFichiers::getTemp()
-{
-    return this->temp;
+    return;
 }
 
 Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier){
@@ -220,7 +206,7 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier){
 		str = fgets(ligne, TAILLE_MAX,fichier);
 		decoupe = strtok(str,"P={,}");
 		i = 0;
-		while (decoupe != NULL && i < T) {
+		while (decoupe != NULL && i < T){
 			P[i] = atof(decoupe);
 			decoupe = strtok(NULL, "P={,}");
 			i++;
@@ -232,22 +218,25 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier){
 		//// FIN P ////
 		
 		////// F ////////
-		
-		str = fgets(ligne,TAILLE_MAX,fichier);
+		str = fgets(ligne, TAILLE_MAX, fichier);
 		
 		int arcs = 0;
 		i = 0;
 		
 		//On souhaite savoir il y a combien d'arcs
-		while(str[i] != ';'){
-			if(str[i] == '{'){
+		while(str[i] != ';')
+		{
+			if(str[i] == '{')
+			{
 				arcs++;
 				i++;
 			}
-			else{
+			else
+			{
 				i++;
 			}
 		}
+
 		arcs = arcs - 1;
 		this->arc = arcs;
 		std::cout << "arcs = " << arcs << std::endl;
@@ -334,4 +323,19 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier){
 		std::cout << "Erreur d'ouverture de fichier\n" << std::endl;
 		exit(1);
 	}
+}
+
+FILE *GestionnaireDeFichiers::getFichier()
+{
+    return this->fichier;
+}
+
+FILE *GestionnaireDeFichiers::getTemp()
+{
+    return this->temp;
+}
+
+int GestionnaireDeFichiers::getarc()
+{
+	return this->arc;
 }

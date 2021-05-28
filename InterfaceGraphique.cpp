@@ -1,18 +1,18 @@
 #include "InterfaceGraphique.hpp"
 
+
 FILE *fichier;
 GestionnaireDeFichiers GDF(fichier);
 FILE *temp = GDF.CreerFichierTemporaire();
 Echeancier E(GDF.rechercheEtat(0, fichier));
-Moteur M(GDF.rechercheEtat(0, fichier).getTe(),  GDF.rechercheEtat(0, fichier).getS(), GDF.rechercheEtat(0, fichier).getT(), GDF.rechercheEtat(0, fichier).getP(),
-GDF.rechercheEtat(0, fichier).getF(), GDF.rechercheEtat(0, fichier).getM(), GDF.rechercheEtat(0, fichier).getW(), GDF.rechercheEtat(0, fichier).getK());
+Moteur M(GDF.rechercheEtat(0, fichier).getTe(), GDF.rechercheEtat(0, fichier).getS(), GDF.rechercheEtat(0, fichier).getT(),
+GDF.rechercheEtat(0, fichier).getP(), GDF.rechercheEtat(0, fichier).getF(), GDF.rechercheEtat(0, fichier).getM(),
+GDF.rechercheEtat(0, fichier).getW(), GDF.rechercheEtat(0, fichier).getK());
 
 InterfaceGraphique::InterfaceGraphique()
 {
     setFixedSize(1500, 800);
     setWindowTitle("Simulateur de Rdp");
-
-	
 
     // CONSTRUCTION DES BOUTONS
     etatInitial = new QPushButton("ETAT INITIAL", this);
@@ -22,7 +22,6 @@ InterfaceGraphique::InterfaceGraphique()
     reculer = new QPushButton("RECULER", this);
 
     // PERSONNALISATION DES BOUTONS
-
     // Changement de la largeur minimale des boutons
     enregistrer->setMinimumWidth(240);
     charger->setMinimumWidth(240); //On assigne cette largeur minimale seulement à ces 2 boutons car c'est suffisant pour que les autres soit aussi modifiés
@@ -57,7 +56,6 @@ InterfaceGraphique::InterfaceGraphique()
 
     // AFFICHAGE DE L'ECHEANCIER
     
- 
 	// Affichage de Te, S, T
 	echeancierintro = new QLabel("", this);
 	echeancierintro->setText(QString("Te = %1 <br/>").arg(M.getTe())+QString("S = %1 <br/>").arg(M.getS())+QString("T = %1 <br/>").arg(M.getT()));
@@ -297,7 +295,10 @@ InterfaceGraphique::InterfaceGraphique()
 
 }
 
-
+InterfaceGraphique::~InterfaceGraphique()
+{
+    free(elements);
+}
 
 // CREATION DES SLOTS
 

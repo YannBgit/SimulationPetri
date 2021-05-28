@@ -53,14 +53,14 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = Echeancier.cpp \
-		GestionnaireDeFichiers.cpp \
 		InterfaceGraphique.cpp \
 		Moteur.cpp \
+		GestionnaireDeFichiers.cpp \
 		main.cpp moc_InterfaceGraphique.cpp
 OBJECTS       = Echeancier.o \
-		GestionnaireDeFichiers.o \
 		InterfaceGraphique.o \
 		Moteur.o \
+		GestionnaireDeFichiers.o \
 		main.o \
 		moc_InterfaceGraphique.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
@@ -140,11 +140,11 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		SimulationPetri.pro Echeancier.hpp \
 		GestionnaireDeFichiers.hpp \
-		InterfaceGraphique.hpp \
-		Moteur.hpp Echeancier.cpp \
-		GestionnaireDeFichiers.cpp \
+		Moteur.hpp \
+		InterfaceGraphique.hpp Echeancier.cpp \
 		InterfaceGraphique.cpp \
 		Moteur.cpp \
+		GestionnaireDeFichiers.cpp \
 		main.cpp
 QMAKE_TARGET  = SimulationPetri
 DESTDIR       = 
@@ -325,8 +325,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents Echeancier.hpp GestionnaireDeFichiers.hpp InterfaceGraphique.hpp Moteur.hpp $(DISTDIR)/
-	$(COPY_FILE) --parents Echeancier.cpp GestionnaireDeFichiers.cpp InterfaceGraphique.cpp Moteur.cpp main.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents Echeancier.hpp GestionnaireDeFichiers.hpp Moteur.hpp InterfaceGraphique.hpp $(DISTDIR)/
+	$(COPY_FILE) --parents Echeancier.cpp InterfaceGraphique.cpp Moteur.cpp GestionnaireDeFichiers.cpp main.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -390,11 +390,6 @@ Echeancier.o: Echeancier.cpp Echeancier.hpp \
 		Moteur.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Echeancier.o Echeancier.cpp
 
-GestionnaireDeFichiers.o: GestionnaireDeFichiers.cpp GestionnaireDeFichiers.hpp \
-		Moteur.hpp \
-		Echeancier.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o GestionnaireDeFichiers.o GestionnaireDeFichiers.cpp
-
 InterfaceGraphique.o: InterfaceGraphique.cpp InterfaceGraphique.hpp \
 		Moteur.hpp \
 		Echeancier.hpp \
@@ -405,6 +400,11 @@ Moteur.o: Moteur.cpp Moteur.hpp \
 		Echeancier.hpp \
 		GestionnaireDeFichiers.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Moteur.o Moteur.cpp
+
+GestionnaireDeFichiers.o: GestionnaireDeFichiers.cpp GestionnaireDeFichiers.hpp \
+		Moteur.hpp \
+		Echeancier.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o GestionnaireDeFichiers.o GestionnaireDeFichiers.cpp
 
 main.o: main.cpp Echeancier.hpp \
 		GestionnaireDeFichiers.hpp \

@@ -13,6 +13,13 @@ Echeancier::Echeancier(Moteur M)
 Echeancier::~Echeancier()
 {}
 
+void Echeancier::StockerTempsCourant(Moteur M)
+{
+    this->TempsCourant = M.getTe();
+    
+    return;
+}
+
 void Echeancier::AjouterEtatReseau(Moteur M, GestionnaireDeFichiers GDF)
 {
     StockerTempsCourant(M);
@@ -24,11 +31,4 @@ void Echeancier::AjouterEtatReseau(Moteur M, GestionnaireDeFichiers GDF)
 Moteur Echeancier::RenvoyerEtatReseauSelonTemps(int Te, GestionnaireDeFichiers GDF)
 {
     return GDF.rechercheEtat(Te, GDF.getTemp());
-}
-
-void Echeancier::StockerTempsCourant(Moteur M)
-{
-    this->TempsCourant = M.getTe();
-    
-    return;
 }
