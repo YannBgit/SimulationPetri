@@ -99,7 +99,8 @@ void Moteur::Activer_Transitions(int *Tirage, GestionnaireDeFichiers GDF)
                     //Si l'arc est place -> transition on enlève un jeton
                     if (this->F[j][0] == 0) this->M[F[j][1]] -= 1;
                     //Sinon on en rajoute un
-                    else this->M[F[j][1]] += 1;
+                    else if (this->M[F[j][1]] + 1 > K[F[j][1]])
+                        this->M[F[j][1]] += 1;
                 }
             }
         }
