@@ -95,10 +95,10 @@ void Moteur::Activer_Transitions(int *Tirage, int *M, int **W)
             //On regarde sur chaque sommet
             for (int j = 0; j < this->S; j++) {
                 //l'impact de la transition et on enlève/ajoute des jetons
-                M[j] += W[j][Tirage[i]];
+                this->M[j] += this->W[j][i];
 
                 //Vérification que le nombre de jetons ne dépasse pas le maximum
-                if (M[j] > K[j]) M[j] = K[j];
+                if (this->M[j] > this->K[j]) this->M[j] = this->K[j];
             }
         }
     }
@@ -107,7 +107,6 @@ void Moteur::Activer_Transitions(int *Tirage, int *M, int **W)
 
     //Le marquage est directement modifié sur *M
     return;
-}
 
 void Moteur::Reculer(Echeancier E, GestionnaireDeFichiers GDF)
 {
