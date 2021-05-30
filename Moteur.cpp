@@ -107,6 +107,7 @@ void Moteur::Activer_Transitions(int *Tirage, int *M, int **W)
 
     //Le marquage est directement modifié sur *M
     return;
+}
 
 void Moteur::Reculer(Echeancier E, GestionnaireDeFichiers GDF)
 {
