@@ -62,7 +62,7 @@ class Moteur
 	Pour chaque Indice du tableau Tirage, la fonction active la transition correspondante et retire/ajoute le nombre de jetons
     correspondant entre les places de la transition.
 	*/
-	void Activer_Transitions(int *Tirage, int *M, int **W);
+	void Activer_Transitions(int *Tirage, GestionnaireDeFichiers GDF);
 
 	/*
 	Fonction de type Moteur pour renvoyer les infos d'un RDP.

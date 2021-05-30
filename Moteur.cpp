@@ -86,14 +86,14 @@ int *Moteur::Tirage(GestionnaireDeFichiers GDF)
     return TableauTirage;
 }
 
-void Moteur::Activer_Transitions(int *Tirage, int *M, int **W)
+void Moteur::Activer_Transitions(int *Tirage, GestionnaireDeFichiers GDF)
 {
     //Pour chaque transition
     for (int i = 0; i < this->T; i++) {
         //Si la transition est tirable
         if (Tirage[i]) {
             //On regarde pour chaque arc
-            for (int j = 0; j < 7; j++) {
+            for (int j = 0; j < GDF.getarc(); j++) {
                 //Si l'arc est lié à la transition
                 if (this->F[j][2] == i) {
                     //Si l'arc est place -> transition on enlève un jeton
