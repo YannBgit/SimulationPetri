@@ -1,6 +1,5 @@
 #include "InterfaceGraphique.hpp"
 
-
 FILE *fichier;
 GestionnaireDeFichiers GDF(fichier);
 FILE *temp = GDF.CreerFichierTemporaire();
@@ -302,7 +301,7 @@ InterfaceGraphique::~InterfaceGraphique()
 void InterfaceGraphique::fct_etatInitial()
 {
     M = E.RenvoyerEtatReseauSelonTemps(0, GDF);
-    echeancierintro->setText(QString("Te = %1 <br/>").arg(M.getTe())+QString("S = %1 <br/>").arg(M.getS()));
+    echeancierintro->setText(QString("Te = %1 <br/>").arg(M.getTe())+QString("S = %1 <br/>").arg(M.getS())+QString("T = %1 <br/>").arg(M.getT()));
 	
 	// RAFRAICHIR PROBA P
 	QString resproba2;
@@ -478,7 +477,7 @@ void InterfaceGraphique::fct_etatInitial()
 void InterfaceGraphique::fct_avancer()
 {
 	M = E.RenvoyerEtatReseauSelonTemps(M.getTe()+1, GDF);
-	echeancierintro->setText(QString("Te = %1 <br/>").arg(M.getTe())+QString("S = %1 <br/>").arg(M.getS()));
+	echeancierintro->setText(QString("Te = %1 <br/>").arg(M.getTe())+QString("S = %1 <br/>").arg(M.getS())+QString("T = %1 <br/>").arg(M.getT()));
 	
 	// RAFRAICHIR PROBA P
 	QString resproba2;
@@ -655,7 +654,7 @@ void InterfaceGraphique::fct_avancer()
 void InterfaceGraphique::fct_reculer()
 {
     M = E.RenvoyerEtatReseauSelonTemps(M.getTe()-1, GDF);
-    echeancierintro->setText(QString("Te = %1 <br/>").arg(M.getTe())+QString("S = %1 <br/>").arg(M.getS()));
+    echeancierintro->setText(QString("Te = %1 <br/>").arg(M.getTe())+QString("S = %1 <br/>").arg(M.getS())+QString("T = %1 <br/>").arg(M.getT()));
 	
 	// RAFRAICHIR PROBA P
 	QString resproba2;
