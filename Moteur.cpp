@@ -92,13 +92,15 @@ void Moteur::Activer_Transitions(int *Tirage, int *M, int **W)
     for (int i = 0; i < this->T; i++) {
         //Si la transition est tirable
         if (Tirage[i]) {
-            //On regarde sur chaque sommet
-            for (int j = 0; j < this->S; j++) {
-                //l'impact de la transition et on enlève/ajoute des jetons
-                this->M[j] += this->W[j][i];
-
-                //Vérification que le nombre de jetons ne dépasse pas le maximum
-                if (this->M[j] > this->K[j]) this->M[j] = this->K[j];
+            //On regarde pour chaque arc
+            for (int j = 0; j < 7; j++) {
+                //Si l'arc est lié à la transition
+                if (this->F[j][2] == i) {
+                    //Si l'arc est place -> transition on enlève un jeton
+                    if (this->F[j][0] == 0) this->M[F[j][1]] -= 1;
+                    //Sinon on en rajoute un
+                    else this->M[F[j][1]] += 1;
+                }
             }
         }
     }
