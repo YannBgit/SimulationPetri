@@ -97,7 +97,7 @@ void Moteur::Activer_Transitions(int *Tirage, GestionnaireDeFichiers GDF)
                 //Si l'arc est lié à la transition
                 if (this->F[j][2] == i) {
                     //Si l'arc est place -> transition on enlève un jeton
-                    if (this->F[j][0] == 0) this->M[F[j][1]] -= 1;
+                    if (this->F[j][0] == 0 && this->M[F[j][1]] > 0) this->M[F[j][1]] -= 1;
                     //Sinon on en rajoute un
                     else {
                         if (this->M[F[j][1]] + 1 > this->K[F[j][1]]) 
@@ -115,9 +115,9 @@ void Moteur::Activer_Transitions(int *Tirage, GestionnaireDeFichiers GDF)
     return;
 }
 
-void Moteur::Reculer(Echeancier E, GestionnaireDeFichiers GDF)
+void Moteur::Reculer(Echeancier E, GestionnaireDeFichiers GDF, char *nom_fichier)
 {
-    E.RenvoyerEtatReseauSelonTemps(this->Te--, GDF);
+    E.RenvoyerEtatReseauSelonTemps(this->Te--,GDF, nom_fichier);
 }
 
 
