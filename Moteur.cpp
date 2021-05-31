@@ -26,7 +26,7 @@ int Moteur::ResoutConflit(int *T, int n)
 
 int *Moteur::Tirage(GestionnaireDeFichiers GDF)
 {
-    int *TableauTirage = (int *)malloc(sizeof(int) * this->T);
+     int *TableauTirage = (int *)malloc(sizeof(int) * this->T);
 
     // On vérifie que la transition considérée dispose d'assez de jetons dans ses sommets sources et on évalue aléatoirement si
     // elle doit être tirée.
@@ -42,14 +42,29 @@ int *Moteur::Tirage(GestionnaireDeFichiers GDF)
                 TableauTirage[i] = 0;
             }
         }
-        //On choisit ensuite de façon aléatoire si elle sera tiré
-        //Si la valeur tirée aléatoirement est au dessus de la probabilité de tir
-        //Alors elle ne sera pas tirée
-        /*
-        if ((TableauTirage[i] == 1) && ((100 * this->P[i]) <= (rand() % 100)))
-            TableauTirage[i] = 0;
-            */
+        
+    }
 
+    //On choisit ensuite de façon aléatoire si elle sera tiré
+    //On crée pour chaque transition un nombre aléatoire et l'ajoute à la probabilité de la transition
+    int max = 0;
+    int Smax = -1;
+    for(int i = 0; i < this->T; i++) {
+        if (TableauTirage[i]) {
+            int alea = this->P[i] * (rand() % 100);
+            if (max < alea) {
+                Smax = i;
+                max = alea;
+            }
+        }
+    }
+    for(int i = 0; i < this->T; i++) {
+        if (i == Smax)
+            TableauTirage[i] = 1;
+        else TableauTirage[i] = 0;
+    }
+
+    return TableauTirage;
     }
 
     // On vérifie pour chaque transition à tirer qu'elle ne soit pas en concurrence avec une autre pour les mêmes jetons. Si oui,
