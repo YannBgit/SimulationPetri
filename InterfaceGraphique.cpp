@@ -3,10 +3,11 @@
 FILE *fichier;
 GestionnaireDeFichiers GDF(fichier);
 FILE *temp = GDF.CreerFichierTemporaire();
-Echeancier E(GDF.rechercheEtat(0, fichier));
-Moteur M(GDF.rechercheEtat(0, fichier).getTe(), GDF.rechercheEtat(0, fichier).getS(), GDF.rechercheEtat(0, fichier).getT(),
-GDF.rechercheEtat(0, fichier).getP(), GDF.rechercheEtat(0, fichier).getF(), GDF.rechercheEtat(0, fichier).getM(),
-GDF.rechercheEtat(0, fichier).getW(), GDF.rechercheEtat(0, fichier).getK());
+Echeancier E(GDF.rechercheEtat(0, "RdP.txt"));
+Moteur M(GDF.rechercheEtat(0, "RdP.txt").getTe(), GDF.rechercheEtat(0, "RdP.txt").getS(), GDF.rechercheEtat(0, "RdP.txt").getT(),
+GDF.rechercheEtat(0, "RdP.txt").getP(), GDF.rechercheEtat(0, "RdP.txt").getF(), GDF.rechercheEtat(0, "RdP.txt").getM(),
+GDF.rechercheEtat(0, "RdP.txt").getW(), GDF.rechercheEtat(0, "RdP.txt").getK());
+
 
 InterfaceGraphique::InterfaceGraphique()
 {
@@ -54,7 +55,6 @@ InterfaceGraphique::InterfaceGraphique()
 
 
     // AFFICHAGE DE L'ECHEANCIER
-    
 	// Affichage de Te, S, T
 	echeancierintro = new QLabel("", this);
 	echeancierintro->setText(QString("Te = %1 <br/>").arg(M.getTe())+QString("S = %1 <br/>").arg(M.getS())+QString("T = %1 <br/>").arg(M.getT()));
@@ -159,7 +159,7 @@ InterfaceGraphique::InterfaceGraphique()
 
 		// Affichage de W
 	
-	QString jetcg[M.getT()][2];//[M.getT()][4];
+	QString jetcg[M.getT()][2];
 	QString resjetcg;
 	
 	for(int i = 0; i< M.getT(); i++)
@@ -177,9 +177,9 @@ InterfaceGraphique::InterfaceGraphique()
 	for(int i = 0; i<M.getT(); i++)
 	{
 		resjetcg = resjetcg + "{ ";
-		for(int j = 0; j < /*4*/2; j++)
+		for(int j = 0; j < 2; j++)
 		{
-			if(j == 1/*4-1*/)
+			if(j == 1)
 			{
 				resjetcg = resjetcg + jetcg[i][j] + " }";
 			}
@@ -254,41 +254,41 @@ InterfaceGraphique::InterfaceGraphique()
     vlayout->addWidget(tabjetcontenu);
     vlayout->addWidget(tabjetcg);
     vlayout->addWidget(tabjetmax);
-
-	//Création du widget de l'afficheur de réseau
-	QVBoxLayout *wlayout = new QVBoxLayout;
-	
-	wlayout->setAlignment(Qt::AlignRight | Qt::AlignTop);
+    
+    //création de la vue (l'affichant->) et de la scène où on dessine le réseau	
 	QGraphicsView *view_afficheur_reseau = new QGraphicsView(this);
 	afficheur_reseau = new QGraphicsScene(view_afficheur_reseau);
 	view_afficheur_reseau->setScene(afficheur_reseau);
-	wlayout->addWidget(view_afficheur_reseau);
+
+	//Initialisation des paramètres graphique du réseau
+	InterfaceGraphique::parametres.couleurRemplissage = Qt::black;
+	InterfaceGraphique::parametres.couleurTrait = Qt::darkRed;
+	InterfaceGraphique::parametres.elementsDistance = 25;			
+	InterfaceGraphique::parametres.largeurTrait = 2;
+	InterfaceGraphique::parametres.tailleElement = 50;
 	
-    /*buildElementsPosition();
+	//construction et affichage du réseau
+    buildElementsPosition();
     calculerArcs();
     dessinerElements();
-    dessinerArcs();*/
+    dessinerArcs();
 
 	// CREATION DES LAYOUT PRINCIPAL
-    QVBoxLayout *layoutSecondaire = new QVBoxLayout;
-    QHBoxLayout *layoutPrincipal = new QHBoxLayout;
+	QGridLayout *layoutPrincipal = new QGridLayout;	//Utilisation d'un layout grille plus stable que l'autre
 
 
     // AJOUT DES LAYOUTS DANS LE LAYOUT PRINCIPAL
-    layoutSecondaire->addLayout(vlayout, 50); //Ajout du Layout Vertical "vlayout"
-    layoutSecondaire->addLayout(glayout); //Ajout du Layout Grid "glayout"
-    layoutPrincipal->addLayout(layoutSecondaire);
-	layoutPrincipal->addLayout(wlayout);//Ajout de la vue du diagramme du réseau
+    layoutPrincipal->addLayout(vlayout, 0,0,6,2); //Ajout du Layout Vertical "vlayout"
+    layoutPrincipal->addLayout(glayout,6,0,2,2) ; //Ajout du Layout Grid "glayout"
+	layoutPrincipal->addWidget(view_afficheur_reseau,0,2,8,4);//Ajout de la vue du diagramme du réseau
 
-	//setLayout (layoutSecondaire);
     setLayout(layoutPrincipal);
 
     QObject::connect(etatInitial, SIGNAL(clicked()), this, SLOT(fct_etatInitial()));
-    QObject::connect(enregistrer, SIGNAL(clicked()), this, SLOT(fct_enregistrer));
+    QObject::connect(enregistrer, SIGNAL(clicked()), this, SLOT(fct_enregistrer()));
     QObject::connect(charger, SIGNAL(clicked()), this, SLOT(fct_charger()));
     QObject::connect(avancer, SIGNAL(clicked()), this, SLOT(fct_avancer()));
     QObject::connect(reculer, SIGNAL(clicked()), this, SLOT(fct_reculer()));
-
 }
 
 InterfaceGraphique::~InterfaceGraphique()
@@ -300,24 +300,28 @@ InterfaceGraphique::~InterfaceGraphique()
 
 void InterfaceGraphique::fct_etatInitial()
 {
-    M = E.RenvoyerEtatReseauSelonTemps(0, GDF);
+	std::cout << std::endl;
+    
+    M = E.RenvoyerEtatReseauSelonTemps(0,GDF,"RdP.txt");
+    
+    std::cout << "----------ETAT INITIAL TEMPS " << M.getTe() << "------------------------------" << std::endl;
+    GDF.afficher(M,GDF);
     echeancierintro->setText(QString("Te = %1 <br/>").arg(M.getTe())+QString("S = %1 <br/>").arg(M.getS())+QString("T = %1 <br/>").arg(M.getT()));
 	
 	// RAFRAICHIR PROBA P
-	QString resproba2;
-	QString proba2[2];
-	
 	QString proba[M.getT()];
 	QString resproba;
 	
 	for(int i = 0; i<M.getT(); i++)
 	{
 		proba[i] = QString::number(M.getP()[i]);
+		std::cout << "getP = " << M.getP()[i] << " ";
 	}
+	std::cout << std::endl;
 	
 	resproba = "P = { ";
 	
-	for(int i = 0; i<M.getT(); i++)
+	for(int i = 0; i< M.getT(); i++)
 	{
 		if(i == M.getT()-1)
 		{
@@ -328,28 +332,26 @@ void InterfaceGraphique::fct_etatInitial()
 			resproba = resproba + proba[i] + " , ";
 		}
 	}
-	tabproba->setText(resproba2);
+	tabproba->setText(resproba);
 	
 	
 	
 	// RAFRAICHIR ARCS F
-	int sa = sizeof(M.getF());
+	int sa = GDF.getarc();
 	QString arcs[sa][3];
 	QString resarcs;
-	
-	for(int i = 0; i<sa; i++)
+
+	for(int i = 0; i < sa; i++)
 	{
-		for(int j = 0; j<3; j++)
+		for(int j = 0; j < 3; j++)
 		{
 			arcs[i][j] = QString::number(M.getF()[i][j]);
 		}
 	}
 	
-	
 	resarcs = "F = { ";
 	
-	
-	for(int i = 0; i<sa; i++)
+	for(int i = 0; i< sa; i++)
 	{
 		resarcs = resarcs + "{ ";
 		for(int j = 0; j<3; j++)
@@ -421,7 +423,7 @@ void InterfaceGraphique::fct_etatInitial()
 	for(int i = 0; i<M.getT(); i++)
 	{
 		resjetcg = resjetcg + "{ ";
-		for(int j = 0; j</*M.getS()*/2; j++)
+		for(int j = 0; j<2; j++)
 		{
 			if(j == 1)
 			{
@@ -472,28 +474,52 @@ void InterfaceGraphique::fct_etatInitial()
 	tabjetmax->setText(resjetmax);
 
 	miseAJourReseau();
+	return;
 }
 
 void InterfaceGraphique::fct_avancer()
 {
-	M = E.RenvoyerEtatReseauSelonTemps(M.getTe()+1, GDF);
+	//Algorithme
+	
+	std::cout << "Te avant Transit = " << M.getTe() << std::endl;
+	int *Tab = M.Tirage(GDF);
+	M.Activer_Transitions(Tab,GDF);
+	int valid = 1;
+	int i = 1;
+	
+	std::cout << "Te après Transit = " << M.getTe() << std::endl;
+	std::cout << "validavant = " << valid << std::endl; 
+	
+	/*if(M.getTe() > 1){
+		for(; i < M.getTe() - 1; i++){
+			//if(M.getTe() == GDF.rechercheEtat(i,"temp.txt").getTe()){
+				std::cout << "G.getTe() = " << GDF.rechercheEtat(i,"temp.txt").getTe();
+				//valid = 0;
+			}
+		//}
+	}
+	
+	std::cout << "valid = " << valid << std::endl; */
+	
+	if(valid == 1) {E.AjouterEtatReseau(M,GDF);}
+	std::cout << "----------AVANCER TEMPS " << M.getTe() << "------------------------------" << std::endl;
+	GDF.afficher(M,GDF);
 	echeancierintro->setText(QString("Te = %1 <br/>").arg(M.getTe())+QString("S = %1 <br/>").arg(M.getS())+QString("T = %1 <br/>").arg(M.getT()));
 	
 	// RAFRAICHIR PROBA P
-	QString resproba2;
-	QString proba2[2];
-	
 	QString proba[M.getT()];
 	QString resproba;
 	
 	for(int i = 0; i<M.getT(); i++)
 	{
 		proba[i] = QString::number(M.getP()[i]);
+		std::cout << "getP = " << M.getP()[i] << " ";
 	}
+	std::cout << std::endl;
 	
 	resproba = "P = { ";
 	
-	for(int i = 0; i<M.getT(); i++)
+	for(int i = 0; i< M.getT(); i++)
 	{
 		if(i == M.getT()-1)
 		{
@@ -504,28 +530,25 @@ void InterfaceGraphique::fct_avancer()
 			resproba = resproba + proba[i] + " , ";
 		}
 	}
-	tabproba->setText(resproba2);
-	
+	tabproba->setText(resproba);
 	
 	
 	// RAFRAICHIR ARCS F
-	int sa = sizeof(M.getF());
+	int sa = GDF.getarc();
 	QString arcs[sa][3];
 	QString resarcs;
-	
-	for(int i = 0; i<sa; i++)
+
+	for(int i = 0; i < sa; i++)
 	{
-		for(int j = 0; j<3; j++)
+		for(int j = 0; j < 3; j++)
 		{
 			arcs[i][j] = QString::number(M.getF()[i][j]);
 		}
 	}
 	
-	
 	resarcs = "F = { ";
 	
-	
-	for(int i = 0; i<sa; i++)
+	for(int i = 0; i< sa; i++)
 	{
 		resarcs = resarcs + "{ ";
 		for(int j = 0; j<3; j++)
@@ -646,195 +669,232 @@ void InterfaceGraphique::fct_avancer()
 		}
 	}
 	tabjetmax->setText(resjetmax);
-
 	miseAJourReseau();
-	
+	return;
 }
 
 void InterfaceGraphique::fct_reculer()
 {
-    M = E.RenvoyerEtatReseauSelonTemps(M.getTe()-1, GDF);
-    echeancierintro->setText(QString("Te = %1 <br/>").arg(M.getTe())+QString("S = %1 <br/>").arg(M.getS())+QString("T = %1 <br/>").arg(M.getT()));
 	
-	// RAFRAICHIR PROBA P
-	QString resproba2;
-	QString proba2[2];
-	
-	QString proba[M.getT()];
-	QString resproba;
-	
-	for(int i = 0; i<M.getT(); i++)
-	{
-		proba[i] = QString::number(M.getP()[i]);
-	}
-	
-	resproba = "P = { ";
-	
-	for(int i = 0; i<M.getT(); i++)
-	{
-		if(i == M.getT()-1)
+	if (M.getTe() > 0) {
+		
+		//M = GDF.rechercheEtat(M.getTe(), "temp.txt");//E.RenvoyerEtatReseauSelonTemps(M.getTe()-1, GDF,"temp.txt");
+		M.Reculer(E,GDF,"temp.txt");
+		std::cout << "----------Reculer TEMPS " << M.getTe() << "------------------------------" << std::endl;
+		GDF.afficher(M,GDF);
+		echeancierintro->setText(QString("Te = %1 <br/>").arg(M.getTe())+QString("S = %1 <br/>").arg(M.getS())+QString("T = %1 <br/>").arg(M.getT()));
+		
+		// RAFRAICHIR PROBA P
+		QString resproba2;
+		QString proba2[2];
+		
+		QString proba[M.getT()];
+		QString resproba;
+		
+		for(int i = 0; i<M.getT(); i++)
 		{
-			resproba = resproba + proba[i] + " }";
+			proba[i] = QString::number(M.getP()[i]);
 		}
-		else
+		
+		resproba = "P = { ";
+		
+		for(int i = 0; i<M.getT(); i++)
 		{
-			resproba = resproba + proba[i] + " , ";
-		}
-	}
-	tabproba->setText(resproba2);
-	
-	
-	
-	// RAFRAICHIR ARCS F
-	int sa = sizeof(M.getF());
-	QString arcs[sa][3];
-	QString resarcs;
-	
-	for(int i = 0; i<sa; i++)
-	{
-		for(int j = 0; j<3; j++)
-		{
-			arcs[i][j] = QString::number(M.getF()[i][j]);
-		}
-	}
-	
-	
-	resarcs = "F = { ";
-	
-	
-	for(int i = 0; i<sa; i++)
-	{
-		resarcs = resarcs + "{ ";
-		for(int j = 0; j<3; j++)
-		{
-			if(j == 2)
+			if(i == M.getT()-1)
 			{
-				resarcs = resarcs + arcs[i][j] + " }";
+				resproba = resproba + proba[i] + " }";
 			}
 			else
 			{
-				resarcs = resarcs + arcs[i][j] + " , ";
+				resproba = resproba + proba[i] + " , ";
 			}
 		}
-		if(i == sa-1)
+		tabproba->setText(resproba2);
+		
+		
+		
+		// RAFRAICHIR ARCS F
+		int sa = sizeof(M.getF());
+		QString arcs[sa][3];
+		QString resarcs;
+		
+		for(int i = 0; i<sa; i++)
 		{
-			resarcs = resarcs + " }";
-		}
-		else
-		{
-			resarcs = resarcs + " , ";
-			if(i%4 ==  0 && i != 0)
+			for(int j = 0; j<3; j++)
 			{
-				resarcs = resarcs + "<br/>";
+				arcs[i][j] = QString::number(M.getF()[i][j]);
 			}
 		}
-	}
-	tabarcs->setText(resarcs);
-	
-	// RAFRAICHIR M (JETONS CONTENUS)
-	QString jetcontenu[M.getS()];
-	QString resjetcontenu;
-	
-	for(int i = 0; i<M.getS(); i++)
-	{
-		jetcontenu[i] = QString::number(M.getM()[i]);
-	}
-	
-	resjetcontenu = "M = { ";
-	for(int i = 0; i<M.getS(); i++)
-	{
-		if(i == M.getS()-1)
+		
+		
+		resarcs = "F = { ";
+		
+		
+		for(int i = 0; i<sa; i++)
 		{
-			resjetcontenu = resjetcontenu + jetcontenu[i] + " }";
-		}
-		else
-		{
-			resjetcontenu = resjetcontenu + jetcontenu[i] + " , ";
-		}
-	}
-	tabjetcontenu->setText(resjetcontenu);
-	
-	// RAFRAICHIR W (JETMAX)
-	
-	QString jetcg[M.getT()][2];
-	QString resjetcg;
-	
-	for(int i = 0; i<M.getT(); i++)
-	{
-		for(int j = 0; j</*M.getS()*/2; j++)
-		{
-			jetcg[i][j] = QString::number(M.getW()[i][j]);
-		}
-	}
-	
-	
-	resjetcg = "W = { ";
-	
-	
-	for(int i = 0; i<M.getT(); i++)
-	{
-		resjetcg = resjetcg + "{ ";
-		for(int j = 0; j<2; j++)
-		{
-			if(j == 1)
+			resarcs = resarcs + "{ ";
+			for(int j = 0; j<3; j++)
 			{
-				resjetcg = resjetcg + jetcg[i][j] + " }";
+				if(j == 2)
+				{
+					resarcs = resarcs + arcs[i][j] + " }";
+				}
+				else
+				{
+					resarcs = resarcs + arcs[i][j] + " , ";
+				}
+			}
+			if(i == sa-1)
+			{
+				resarcs = resarcs + " }";
 			}
 			else
 			{
-				resjetcg = resjetcg + jetcg[i][j] + " , ";
+				resarcs = resarcs + " , ";
+				if(i%4 ==  0 && i != 0)
+				{
+					resarcs = resarcs + "<br/>";
+				}
 			}
 		}
-		if(i == M.getT()-1)
+		tabarcs->setText(resarcs);
+		
+		// RAFRAICHIR M (JETONS CONTENUS)
+		QString jetcontenu[M.getS()];
+		QString resjetcontenu;
+		
+		for(int i = 0; i<M.getS(); i++)
 		{
-			resjetcg = resjetcg + " }";
+			jetcontenu[i] = QString::number(M.getM()[i]);
 		}
-		else
+		
+		resjetcontenu = "M = { ";
+		for(int i = 0; i<M.getS(); i++)
 		{
-			resjetcg = resjetcg + " , ";
-			if(i%5 ==  0 && i != 0)
+			if(i == M.getS()-1)
 			{
-				resjetcg = resjetcg + "<br/>";
+				resjetcontenu = resjetcontenu + jetcontenu[i] + " }";
+			}
+			else
+			{
+				resjetcontenu = resjetcontenu + jetcontenu[i] + " , ";
 			}
 		}
-	}
-	tabjetcg->setText(resjetcg);
-	
-	// RAFRAICHIR K
-	
-	QString jetmax[M.getS()];
-	QString resjetmax;
-	
-	for(int i = 0; i<M.getS(); i++)
-	{
-		jetmax[i] = QString::number(M.getK()[i]);
-	}
-	
-	resjetmax = "K = { ";
-	for(int i = 0; i<M.getS(); i++)
-	{
-		if(i == M.getS()-1)
+		tabjetcontenu->setText(resjetcontenu);
+		
+		// RAFRAICHIR W (JETMAX)
+		
+		QString jetcg[M.getT()][2];
+		QString resjetcg;
+		
+		for(int i = 0; i<M.getT(); i++)
 		{
-			resjetmax = resjetmax + jetmax[i] + " }";
+			for(int j = 0; j< 2; j++)
+			{
+				jetcg[i][j] = QString::number(M.getW()[i][j]);
+			}
 		}
-		else
+		
+		
+		resjetcg = "W = { ";
+		
+		
+		for(int i = 0; i<M.getT(); i++)
 		{
-			resjetmax = resjetmax + jetmax[i] + " , ";
+			resjetcg = resjetcg + "{ ";
+			for(int j = 0; j<2; j++)
+			{
+				if(j == 1)
+				{
+					resjetcg = resjetcg + jetcg[i][j] + " }";
+				}
+				else
+				{
+					resjetcg = resjetcg + jetcg[i][j] + " , ";
+				}
+			}
+			if(i == M.getT()-1)
+			{
+				resjetcg = resjetcg + " }";
+			}
+			else
+			{
+				resjetcg = resjetcg + " , ";
+				if(i%5 ==  0 && i != 0)
+				{
+					resjetcg = resjetcg + "<br/>";
+				}
+			}
 		}
-	}
-	tabjetmax->setText(resjetmax);
+		tabjetcg->setText(resjetcg);
+		
+		// RAFRAICHIR K
+		
+		QString jetmax[M.getS()];
+		QString resjetmax;
+		
+		for(int i = 0; i<M.getS(); i++)
+		{
+			jetmax[i] = QString::number(M.getK()[i]);
+		}
+		
+		resjetmax = "K = { ";
+		for(int i = 0; i<M.getS(); i++)
+		{
+			if(i == M.getS()-1)
+			{
+				resjetmax = resjetmax + jetmax[i] + " }";
+			}
+			else
+			{
+				resjetmax = resjetmax + jetmax[i] + " , ";
+			}
+		}
+		tabjetmax->setText(resjetmax);
 
-	miseAJourReseau();
+		miseAJourReseau();
+		return;
+	}
 }
 
 void InterfaceGraphique::fct_enregistrer()
 {
+	std::cout << "ENREGISTREMENT" << std::endl;
     GDF.EnregistrerEcheancier(temp, fichier);
 }
 
 void InterfaceGraphique::fct_charger()
 {
-    GDF.Charger(fichier);
+	bool ok_clicked;
+	QString filename = QInputDialog::getText(this, tr("Choix du fichier"), tr("Nom du fichier : (sans extension)"), QLineEdit::Normal,
+														"RdP" , &ok_clicked);
+	if (ok_clicked) {
+		filename.append(".txt");
+		
+		FILE* file = fopen(filename.toStdString().c_str(), "r");
+
+		if (file) {
+			fclose(file);
+			char name[filename.size()];
+			strcpy(name, filename.toStdString().c_str());
+
+			GDF.Charger(name);
+			M = GDF.rechercheEtat(0, name);//Probleeeme
+			GDF.afficher(M,GDF);
+			
+			afficheur_reseau->clear();
+			buildElementsPosition();
+			calculerArcs();
+			dessinerElements();
+			dessinerArcs();
+
+		} else {
+			QMessageBox::information(this, tr("Erreur"), tr("Le fichier n'a pas pus être ouvert"), QMessageBox::Ok);
+		}
+
+	} else {
+		printf("Annulé\n");
+	}
 }
 
 //Afficheur de Reseau
@@ -935,7 +995,7 @@ void InterfaceGraphique::buildElementsPosition()
     void InterfaceGraphique::dessinerElements()
     {
         for (int i=0;i<M.getS()+M.getT();i++) {                                               //On parcour simplement tous les éléments
-            if (elements[i] != nullptr) elements[i]->dessiner(parametres);   //et appelle leur méthode dessine(parametres)
+            if (elements[i] != nullptr) elements[i]->dessiner(parametres, afficheur_reseau);   //et appelle leur méthode dessine(parametres, scene)
         }
     }
 
@@ -1117,7 +1177,7 @@ void InterfaceGraphique::buildElementsPosition()
 
             for (int j=1;j<nb_segments;j++) {
 
-                afficheur_reseau->addLine(arcs[i][j-1][0], arcs[i][j-1][1], arcs[i][j][0], arcs[i][j][1]);     //On dessinne chque segment
+                afficheur_reseau->addLine(arcs[i][j-1][0], arcs[i][j-1][1], arcs[i][j][0], arcs[i][j][1], QPen(parametres.couleurTrait));     //On dessinne chque segment
 
                 if (j == nb_segments-2) {                                                           //Sur l'avant dernier segment, on ajoute une tête de flèche
                     ligne.setLine(arcs[i][j-1][0], arcs[i][j-1][1], arcs[i][j][0], arcs[i][j][1]);
@@ -1128,7 +1188,7 @@ void InterfaceGraphique::buildElementsPosition()
                     arrow_head << arrow_tip.p2() << arrow_tip.p2() - QPointF(sin(angle + M_PI/2.7)*(parametres.tailleElement/7+1), cos(angle + M_PI/2.7)*(parametres.tailleElement/7+1))
                                                  << arrow_tip.p2() - QPointF(sin(angle + M_PI - M_PI/2.7)*(parametres.tailleElement/7+1), cos(angle + M_PI - M_PI/2.7)*(parametres.tailleElement/7+1));
 
-                    afficheur_reseau->addPolygon(arrow_head,QPen(Qt::black),QBrush(Qt::black));    //La tête de flèche est ajouté à lz afficheur_reseau comme polygone des 3 points ci-dessus
+                    afficheur_reseau->addPolygon(arrow_head,QPen(parametres.couleurTrait),QBrush(parametres.couleurTrait));    //La tête de flèche est ajouté à lz afficheur_reseau comme polygone des 3 points ci-dessus
                 }
             }
         }
