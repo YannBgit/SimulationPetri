@@ -235,8 +235,7 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, char* nom_fichier){
 
 		setlocale(LC_NUMERIC, "C");
 
-			////// TE ////////
-		//char *str = fgets(ligne,TAILLE_MAX,fichier);
+		////// TE ////////
 		char* str = c;
 		char *decoupe;
 		decoupe = strtok(str,"Te=;");
@@ -294,7 +293,6 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, char* nom_fichier){
 
 		arcs = arcs - 1;
 		this->arc = arcs;
-		//std::cout << "arcs = " << arcs << std::endl;
 		
 		int **F = (int**)malloc(sizeof(int*) * (arcs + 1));
 		
@@ -306,7 +304,6 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, char* nom_fichier){
 		while (decoupe != NULL && i < arc) {
 			sscanf(decoupe,"%d,%d,%d",&(F[i][0]),&(F[i][1]),&(F[i][2]));
 			decoupe = strtok(NULL, "F={} ");
-			//std::cout << "F = " << F[i][0] << " " << F[i][1] << " " << F[i][2] << std::endl;
 			i++;
 		}
 		////// FIN F ////////
@@ -321,31 +318,26 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, char* nom_fichier){
 			decoupe = strtok(NULL, "M={,}");
 			i++;
 		}
-		/*for(j = 0; j < i ; j++){
-			std::cout << "M = " << M[j] << " ";
-		}
-		std::cout << std::endl;*/
+
+		std::cout << std::endl;
 		//// FIN M ////
 		
 		////// W ////////
 		
-		int **W = (int **)malloc(sizeof(int*) * 10);
-		for(int i = 0; i < 10; i++){
-			W[i] = (int*)malloc(10 * sizeof(int));
+		int **W = (int **)malloc(sizeof(int*) * T);
+		for(int i = 0; i < T; i++){
+			W[i] = (int*)malloc(2 * sizeof(int));
 		}
 		str = fgets(ligne,TAILLE_MAX,fichier);
 		decoupe = strtok(str,"W{=};, ");
 		i = 0;
 		while (decoupe != NULL && i < T){
 			j = 0;
-			//std::cout << "W = ";
 			while(j < 2){
 				sscanf(decoupe,"%d",&(W[i][j]));
 				decoupe = strtok(NULL, "{,} ");
-				//std::cout << W[i][j] << " ";
 				j++;
 			}
-			//std::cout << std::endl;
 			i++;
 		}
 		////// FIN W ////////
@@ -354,17 +346,12 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, char* nom_fichier){
 		int *K = (int*)malloc(sizeof(int) * S);
 		str = fgets(ligne, TAILLE_MAX,fichier);
 		decoupe = strtok(str,"M={,};");
-		//std::cout << "decoupe = " << decoupe << std::endl;
 		i = 0;
 		while (decoupe != NULL && i < S) {
 			decoupe = strtok(NULL, "K={,}");
 			K[i] = atoi(decoupe);
 			i++;
 		}
-		/*for(j = 0; j < i ; j++){
-			std::cout << "K = " << K[j] << " ";
-		}
-		std::cout << std::endl;*/
 		//// FIN K ////
 		
 		Moteur *m = new Moteur(Te, S, T, P, F, M, W, K);

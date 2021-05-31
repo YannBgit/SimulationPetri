@@ -304,7 +304,7 @@ void InterfaceGraphique::fct_etatInitial()
 {
 	std::cout << std::endl;
 
-    M = E.RenvoyerEtatReseauSelonTemps(0,GDF,"temporaire");
+    M = E.RenvoyerEtatReseauSelonTemps(0,GDF,temporaire);
 
 	std::cout << "----------ETAT INITIAL TEMPS " << M.getTe() << "------------------------------" << std::endl;
     GDF.afficher(M,GDF);
