@@ -1,7 +1,7 @@
 #include "InterfaceGraphique.hpp"
 
-char *src = "RdP.txt";
-char *temporaire = "temp.txt";
+char src [] = "RdP.txt";
+char temporaire [] = "temp.txt";
 
 FILE *fichier;
 GestionnaireDeFichiers GDF(fichier);
@@ -483,181 +483,194 @@ void InterfaceGraphique::fct_avancer()
 	printf("\nDébut de fct_avancer /////////////////////////////////////////////: \n");
 
 	printf("Nom du fichier %s -----------------------------------------------------------------------\n",GDF.getNom());
-
-
-	M = E.RenvoyerEtatReseauSelonTemps(M.getTe()+1, GDF, temporaire);
-
-	printf("segfault ici nope\n");
-
-	echeancierintro->setText(QString("Te = %1 <br/>").arg(M.getTe())+QString("S = %1 <br/>").arg(M.getS())+QString("T = %1 <br/>").arg(M.getT()));
-
-	printf("segfault ici, là\n");
 	
-	// RAFRAICHIR PROBA P
-	QString proba[M.getT()];
-	QString resproba;
-	
+	int *Tab = M.Tirage(GDF);
+	int stop = 1;
 	for(int i = 0; i<M.getT(); i++)
 	{
-		proba[i] = QString::number(M.getP()[i]);
-		std::cout << "getP = " << M.getP()[i] << " ";
+		if(Tab[i]) stop = 0;
 	}
-	std::cout << std::endl;
 	
-	resproba = "P = { ";
+	if(stop == 0){
 	
-	for(int i = 0; i< M.getT(); i++)
-	{
-		if(i == M.getT()-1)
-		{
-			resproba = resproba + proba[i] + " }";
-		}
-		else
-		{
-			resproba = resproba + proba[i] + " , ";
-		}
-	}
-	tabproba->setText(resproba);
+		M = E.RenvoyerEtatReseauSelonTemps(M.getTe()+1, GDF, temporaire);
 
-	
-	// RAFRAICHIR ARCS F
-	int sa = GDF.getarc();
-	QString arcs[sa][3];
-	QString resarcs;
-	
-	for(int i = 0; i < sa; i++)
-	{
-		for(int j = 0; j < 3; j++)
+		printf("segfault ici nope\n");
+
+		echeancierintro->setText(QString("Te = %1 <br/>").arg(M.getTe())+QString("S = %1 <br/>").arg(M.getS())+QString("T = %1 <br/>").arg(M.getT()));
+
+		printf("segfault ici, là\n");
+		
+		// RAFRAICHIR PROBA P
+		QString proba[M.getT()];
+		QString resproba;
+		
+		for(int i = 0; i<M.getT(); i++)
 		{
-			arcs[i][j] = QString::number(M.getF()[i][j]);
+			proba[i] = QString::number(M.getP()[i]);
+			std::cout << "getP = " << M.getP()[i] << " ";
 		}
-	}
-	
-	resarcs = "F = { ";
-	
-	for(int i = 0; i< sa; i++)
-	{
-		resarcs = resarcs + "{ ";
-		for(int j = 0; j<3; j++)
+		std::cout << std::endl;
+		
+		resproba = "P = { ";
+		
+		for(int i = 0; i< M.getT(); i++)
 		{
-			if(j == 2)
+			if(i == M.getT()-1)
 			{
-				resarcs = resarcs + arcs[i][j] + " }";
+				resproba = resproba + proba[i] + " }";
 			}
 			else
 			{
-				resarcs = resarcs + arcs[i][j] + " , ";
+				resproba = resproba + proba[i] + " , ";
 			}
 		}
-		if(i == sa-1)
+		tabproba->setText(resproba);
+
+		
+		// RAFRAICHIR ARCS F
+		int sa = GDF.getarc();
+		QString arcs[sa][3];
+		QString resarcs;
+		
+		for(int i = 0; i < sa; i++)
 		{
-			resarcs = resarcs + " }";
-		}
-		else
-		{
-			resarcs = resarcs + " , ";
-			if(i%4 ==  0 && i != 0)
+			for(int j = 0; j < 3; j++)
 			{
-				resarcs = resarcs + "<br/>";
+				arcs[i][j] = QString::number(M.getF()[i][j]);
 			}
 		}
-	}
-	tabarcs->setText(resarcs);
-	
-	// RAFRAICHIR M (JETONS CONTENUS)
-	QString jetcontenu[M.getS()];
-	QString resjetcontenu;
-	
-	for(int i = 0; i<M.getS(); i++)
-	{
-		jetcontenu[i] = QString::number(M.getM()[i]);
-	}
-	
-	resjetcontenu = "M = { ";
-	for(int i = 0; i<M.getS(); i++)
-	{
-		if(i == M.getS()-1)
+		
+		resarcs = "F = { ";
+		
+		for(int i = 0; i< sa; i++)
 		{
-			resjetcontenu = resjetcontenu + jetcontenu[i] + " }";
-		}
-		else
-		{
-			resjetcontenu = resjetcontenu + jetcontenu[i] + " , ";
-		}
-	}
-	tabjetcontenu->setText(resjetcontenu);
-	
-	// RAFRAICHIR W (JETMAX)
-	
-	QString jetcg[M.getT()][2];
-	QString resjetcg;
-	
-	for(int i = 0; i<M.getT(); i++)
-	{
-		for(int j = 0; j<2; j++)
-		{
-			jetcg[i][j] = QString::number(M.getW()[i][j]);
-		}
-	}
-	
-	
-	resjetcg = "W = { ";
-	
-	
-	for(int i = 0; i<M.getT(); i++)
-	{
-		resjetcg = resjetcg + "{ ";
-		for(int j = 0; j<2; j++)
-		{
-			if(j == 1)
+			resarcs = resarcs + "{ ";
+			for(int j = 0; j<3; j++)
 			{
-				resjetcg = resjetcg + jetcg[i][j] + " }";
+				if(j == 2)
+				{
+					resarcs = resarcs + arcs[i][j] + " }";
+				}
+				else
+				{
+					resarcs = resarcs + arcs[i][j] + " , ";
+				}
+			}
+			if(i == sa-1)
+			{
+				resarcs = resarcs + " }";
 			}
 			else
 			{
-				resjetcg = resjetcg + jetcg[i][j] + " , ";
+				resarcs = resarcs + " , ";
+				if(i%4 ==  0 && i != 0)
+				{
+					resarcs = resarcs + "<br/>";
+				}
 			}
 		}
-		if(i == M.getT()-1)
+		tabarcs->setText(resarcs);
+		
+		// RAFRAICHIR M (JETONS CONTENUS)
+		QString jetcontenu[M.getS()];
+		QString resjetcontenu;
+		
+		for(int i = 0; i<M.getS(); i++)
 		{
-			resjetcg = resjetcg + " }";
+			jetcontenu[i] = QString::number(M.getM()[i]);
 		}
-		else
+		
+		resjetcontenu = "M = { ";
+		for(int i = 0; i<M.getS(); i++)
 		{
-			resjetcg = resjetcg + " , ";
-			if(i%5 ==  0 && i != 0)
+			if(i == M.getS()-1)
 			{
-				resjetcg = resjetcg + "<br/>";
+				resjetcontenu = resjetcontenu + jetcontenu[i] + " }";
+			}
+			else
+			{
+				resjetcontenu = resjetcontenu + jetcontenu[i] + " , ";
 			}
 		}
-	}
-	tabjetcg->setText(resjetcg);
-	
-	// RAFRAICHIR K
-	
-	QString jetmax[M.getS()];
-	QString resjetmax;
-	
-	for(int i = 0; i<M.getS(); i++)
-	{
-		jetmax[i] = QString::number(M.getK()[i]);
-	}
-	
-	resjetmax = "K = { ";
-	for(int i = 0; i<M.getS(); i++)
-	{
-		if(i == M.getS()-1)
+		tabjetcontenu->setText(resjetcontenu);
+		
+		// RAFRAICHIR W (JETMAX)
+		
+		QString jetcg[M.getT()][2];
+		QString resjetcg;
+		
+		for(int i = 0; i<M.getT(); i++)
 		{
-			resjetmax = resjetmax + jetmax[i] + " }";
+			for(int j = 0; j<2; j++)
+			{
+				jetcg[i][j] = QString::number(M.getW()[i][j]);
+			}
 		}
-		else
+		
+		
+		resjetcg = "W = { ";
+		
+		
+		for(int i = 0; i<M.getT(); i++)
 		{
-			resjetmax = resjetmax + jetmax[i] + " , ";
+			resjetcg = resjetcg + "{ ";
+			for(int j = 0; j<2; j++)
+			{
+				if(j == 1)
+				{
+					resjetcg = resjetcg + jetcg[i][j] + " }";
+				}
+				else
+				{
+					resjetcg = resjetcg + jetcg[i][j] + " , ";
+				}
+			}
+			if(i == M.getT()-1)
+			{
+				resjetcg = resjetcg + " }";
+			}
+			else
+			{
+				resjetcg = resjetcg + " , ";
+				if(i%5 ==  0 && i != 0)
+				{
+					resjetcg = resjetcg + "<br/>";
+				}
+			}
 		}
-	}
-	tabjetmax->setText(resjetmax);
+		tabjetcg->setText(resjetcg);
+		
+		// RAFRAICHIR K
+		
+		QString jetmax[M.getS()];
+		QString resjetmax;
+		
+		for(int i = 0; i<M.getS(); i++)
+		{
+			jetmax[i] = QString::number(M.getK()[i]);
+		}
+		
+		resjetmax = "K = { ";
+		for(int i = 0; i<M.getS(); i++)
+		{
+			if(i == M.getS()-1)
+			{
+				resjetmax = resjetmax + jetmax[i] + " }";
+			}
+			else
+			{
+				resjetmax = resjetmax + jetmax[i] + " , ";
+			}
+		}
+		tabjetmax->setText(resjetmax);
 
-	miseAJourReseau();
+		miseAJourReseau();
+	}
+		
+	else{
+		QMessageBox::information(this, tr("Etat Final"), tr("Aucune autre transition ne peut être tirée"), QMessageBox::Ok);
+	}
 	
 }
 
@@ -839,6 +852,7 @@ void InterfaceGraphique::fct_reculer()
 
 		miseAJourReseau();
 	}
+
 }
 
 void InterfaceGraphique::fct_enregistrer()
@@ -899,7 +913,9 @@ void InterfaceGraphique::fct_charger()
 				}
 			}
 			tabjetcontenu->setText(resjetcontenu);
-		} else {
+		} 
+		
+		else {
 			QMessageBox::information(this, tr("Erreur"), tr("Le fichier n'a pas pus être ouvert"), QMessageBox::Ok);
 		}
 

@@ -144,7 +144,7 @@ void GestionnaireDeFichiers::EnregistrerEcheancier(FILE *temp, FILE *fichier)
 {
 		std::cout << "Saving..." << std::endl;
         temp = fopen("temp.txt","r");
-        fichier = fopen(nom_fichier, "w");
+        fichier = fopen("Enregistrement.txt", "w");//nom_fichier ?
 
 		printf("%s\n",nom_fichier);
         
@@ -217,9 +217,7 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, char* nom_fichier){
 		if (!ligne_atteinte) {	//Si on a pas trouvé la ligne c'est que l'état n'a pas été calculé et stocké 
 			fclose(fichier);
 			
-			char *nom;
-
-			nom = "temp.txt";
+			char nom [] = "temp.txt";
 			Moteur M_temp = rechercheEtat(Te-1, nom);
 			M_temp.Activer_Transitions(M_temp.Tirage(*this), *this);	//On le calcul donc depuis l'état T-1
 			EcrireEtat(M_temp, fichier);
