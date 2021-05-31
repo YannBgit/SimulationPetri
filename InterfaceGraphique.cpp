@@ -1,12 +1,15 @@
 #include "InterfaceGraphique.hpp"
 
+char *src = "RdP.txt";
+char *temporaire = "temp.txt";
+
 FILE *fichier;
 GestionnaireDeFichiers GDF(fichier);
 FILE *temp = GDF.CreerFichierTemporaire();
-Echeancier E(GDF.rechercheEtat(0, "RdP.txt"));
-Moteur M(GDF.rechercheEtat(0, "RdP.txt").getTe(), GDF.rechercheEtat(0, "RdP.txt").getS(), GDF.rechercheEtat(0, "RdP.txt").getT(),
-GDF.rechercheEtat(0, "RdP.txt").getP(), GDF.rechercheEtat(0, "RdP.txt").getF(), GDF.rechercheEtat(0, "RdP.txt").getM(),
-GDF.rechercheEtat(0, "RdP.txt").getW(), GDF.rechercheEtat(0, "RdP.txt").getK());
+Echeancier E(GDF.rechercheEtat(0, src));
+Moteur M(GDF.rechercheEtat(0, src).getTe(), GDF.rechercheEtat(0, src).getS(), GDF.rechercheEtat(0, src).getT(),
+GDF.rechercheEtat(0, src).getP(), GDF.rechercheEtat(0, src).getF(), GDF.rechercheEtat(0, src).getM(),
+GDF.rechercheEtat(0, src).getW(), GDF.rechercheEtat(0, src).getK());
 
 InterfaceGraphique::InterfaceGraphique()
 {	
@@ -301,7 +304,7 @@ void InterfaceGraphique::fct_etatInitial()
 {
 	std::cout << std::endl;
 
-    M = E.RenvoyerEtatReseauSelonTemps(0,GDF,"temp.txt");
+    M = E.RenvoyerEtatReseauSelonTemps(0,GDF,temporaire);
 
 	std::cout << "----------ETAT INITIAL TEMPS " << M.getTe() << "------------------------------" << std::endl;
     GDF.afficher(M,GDF);
@@ -482,7 +485,7 @@ void InterfaceGraphique::fct_avancer()
 	printf("Nom du fichier %s -----------------------------------------------------------------------\n",GDF.getNom());
 
 
-	M = E.RenvoyerEtatReseauSelonTemps(M.getTe()+1, GDF, "temp.txt");
+	M = E.RenvoyerEtatReseauSelonTemps(M.getTe()+1, GDF, temporaire);
 
 	printf("segfault ici nope\n");
 
@@ -664,7 +667,7 @@ void InterfaceGraphique::fct_reculer()
 
 		printf("Plante immédiatement\n");
 
-		M = E.RenvoyerEtatReseauSelonTemps(M.getTe()-1, GDF, "temp.txt");
+		M = E.RenvoyerEtatReseauSelonTemps(M.getTe()-1, GDF, temporaire);
 		echeancierintro->setText(QString("Te = %1 <br/>").arg(M.getTe())+QString("S = %1 <br/>").arg(M.getS())+QString("T = %1 <br/>").arg(M.getT()));
 		
 		printf("En fait non\n\n");
