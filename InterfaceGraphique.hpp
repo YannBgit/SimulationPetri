@@ -14,6 +14,9 @@
 #include <QGraphicsView> // Permet d'afficher une scène avec beaucoup d'options
 #include <QGraphicsScene> // Permet de dessinner le réseau de Pétri sur une scène
 #include <QGraphicsItem>    //Permet de gérer les collisions entre éléments graphiques
+#include <QInputDialog>
+#include <QMessageBox>
+#include <QDir>
 #include <stdio.h>
 #include <cmath>
 #include "Moteur.hpp" // Pour utiliser la classe Moteur
@@ -213,9 +216,8 @@ class Element
     /*
     Dessine l'élément selon sa position et son type d'élément ainsi que les jetons qu'il contient et les paramètres.
     */
-    void dessiner(InterfaceGraphique::Params params)
+    void dessiner(InterfaceGraphique::Params params, QGraphicsScene *afficheur_reseau)
     {   
-        QGraphicsScene *afficheur_reseau;
         float pos_x_scene, pos_y_scene, size;
         size = params.tailleElement;    //stocke le diamètre de la place
 
@@ -223,7 +225,7 @@ class Element
         {
             pos_x_scene = pos_x*size+pos_x*params.elementsDistance; //Position en x de la place sur la scene (l'écran)
             pos_y_scene = pos_y*size+pos_y*params.elementsDistance; //Position en y de la place sur la scene (l'écran)
-            afficheur_reseau->addEllipse(pos_x_scene, pos_y_scene, size, size, QPen(Qt::black,2));
+            afficheur_reseau->addEllipse(pos_x_scene, pos_y_scene, size, size, QPen(params.couleurTrait,params.largeurTrait));
 
             if (nb_jetons)
             {
@@ -231,18 +233,18 @@ class Element
                 {                              
                     afficheur_reseau->addEllipse(pos_x_scene+size/4, pos_y_scene+size/4,
                     params.tailleElement/2, params.tailleElement/2,                     //si on essayait de répartir un ou deux jetons on aurait
-                    QPen(Qt::black,2), QBrush(Qt::SolidPattern));                       //des erreurs avec les fonctions cosinus et sinus etc...
+                    QPen(params.couleurRemplissage), QBrush(Qt::SolidPattern));                       //des erreurs avec les fonctions cosinus et sinus etc...
 
                 }
-                else if (nb_jetons == 2 && size > 6)
+                else if (nb_jetons == 2 && size/2 > 6)
                 {
                     afficheur_reseau->addEllipse(pos_x_scene+3, pos_y_scene+params.tailleElement/4+3,
                     size/2-6, size/2-6,
-                    QPen(Qt::black,2), QBrush(Qt::SolidPattern)
+                    QPen(params.couleurRemplissage), QBrush(Qt::SolidPattern)
                     );
                     afficheur_reseau->addEllipse(pos_x_scene+params.tailleElement/2+3, pos_y_scene+params.tailleElement/4+3,
                     params.tailleElement/2-6, params.tailleElement/2-6,
-                    QPen(Qt::black,2), QBrush(Qt::SolidPattern)
+                    QPen(params.couleurRemplissage), QBrush(Qt::SolidPattern)
                     );
                 }
                 else
@@ -252,16 +254,26 @@ class Element
                     ln_base = (ln_cote * sin(angle) / sin((M_PI-angle) /2));        //Longeur de la base des tiangles
                     r_token = (ln_base/2) * sqrt((2*ln_cote-ln_base) / (2*ln_cote+ln_base));  //rayon d'un token
                     d_token = sqrt( abs(ln_cote*ln_cote - pow(ln_base/2,2))) - r_token;      //distance du centre du token au centre de la place (h_triangle-r_token)
-
+                    
                     r_token *= 1 + 5/(pow(nb_jetons,2.0));
                     d_token *= 1 + 20/(pow(nb_jetons,2.9));
+                    
+                    if (r_token > 5 && nb_jetons < 21) {
 
-                    for(int i=0;i<nb_jetons;i++)
-                    {
-                        x_token = pos_x_scene+size/2-r_token + d_token*cos(angle*i) +2;
-                        y_token = pos_y_scene+size/2-r_token + d_token*sin(angle*i) +2;
-                        afficheur_reseau->addEllipse(x_token, y_token, (r_token-2)*2, (r_token-2)*2,
-                        QPen(Qt::black,2), QBrush(Qt::SolidPattern));
+
+                        for(int i=0;i<nb_jetons;i++)
+                        {
+                            x_token = pos_x_scene+size/2-r_token + d_token*cos(angle*i) +2;
+                            y_token = pos_y_scene+size/2-r_token + d_token*sin(angle*i) +2;
+                            afficheur_reseau->addEllipse(x_token, y_token, (r_token-2)*2, (r_token-2)*2,
+                            QPen(params.couleurRemplissage), QBrush(Qt::SolidPattern));
+                        }
+                    } else {
+                        char buffer[9];
+                        sprintf(buffer,"%d",nb_jetons);
+                        QGraphicsTextItem *text = afficheur_reseau->addText(buffer);
+                        text->setTextWidth(text->textWidth()*0.75);
+                        text->setPos(pos_x_scene+size/2-text->boundingRect().width()/2,pos_y_scene+size/2-text->boundingRect().height()/2);
                     }
                 }
             }
@@ -272,7 +284,7 @@ class Element
         {
             afficheur_reseau->addRect(pos_x*size+pos_x*params.elementsDistance,
             pos_y*size+pos_y*params.elementsDistance+(3.0/8.0)*size,
-            size, size/4.0, QPen(), QBrush(Qt::SolidPattern));
+            size, size/4.0, QPen(params.couleurRemplissage), QBrush(Qt::SolidPattern));
         }
     }
 

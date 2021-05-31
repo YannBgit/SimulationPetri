@@ -62,7 +62,7 @@ class Moteur
 	Pour chaque Indice du tableau Tirage, la fonction active la transition correspondante et retire/ajoute le nombre de jetons
     correspondant entre les places de la transition.
 	*/
-	void Activer_Transitions(int *Tirage, int *M, int **W);
+	void Activer_Transitions(int *Tirage, GestionnaireDeFichiers GDF);
 
 	/*
 	Fonction de type Moteur pour renvoyer les infos d'un RDP.
@@ -70,7 +70,7 @@ class Moteur
 	La fonction observe si l'utilisateur a choisi ou non de reculer, si oui il demande à l'échéancier les anciennes informations du
     RDP et les renvoi.
 	*/
-	void Reculer(Echeancier E, GestionnaireDeFichiers GDF);
+	//void Reculer(Echeancier E, GestionnaireDeFichiers GDF);
 
 	/*
 	Ces fonction aident pour générer le tableau de marquage.

@@ -44,7 +44,7 @@ class Echeancier
     Argument de type int Te, le temps auquel on veut récupérer le réseau de Petri.
     La fonction recherche un état du réseau enregistré avec un temps donné et le renvoie.
     */
-    Moteur RenvoyerEtatReseauSelonTemps(int Te, GestionnaireDeFichiers GDF);
+    Moteur RenvoyerEtatReseauSelonTemps(int Te, GestionnaireDeFichiers GDF, char *nom_fichier);
 };
 
 #endif

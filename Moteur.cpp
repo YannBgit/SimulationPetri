@@ -86,20 +86,24 @@ int *Moteur::Tirage(GestionnaireDeFichiers GDF)
     return TableauTirage;
 }
 
-void Moteur::Activer_Transitions(int *Tirage, int *M, int **W)
+void Moteur::Activer_Transitions(int *Tirage, GestionnaireDeFichiers GDF)
 {
     //Pour chaque transition
     for (int i = 0; i < this->T; i++) {
         //Si la transition est tirable
         if (Tirage[i]) {
             //On regarde pour chaque arc
-            for (int j = 0; j < 7; j++) {
+            for (int j = 0; j < GDF.getarc(); j++) {
                 //Si l'arc est lié à la transition
                 if (this->F[j][2] == i) {
                     //Si l'arc est place -> transition on enlève un jeton
-                    if (this->F[j][0] == 0) this->M[F[j][1]] -= 1;
+                    if (this->F[j][0] == 0 && this->M[F[j][1]] > 0) this->M[F[j][1]] -= 1;
                     //Sinon on en rajoute un
-                    else this->M[F[j][1]] += 1;
+                    else {
+                        if (this->M[F[j][1]] + 1 > this->K[F[j][1]]) 
+                            this->M[F[j][1]] = this->K[F[j][1]];
+                        else this->M[F[j][1]] += 1;
+                    }
                 }
             }
         }
@@ -111,10 +115,10 @@ void Moteur::Activer_Transitions(int *Tirage, int *M, int **W)
     return;
 }
 
-void Moteur::Reculer(Echeancier E, GestionnaireDeFichiers GDF)
+/*void Moteur::Reculer(Echeancier E, GestionnaireDeFichiers GDF)
 {
     E.RenvoyerEtatReseauSelonTemps(this->Te--, GDF);
-}
+}*/
 
 
 int Moteur::Nbr_Jetons(int **W, int T, int S, int *M)

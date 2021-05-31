@@ -4,8 +4,11 @@
 
 // LIBRAIRIES
 #include <string.h>
+#include <stdlib.h>
+#include <locale.h>
 #include <stdio.h> // Permettre principalement la manipulation des flux de caractères
 #include <iostream> // Contrôler la lecture et l'écriture des flux standard
+
 class Moteur; // Pour utiliser la classe Moteur
 
 // CLASSE
@@ -15,6 +18,7 @@ class GestionnaireDeFichiers
     // VARIABLES
     FILE *fichier;
     FILE *temp;
+    char* nom_fichier;
     int arc;
 
     public:
@@ -53,15 +57,21 @@ class GestionnaireDeFichiers
 	Argument de type FILE* pour permettre de charger un fichier.
 	La fonction charge un fichier et l'enregistre dans le GestionnaireDeFichiers.
 	*/
-    void Charger(FILE *fichier);
+    void Charger(char* nom_fichier);
 
-    Moteur rechercheEtat(int Te, FILE *fichier);
+    Moteur rechercheEtat(int Te, char* nom_fichier);
 	
     FILE *getFichier();
 
     FILE *getTemp();
 	
     int getarc();
+
+    char* getNom() {
+        return this->nom_fichier;
+    }
+
+    void afficher(Moteur M, GestionnaireDeFichiers GDF);
 };
 
 #endif

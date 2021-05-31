@@ -28,7 +28,7 @@ void Echeancier::AjouterEtatReseau(Moteur M, GestionnaireDeFichiers GDF)
     return;
 }
 
-Moteur Echeancier::RenvoyerEtatReseauSelonTemps(int Te, GestionnaireDeFichiers GDF)
+Moteur Echeancier::RenvoyerEtatReseauSelonTemps(int Te, GestionnaireDeFichiers GDF, char *nom_fichier)
 {
-    return GDF.rechercheEtat(Te, GDF.getTemp());
+    return GDF.rechercheEtat(Te,nom_fichier);
 }
