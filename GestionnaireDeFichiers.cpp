@@ -1,341 +1,316 @@
+// DIRECTIVES
+#ifndef INTERFACEGRAPHIQUE_HPP
+#define INTERFACEGRAPHIQUE_HPP
+
 // LIBRAIRIES
+#include <QApplication> // QApplication est l'include de base de tout programme Qt
+#include <QObject> // QObject est la classe de base de tous les objets sous Qt. La méthode connect() nous sera particulièrement utile
+// pour les signaux et les slots.
+#include <QWidget> // QWidgets est un module qui nous permettera d'afficher nos fenêtres
+#include <QPushButton> // QPushButton nous permet de créer des objets QPushButton qui sont tout simplement des boutons
+#include <QLabel> // QLabel est utilisé pour afficher du texte ou une image. Cette classe nous sera utile pour l'affichage de
+// l'échéancier.
+#include <QLayout> // QLayout nous permet de postionner des widgets, comme par exemple, nos boutons
+#include <QGraphicsView> // Permet d'afficher une scène avec beaucoup d'options
+#include <QGraphicsScene> // Permet de dessinner le réseau de Pétri sur une scène
+#include <QGraphicsItem>    //Permet de gérer les collisions entre éléments graphiques
+#include <QInputDialog>
+#include <QMessageBox>
+#include <QDir>
+#include <stdio.h>
+#include <cmath>
+#include "Moteur.hpp" // Pour utiliser la classe Moteur
+#include "Echeancier.hpp" // Pour utiliser la classe Echancier
+#include "GestionnaireDeFichiers.hpp" // Pour utiliser la classe GestionnaireDeFichiers
 
-#include "GestionnaireDeFichiers.hpp"
-#include "Moteur.hpp"
-#define TAILLE_MAX 999
+class Element;
 
-// FONCTIONS
-
-GestionnaireDeFichiers::GestionnaireDeFichiers(FILE *fichier)
+// CLASSE
+class InterfaceGraphique : public QWidget //On hérite de QWidget
 {
-    this->fichier = fichier;
-}
+	Q_OBJECT
 
-GestionnaireDeFichiers::~GestionnaireDeFichiers()
-{}
-
-void GestionnaireDeFichiers::Charger(FILE *fichier)
-{
-	this->fichier = fichier;
-	
-	return;
-}
-
-FILE *GestionnaireDeFichiers::CreerFichierTemporaire()
-{
-	FILE *fic;
-	fic = fopen("temp.txt","w");
-	this->temp = fic;
-	return temp;
-}
-
-void GestionnaireDeFichiers::EcrireEtat(Moteur M, FILE *fichier)
-{
-	//On prends les infos du Moteur
-	int Te = M.getTe();
-	int S = M.getS();
-	int T = M.getT(); 
-	float *P = M.getP();
-	int **F = M.getF();
-	int *M1 = M.getM();
-	int **W = M.getW();
-	int *K = M.getK();
-	int arc = this->getarc();
+    private:
+    // VARIABLES
+    QPushButton *reculer; // Associé à la méthode "fct_reculer()"
+    QPushButton *avancer; // Associé à la méthode "fct_avancer()"
+    QPushButton *enregistrer; // Associé à la méthode "fct_enregistrer()"
+    QPushButton *charger; // Associé à la méthode "fct_charger()"
+    QPushButton *etatInitial; // Associé à la méthode "fct_etatInitial()"
     
-    //a+ pour ajouter à chaque fois à la fin du fichier
-    fichier = fopen("temp.txt","a+");
-	this->fichier = fichier;
-	
-    if(fichier)
-	{
-		printf("Fichier ouvert\n");
-		fprintf(fichier, "Te= %d;\n", Te);
-		fprintf(fichier, "S= %d;\n", S);
-		fprintf(fichier, "T= %d;\n", T);
+    QVBoxLayout *vlayout; // Layout vertical
+    QVBoxLayout *layoutSecondaire;
+    QHBoxLayout *layoutPrincipal; // Layout horizontal
+    QGridLayout *glayout; // Layout sous forme de tableau
+    
+    QLabel *echeancierintro;
+    QLabel *tabproba;
+	QLabel *tabarcs;
+	QLabel *tabjetcontenu;
+	QLabel *tabjetcg;
+	QLabel *tabjetmax;
 
-		
-		//Afficher P
-		fprintf(fichier, "P= {");
-		for(int i = 0; i < T; i++){
-			if(i == T - 1){
-				fprintf(fichier, "%.1f",P[i]);
-			}
-			else{
-				fprintf(fichier, "%.1f, ",P[i]);
-			}
-		}
-		fprintf(fichier, "};\n");
-		
-		//Afficher F
-		fprintf(fichier, "F= {");
-		for(int i = 0; i < arc; i++){
-			fprintf(fichier, "{");
-			for(int j = 0; j < 3; j++){
-				if(j == S - 1){fprintf(fichier, "%d} ",F[i][j]);}
-				else{fprintf(fichier, "%d, ",F[i][j]);}
-			}
-		}
-		fprintf(fichier, "};\n");
-		
-		//Afficher M
-		fprintf(fichier, "M= {");
-		for(int i = 0; i < S; i++){
-			if(i == S - 1){
-				fprintf(fichier, "%d",M1[i]);
-			}
-			else{
-				fprintf(fichier, "%d, ", M1[i]);
-			}
-		}
-		fprintf(fichier, "};\n");
-		
-		//Afficher W
-		fprintf(fichier, "W= {");
-		for(int i = 0; i < T; i++){
-			fprintf(fichier, "{");
-			for(int j = 0; j < 2; j++){
-				if(j == S - 1){fprintf(fichier, "%d} ",W[i][j]);}
-				else{fprintf(fichier, "%d, ",W[i][j]);}
-			}
-		}
-		fprintf(fichier, "};\n");
-		
-		//Afficher K
-		fprintf(fichier, "K= {");
-		for(int i = 0; i < S; i++){
-			if(i == S - 1){
-				fprintf(fichier, "%d",K[i]);
-			}
-			else{
-				fprintf(fichier, "%d, ", K[i]);
-			}
-		}
-		fprintf(fichier, "};\n");
-		fprintf(fichier, "------------------------\n");
-	}
-	
-	else{
-		std::cout << "Erreur d'ouverture de fichier\n" << std::endl;
-		exit(1);
-	}
-	
-	fclose(fichier);
-	   
-}
+    QGraphicsScene *afficheur_reseau;
 
-void GestionnaireDeFichiers::EnregistrerEcheancier(FILE *temp, FILE *fichier)
-{
-        temp = fopen("temp.txt","r");
-        fichier = fopen("RdP.txt", "a+");
+    // Les fonctions situées ici indiquent à QT qu'elles peuvent être utilisées pour recevoir les signaux envoyés par les boutons
+    private slots :
+    /*
+    Cette fonction servira pour passer de l'affichage d'un temps quelconque au temps 0 (etat initial). Si le bouton "etatInitial" est
+    cliqué, la fonction affichera le Rdp et l'échéancier au temps 0.
+    Ceci sera notamment possible grâce à la fonction "E.RenvoyerEtatReseauSelonTemps(0)".
+    */
+    void fct_etatInitial();
+    /*
+    Cette fonction servira pour passer de l'affichage d'un temps Te à un temps Te+1. Si le bouton "avancer" est cliqué, la fonction
+    affichera le Rdp et l'échéancier au temps Te+1.
+    Ceci sera notamment possible grâce à la fonction "E.RenvoyerEtatReseauSelonTemps(M.Te+1)".
+    */
+    void fct_avancer();
+
+    /*
+    Cette fonction servira pour passer de l'affichage d'un temps Te à un temps Te-1. Si le bouton "reculer" est cliqué, la fonction
+    affichera le Rdp et l'échéancier au temps Te-1.
+    Ceci sera notamment possible grâce à la fonction "E.RenvoyerEtatReseauSelonTemps(M.Te-1)".
+    */
+    void fct_reculer();
+
+    /*
+    Cette fonction permettera à l'utilisateur de charger des paramètre du réseau de Pétri à l'aide du gestionnaire de fichiers si le
+    bouton est cliqué.
+    Ceci sera notamment possible grâce à la fonction "EnregisterEcheancier(FILE *temp, FILE *fichier)".
+    */
+    void fct_charger();
+
+    /*
+    Cette fonction servira à l'utilisateur pour enregistrer l'état du Rdp à l'aide du gestionnaire de fichiers, si le bouton
+    "enregister" est cliqué.
+    Ceci sera notamment possible grâce à la fonction "Charger(FILE *fichier)".
+    */
+    void fct_enregistrer();
+
+    public:
+    // CONSTRUCTEURS
+    InterfaceGraphique();
+
+    // DESTRUCTEUR
+    ~InterfaceGraphique();
+
+    /*
+    Variables qui définisent l'aspect du réseau (espace entre deux élément, taille d'une place, couleur, etc...).
+    */
+    struct Params
+    {
+        float tailleElement; // Taille d'un element (multiplicateur)
+        float elementsDistance; // Distance minimale séparant deux éléments graphiques
+        float largeurTrait;
+        QColor couleurTrait;
+        QColor couleurRemplissage;
+    };
+    Params parametres;
+
+    // METHODES  
+
+    // Affichage echeancier
+    /*
+    Cette fonction servira à l'affichage de l'échéancier sous forme de texte.
+    */
+    void affichage_echeancier();
+
+    // Affichage reseau
+    /*
+    Crée un Element pour chaque place et chaque transitions, avec son nombre de jetons, son type (place ou transition) et une position
+    {x, y} définit par rapport au premier qui est rencontré (position (0,0)) et par ses liaisons et renvoie la liste de ces éléments.
+    La liste contient les places puis les transitions dans l'ordre. Appellée lors du chargement d'un réseau.
+    */
+    void buildElementsPosition();
+
+     /*
+    Utiliser par buildElementsPosition(). Permet de vérifier si une place ou transition est déjà dans a_traiter
+    */
+    bool isContainedBy(int* tuple, std::list<int*>);
+
+    /*
+    Dessine les places et les transitions contenues dans elements.
+    */
+    void dessinerElements();
+
+    /*
+    Définit pour chaque arc une liste de positions contenant au moins celles d'une place et d'une transition pour les relier, en
+    évitant de passer sur d'autres places et transitions.
+    */
+    void calculerArcs();  
+
+   /*
+    Dessine les arcs entre les places et les transitions.
+    */
+    void dessinerArcs();
+
+    /*
+    Récupère le nouvel état du réseau et modifie le nombre de jetons pour chaque élément graphique où c'est nécessaire. Appellée lors
+    d'un déplacement dans le réseau.
+    */
+    void miseAJourReseau();
         
-        //Configurer la chaine qui lira ligne par ligne
-        char ligne[TAILLE_MAX] = "";
-        if(temp)
+     /*
+    Utilisée par calculerArcs(). Renvoie des points de passage (x, y) permettant à l'arc en cours de calcul de ne pas intersecter avec
+    une place ou une transition.
+    */
+    int **eviterIntersection(int x_depart, int y_depart, int x_arrivee, int y_arrivee);
+
+    /*
+    On stock les positions d'affichage des places, transitions et arcs pour ne pas les recalculer à chaque changement d'état du réseau
+    avec l'évolution de la position des jetons mais seulement en cas de modification de la structure du réseau.
+    */
+    /*
+    Stock les places et les transitions (dans cette ordre).
+    */
+    Element **elements;
+        
+    /*
+    Liste stockant les arcs, un arcs (int**) correspondant à la liste des points formant ses segments, et se terminant par nullptr.
+    Un point (int*) contient les coordonnées x et y dans cet ordre d'une extrémitée d'un segment.
+    */
+    int ***arcs;
+};
+
+/*
+Stock et dessine une place ou une transition avec ses données d'affichage
+*/
+// CLASSE
+class Element
+{
+    private :
+    int pos_x; // Position x relative au 1er élément
+    int pos_y; // Position y relative au 1er élément
+    int nb_jetons; // Nb de jetons actuellement contenus dans l'élément si c'est une place
+    bool type; // Définit s'il s'agit d'une place (1) ou d'une transition (0)
+
+    public :
+    // CONSTRUCTEURS
+    /*
+    Constructeur de base
+    */
+    Element(int x, int y, bool type)
+    {
+        pos_x = x;
+        pos_y = y;
+        this->type = type;
+    }
+
+    /*
+    Constructeur (si c'est une place)
+    */
+    Element(int x, int y, bool type, int nb_jetons)
+    {
+        pos_x = x;
+        pos_y = y;
+        this->type = type;
+        this->nb_jetons = nb_jetons;
+    }
+
+    // DESTRUCTEUR
+    ~Element();
+
+    // METHODES
+
+    /*
+    Dessine l'élément selon sa position et son type d'élément ainsi que les jetons qu'il contient et les paramètres.
+    */
+    void dessiner(InterfaceGraphique::Params params, QGraphicsScene *afficheur_reseau)
+    {   
+        float pos_x_scene, pos_y_scene, size;
+        size = params.tailleElement;    //stocke le diamètre de la place
+
+        if (type)
         {
-			if(fichier)
-			{
-				while((fgets(ligne,TAILLE_MAX,temp)) != NULL){//On parcours le fichier de départ tant qu'on est pas à la fin du fichier 
-					
-					fputs(ligne,fichier);// On ecrit dans le fichier de destination
-				}
-			}
-			
-			else
-			{
-				std::cout << "Erreur d'ouverture de fichier\n" << std::endl;
-				exit(1);
-			}
-		}
-		
-		else
-		{
-			std::cout << "Erreur d'ouverture de fichier\n" << std::endl;
-			exit(1);
-		}
+            pos_x_scene = pos_x*size+pos_x*params.elementsDistance; //Position en x de la place sur la scene (l'écran)
+            pos_y_scene = pos_y*size+pos_y*params.elementsDistance; //Position en y de la place sur la scene (l'écran)
+            afficheur_reseau->addEllipse(pos_x_scene, pos_y_scene, size, size, QPen(params.couleurTrait,params.largeurTrait));
 
-	fclose(fichier);
-	fclose(temp);
-	
-    return;
-}
+            if (nb_jetons)
+            {
+                if (nb_jetons == 1)
+                {                              
+                    afficheur_reseau->addEllipse(pos_x_scene+size/4, pos_y_scene+size/4,
+                    params.tailleElement/2, params.tailleElement/2,                     //si on essayait de répartir un ou deux jetons on aurait
+                    QPen(params.couleurRemplissage), QBrush(Qt::SolidPattern));                       //des erreurs avec les fonctions cosinus et sinus etc...
 
-Moteur GestionnaireDeFichiers::rechercheEtat(int Te, FILE *fichier){
-	
-	fichier = fopen("RdP.txt","r");
-	
-	int S;
-	int T; 
+                }
+                else if (nb_jetons == 2 && size > 6)
+                {
+                    afficheur_reseau->addEllipse(pos_x_scene+3, pos_y_scene+params.tailleElement/4+3,
+                    size/2-6, size/2-6,
+                    QPen(params.couleurRemplissage), QBrush(Qt::SolidPattern)
+                    );
+                    afficheur_reseau->addEllipse(pos_x_scene+params.tailleElement/2+3, pos_y_scene+params.tailleElement/4+3,
+                    params.tailleElement/2-6, params.tailleElement/2-6,
+                    QPen(params.couleurRemplissage), QBrush(Qt::SolidPattern)
+                    );
+                }
+                else
+                {
+                    double r_token, ln_base, ln_cote, angle, d_token, x_token, y_token;//On dessine les tokens présents dans la place en les répartissants comme cercles inscrits dans nb_jetons triangles isocèles
+                    angle = (2*M_PI)/nb_jetons, ln_cote = size/2;   //Angle du haut des triangles et longeur des cotés (rayon de la place)
+                    ln_base = (ln_cote * sin(angle) / sin((M_PI-angle) /2));        //Longeur de la base des tiangles
+                    r_token = (ln_base/2) * sqrt((2*ln_cote-ln_base) / (2*ln_cote+ln_base));  //rayon d'un token
+                    d_token = sqrt( abs(ln_cote*ln_cote - pow(ln_base/2,2))) - r_token;      //distance du centre du token au centre de la place (h_triangle-r_token)
 
-	
-	char *ligne = (char*)malloc(sizeof(char)*TAILLE_MAX);
-	
-	int i = 0;
-	int j = 0;
-	int cpt = Te * 9 + 1;
-	
-	if(fichier){
-		if(cpt > 1){
-			while(i < cpt - 1){//On parcours le fichier de départ jusqu'à la ligne Te du paramètre
-					char *c = fgets(ligne,TAILLE_MAX,fichier);
-					i++;
-				}
-		}
-		
-		////// TE ////////
-		char *str = fgets(ligne,TAILLE_MAX,fichier);
-		char *decoupe;
-		decoupe = strtok(str,"Te=;");
-		Te = atoi(decoupe);
-		//// FIN TE ////
-		
-		////// S ////////
-		str = fgets(ligne,TAILLE_MAX,fichier);
-		decoupe = strtok(str,"S=;");
-		S = atoi(decoupe);
+                    r_token *= 1 + 5/(pow(nb_jetons,2.0));
+                    d_token *= 1 + 20/(pow(nb_jetons,2.9));
 
-		//// FIN S ////
-		
-		////// T ////////
-		str = fgets(ligne,TAILLE_MAX,fichier);
-		decoupe = strtok(str,"T=;");
-		T = atoi(decoupe);
-		//// FIN T ////
-		
-		////// P ////////
-		float *P = (float*)malloc(sizeof(float) * T);
-		str = fgets(ligne, TAILLE_MAX,fichier);
-		decoupe = strtok(str,"P={,}");
-		i = 0;
-		while (decoupe != NULL && i < T){
-			P[i] = atof(decoupe);
-			decoupe = strtok(NULL, "P={,}");
-			i++;
-		}
-		for(j = 0; j < i - 1; j++){
-			std::cout << "P = " << P[j] << " ";
-		}
-		std::cout << std::endl;
-		//// FIN P ////
-		
-		////// F ////////
-		str = fgets(ligne, TAILLE_MAX, fichier);
-		
-		int arcs = 0;
-		i = 0;
-		
-		//On souhaite savoir il y a combien d'arcs
-		while(str[i] != ';')
-		{
-			if(str[i] == '{')
-			{
-				arcs++;
-				i++;
-			}
-			else
-			{
-				i++;
-			}
-		}
+                    for(int i=0;i<nb_jetons;i++)
+                    {
+                        x_token = pos_x_scene+size/2-r_token + d_token*cos(angle*i) +2;
+                        y_token = pos_y_scene+size/2-r_token + d_token*sin(angle*i) +2;
+                        afficheur_reseau->addEllipse(x_token, y_token, (r_token-2)*2, (r_token-2)*2,
+                        QPen(params.couleurRemplissage), QBrush(Qt::SolidPattern));
+                    }
+                }
+            }
 
-		arcs = arcs - 1;
-		this->arc = arcs;
-		std::cout << "arcs = " << arcs << std::endl;
-		
-		int **F = (int**)malloc(sizeof(int*) * (arcs + 1));
-		
-		for(i = 0; i <= arcs; i++){
-			F[i] = (int*)malloc((S + T) * sizeof(int));
-		}
-		
-		decoupe = strtok(str,"F{=}; ");
-		i = 0;
-		while (decoupe != NULL) {
-			sscanf(decoupe,"%d,%d,%d",&(F[i][0]),&(F[i][1]),&(F[i][2]));
-			decoupe = strtok(NULL, "F={} ");
-			std::cout << "F = " << F[i][0] << " " << F[i][1] << " " << F[i][2] << std::endl;
-			i++;
-		}
-		////// FIN F ////////
-		
-		////// M ////////
-		int *M = (int*)malloc(sizeof(int) * S);
-		str = fgets(ligne, TAILLE_MAX,fichier);
-		decoupe = strtok(str,"M={,};");
-		i = 0;
-		while (decoupe != NULL && i < S) {
-			M[i] = atoi(decoupe);
-			decoupe = strtok(NULL, "M={,}");
-			i++;
-		}
-		for(j = 0; j < i ; j++){
-			std::cout << "M = " << M[j] << " ";
-		}
-		std::cout << std::endl;
-		//// FIN M ////
-		
-		////// W ////////
-		
-		int **W = (int **)malloc(sizeof(int*) * 10);
-		for(int i = 0; i < 10; i++){
-			W[i] = (int*)malloc(10 * sizeof(int));
-		}
-		str = fgets(ligne,TAILLE_MAX,fichier);
-		decoupe = strtok(str,"W{=};, ");
-		i = 0;
-		while (decoupe != NULL && i < T){
-			j = 0;
-			std::cout << "W = ";
-			while(j < 2){
-				sscanf(decoupe,"%d",&(W[i][j]));
-				decoupe = strtok(NULL, "{,} ");
-				std::cout << W[i][j] << " ";
-				j++;
-			}
-			std::cout << std::endl;
-			i++;
-		}
-		////// FIN W ////////
-		
-		////// K ////////
-		int *K = (int*)malloc(sizeof(int) * S);
-		str = fgets(ligne, TAILLE_MAX,fichier);
-		decoupe = strtok(str,"M={,};");
-		std::cout << "decoupe = " << decoupe << std::endl;
-		i = 0;
-		while (decoupe != NULL && i < S) {
-			decoupe = strtok(NULL, "K={,}");
-			K[i] = atoi(decoupe);
-			i++;
-		}
-		for(j = 0; j < i ; j++){
-			std::cout << "K = " << K[j] << " ";
-		}
-		std::cout << std::endl;
-		//// FIN K ////
-		
-		Moteur *m = new Moteur(Te, S, T, P, F, M, W, K);
-		free(ligne);
-		return *m;
-	}
-	
-	else
-	{
-		std::cout << "Erreur d'ouverture de fichier\n" << std::endl;
-		exit(1);
-	}
-}
 
-FILE *GestionnaireDeFichiers::getFichier()
-{
-    return this->fichier;
-}
+        }
+        else
+        {
+            afficheur_reseau->addRect(pos_x*size+pos_x*params.elementsDistance,
+            pos_y*size+pos_y*params.elementsDistance+(3.0/8.0)*size,
+            size, size/4.0, QPen(params.couleurRemplissage), QBrush(Qt::SolidPattern));
+        }
+    }
 
-FILE *GestionnaireDeFichiers::getTemp()
-{
-    return this->temp;
-}
+    /*
+    Utilisé par miseAJourReseau() pour changer le nombre de jetons si l'élément est une place.
+    */
+    void setNbJetons(int n)
+    {
+        nb_jetons = n;
+    }
 
-int GestionnaireDeFichiers::getarc()
-{
-	return this->arc;
-}
+    /*
+    Renvoie la valeur de type.
+    */
+    bool isPlace()
+    {
+        return type;
+    }
+
+    /*
+    Accesseurs pour les variables.
+    */
+    int getPosX()
+    {
+        return pos_x;
+    }
+
+    int getPosY()
+    {
+        return pos_y;
+    }
+
+    int getNbJetons()
+    {
+        return nb_jetons;
+    }
+};
+
+#endif
