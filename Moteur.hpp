@@ -70,7 +70,7 @@ class Moteur
 	La fonction observe si l'utilisateur a choisi ou non de reculer, si oui il demande à l'échéancier les anciennes informations du
     RDP et les renvoi.
 	*/
-	void Reculer(Echeancier E, GestionnaireDeFichiers GDF);
+	void Reculer(Echeancier E, GestionnaireDeFichiers GDF, char *nom_fichier);
 
 	/*
 	Ces fonction aident pour générer le tableau de marquage.
