@@ -65,46 +65,6 @@ int *Moteur::Tirage(GestionnaireDeFichiers GDF)
     }
 
     return TableauTirage;
-    }
-
-    // On vérifie pour chaque transition à tirer qu'elle ne soit pas en concurrence avec une autre pour les mêmes jetons. Si oui,
-    // on en tire une au hasard.
-    for(int i = 0; i < GDF.getarc(); i++)
-    {
-        if((this->F[i][0] == 0))
-        {
-            int nbTransitionsConflit = 1;
-            int *IDtransitionsConflit = (int *)malloc(nbTransitionsConflit * sizeof(int));
-            IDtransitionsConflit[0] = this->F[i][2];
-
-            for(int j = 0; j < GDF.getarc(); j++)
-            {
-                if((this->F[i] != this->F[j]) && (this->F[j][0] == 0) && (this->F[i][1] == this->F[j][1]) && ((this->W[this->F[i][2]][0] +
-                this->W[this->F[j][2]][0]) > this->M[this->F[i][1]]))
-                {
-                    nbTransitionsConflit++;
-                    IDtransitionsConflit = (int *)realloc(IDtransitionsConflit, sizeof(int) * nbTransitionsConflit);
-                    IDtransitionsConflit[nbTransitionsConflit - 1] = this->F[j][2];
-                }
-            }
-
-            // Mise à zéro des transitions en conflit
-            if(nbTransitionsConflit > 1)
-            {
-                for(int k = 0; k < nbTransitionsConflit; k++)
-                {
-                    TableauTirage[IDtransitionsConflit[k]] = 0;
-                }
-
-                // Désignation de la transition à tirer
-                TableauTirage[ResoutConflit(IDtransitionsConflit, nbTransitionsConflit)] = 1;
-            }
-
-            free(IDtransitionsConflit);
-        }
-    }
-
-    return TableauTirage;
 }
 
 void Moteur::Activer_Transitions(int *Tirage, GestionnaireDeFichiers GDF)
