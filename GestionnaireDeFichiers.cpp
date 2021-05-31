@@ -144,7 +144,7 @@ void GestionnaireDeFichiers::EnregistrerEcheancier(FILE *temp, FILE *fichier)
 {
 		std::cout << "Saving..." << std::endl;
         temp = fopen("temp.txt","r");
-        fichier = fopen("Enregistrement.txt", "w");//nom_fichier ?
+        fichier = fopen("Enregistrement.txt", "w");
 
 		printf("%s\n",nom_fichier);
         
@@ -235,7 +235,7 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, char* nom_fichier){
 				c = fgets(ligne,TAILLE_MAX,fichier);
 			}
 		}
-		printf("L'état %d éxiste\n",Te);
+		printf("L'état %d existe\n",Te);
 
 		setlocale(LC_NUMERIC, "C");
 
@@ -374,8 +374,6 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, char* nom_fichier){
 		
 		Moteur *m = new Moteur(Te, S, T, P, F, M, W, K);
 		free(ligne);
-
-		printf("fin du bordel\n");
 		afficher(*m, *this);
 		printf("\n");
 

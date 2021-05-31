@@ -495,11 +495,7 @@ void InterfaceGraphique::fct_avancer()
 	
 		M = E.RenvoyerEtatReseauSelonTemps(M.getTe()+1, GDF, temporaire);
 
-		printf("segfault ici nope\n");
-
 		echeancierintro->setText(QString("Te = %1 <br/>").arg(M.getTe())+QString("S = %1 <br/>").arg(M.getS())+QString("T = %1 <br/>").arg(M.getT()));
-
-		printf("segfault ici, là\n");
 		
 		// RAFRAICHIR PROBA P
 		QString proba[M.getT()];
