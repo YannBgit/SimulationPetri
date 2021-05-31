@@ -32,18 +32,24 @@ int *Moteur::Tirage(GestionnaireDeFichiers GDF)
     // elle doit être tirée.
     for(int i = 0; i < this->T; i++)
     {
+        //La transition peut être tirée
+        TableauTirage[i] = 1;
         for(int j = 0; j < GDF.getarc(); j++)
-        {
-            if((this->F[j][0] == 0) && (i == this->F[j][2]) && (this->M[this->F[j][1]] >= this->W[i][0]) &&
-            ((100 * this->P[i]) > (rand() % 100)))
-            {
-                TableauTirage[i] = 1;
-            }
-            else if(TableauTirage[i] != 1)
+        {   
+            //Sauf si un des sommets sources n'a pas assez de jetons
+            if((this->F[j][0] == 0) && (i == this->F[j][2]) && (this->M[this->F[j][1]] < this->W[i][0]))
             {
                 TableauTirage[i] = 0;
             }
         }
+        //On choisit ensuite de façon aléatoire si elle sera tiré
+        //Si la valeur tirée aléatoirement est au dessus de la probabilité de tir
+        //Alors elle ne sera pas tirée
+        /*
+        if ((TableauTirage[i] == 1) && ((100 * this->P[i]) <= (rand() % 100)))
+            TableauTirage[i] = 0;
+            */
+
     }
 
     // On vérifie pour chaque transition à tirer qu'elle ne soit pas en concurrence avec une autre pour les mêmes jetons. Si oui,
