@@ -222,20 +222,16 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, char* nom_fichier){
 			M_temp.Activer_Transitions(M_temp.Tirage(*this), *this);	//On le calcul donc depuis l'état T-1
 			EcrireEtat(M_temp, fichier);
 
-			printf("Ajout d'un etat a temp : affichage de M_temp\n");
 			afficher(M_temp, *this);
 
 			i = 0;
 			fichier = fopen(nom_fichier, "r");
 			c = fgets(ligne,TAILLE_MAX,fichier);
-			printf("fichier %s re-lu pour le temps %d\n",nom_fichier,Te);
 			while(i < cpt){//On re-parcours le fichier de départ jusqu'à la ligne Te du paramètre 
-				printf("Ligne %d : %s\n",i,c);
 				i++;
 				c = fgets(ligne,TAILLE_MAX,fichier);
 			}
 		}
-		printf("L'état %d existe\n",Te);
 
 		setlocale(LC_NUMERIC, "C");
 
@@ -263,7 +259,6 @@ Moteur GestionnaireDeFichiers::rechercheEtat(int Te, char* nom_fichier){
 		////// P ////////
 		float *P = (float*)malloc(sizeof(float) * T);
 		str = fgets(ligne, TAILLE_MAX,fichier);
-		printf("%s\n",str);
 		decoupe = strtok(str,"P={,}");
 		i = 0;
 		while (decoupe != NULL && i < T){

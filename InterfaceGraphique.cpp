@@ -161,7 +161,7 @@ InterfaceGraphique::InterfaceGraphique()
 
 		// Affichage de W
 	
-	QString jetcg[M.getT()][2];//[M.getT()][4];
+	QString jetcg[M.getT()][2];
 	QString resjetcg;
 	
 	for(int i = 0; i< M.getT(); i++)
@@ -264,7 +264,7 @@ InterfaceGraphique::InterfaceGraphique()
 
 	//Initialisation des paramètres graphique du réseau
 	InterfaceGraphique::parametres.couleurRemplissage = Qt::black;
-	InterfaceGraphique::parametres.couleurTrait = Qt::darkRed;
+	InterfaceGraphique::parametres.couleurTrait = Qt::black;
 	InterfaceGraphique::parametres.elementsDistance = 25;			
 	InterfaceGraphique::parametres.largeurTrait = 2;
 	InterfaceGraphique::parametres.tailleElement = 50;
@@ -304,7 +304,7 @@ void InterfaceGraphique::fct_etatInitial()
 {
 	std::cout << std::endl;
 
-    M = E.RenvoyerEtatReseauSelonTemps(0,GDF,temporaire);
+    M = E.RenvoyerEtatReseauSelonTemps(0,GDF,"temporaire");
 
 	std::cout << "----------ETAT INITIAL TEMPS " << M.getTe() << "------------------------------" << std::endl;
     GDF.afficher(M,GDF);

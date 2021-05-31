@@ -272,8 +272,9 @@ class Element
                         char buffer[9];
                         sprintf(buffer,"%d",nb_jetons);
                         QGraphicsTextItem *text = afficheur_reseau->addText(buffer);
-                        text->setTextWidth(text->textWidth()*0.75);
                         text->setPos(pos_x_scene+size/2-text->boundingRect().width()/2,pos_y_scene+size/2-text->boundingRect().height()/2);
+                        text->setTransformOriginPoint(text->boundingRect().center());
+                        text->setScale(size*0.02);
                     }
                 }
             }
